@@ -11,12 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ConfigUIForm.Designer.cs">
+    <Compile Update="UI\ConfigUIForm.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ConfigUIForm.resx</DependentUpon>
     </Compile>
-    <Compile Update="TestForm.Designer.cs">
+    <Compile Update="UI\TestForm.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>TestForm.resx</DependentUpon>
@@ -24,11 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="ConfigUIForm.resx">
+    <EmbeddedResource Update="UI\ConfigUIForm.resx">
       <Generator>ResXFileCodeGeneratorEx</Generator>
       <LastGenOutput>ConfigUIForm.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="TestForm.resx">
+    <EmbeddedResource Update="UI\TestForm.resx">
       <Generator>ResXFileCodeGeneratorEx</Generator>
       <LastGenOutput>TestForm.Designer.cs</LastGenOutput>
     </EmbeddedResource>

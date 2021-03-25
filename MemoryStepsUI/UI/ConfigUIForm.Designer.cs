@@ -32,12 +32,7 @@ namespace MemoryStepsUI {
         
         private static global::System.Globalization.CultureInfo _resourceCulture;
         
-        /// <summary>
-        /// Initializes a ConfigUIForm object.
-        /// </summary>
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public ConfigUIForm() {
-        }
+      
         
         /// <summary>
         /// Thread safe lock object used by this class.

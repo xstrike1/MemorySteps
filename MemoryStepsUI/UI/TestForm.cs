@@ -9,41 +9,39 @@ namespace MemoryStepsUI
 {
     public partial class TestForm : Form
     {
-
         private int numberOfRepeats;
         private Queue<StepEntity> queue;
         private Stopwatch timer;
-
         private IKeyboardMouseEvents m_GlobalHook;
         private Button btnCloseForm;
         private Button btnCompleteStep;
         private Label label1;
         private Label lblStepNumber;
         private RichTextBox rtbDescription;
-        private Label lblTestCompleted;
         private Label label2;
         private Label lblRepRem;
-        private Form1 _parent;
+        private ConfigUIForm _parent;
  
         public TestForm()
         {
             InitializeComponent();
             Subscribe();
-
-
         }
-        public TestForm(Form1 parent, int numOfRep, List<StepEntity> stack)
+
+        public TestForm(ConfigUIForm parent, int numOfRep, List<StepEntity> stack)
             :this()
         {
             _parent = parent;
-            numberOfRepeats = numOfRep + 1;
-            if (stack.Count == 0 || numOfRep == 0)
-                TestCompleted();
-            else
+            numberOfRepeats = numOfRep;
+
+            if (stack.Count == 0 || numOfRep <= 0)
             {
-                ProcessStack(stack);
-                CompleteStep();
+                TestCompleted();
+                return;
             }
+            
+            ProcessStack(stack);
+            CompleteStep();
         }
 
         private void ProcessStack(List<StepEntity> list) 
@@ -53,7 +51,6 @@ namespace MemoryStepsUI
             {
                 queue.Enqueue(list[i]);
             }
-
         }
 
         private void CompleteStep()
@@ -83,15 +80,18 @@ namespace MemoryStepsUI
             lblStepNumber.Visible = false;
             rtbDescription.Visible = false;
             btnCompleteStep.Visible = false;
-            lblTestCompleted.Visible = true;
             label1.Visible = true;
             label2.Visible = true;
 
             if (timer is not null)
+            {
                 timer.Stop();
+                _parent.CompleteTest(timer.Elapsed.ToString());
 
-            _parent.CompleteTest(timer.Elapsed.ToString());
+            }
+
             Unsubscribe();
+
             this.Close();
         }
 
@@ -102,7 +102,6 @@ namespace MemoryStepsUI
             this.label1 = new System.Windows.Forms.Label();
             this.lblStepNumber = new System.Windows.Forms.Label();
             this.rtbDescription = new System.Windows.Forms.RichTextBox();
-            this.lblTestCompleted = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblRepRem = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -123,7 +122,7 @@ namespace MemoryStepsUI
             // 
             this.btnCompleteStep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCompleteStep.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnCompleteStep.Location = new System.Drawing.Point(44, 273);
+            this.btnCompleteStep.Location = new System.Drawing.Point(25, 273);
             this.btnCompleteStep.Name = "btnCompleteStep";
             this.btnCompleteStep.Size = new System.Drawing.Size(145, 66);
             this.btnCompleteStep.TabIndex = 0;
@@ -156,25 +155,14 @@ namespace MemoryStepsUI
             // rtbDescription
             // 
             this.rtbDescription.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.rtbDescription.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.rtbDescription.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.rtbDescription.Location = new System.Drawing.Point(44, 83);
+            this.rtbDescription.Location = new System.Drawing.Point(25, 83);
             this.rtbDescription.Name = "rtbDescription";
             this.rtbDescription.ReadOnly = true;
-            this.rtbDescription.Size = new System.Drawing.Size(319, 141);
+            this.rtbDescription.Size = new System.Drawing.Size(366, 141);
             this.rtbDescription.TabIndex = 2;
             this.rtbDescription.Text = "";
-            // 
-            // lblTestCompleted
-            // 
-            this.lblTestCompleted.AutoSize = true;
-            this.lblTestCompleted.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblTestCompleted.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.lblTestCompleted.Location = new System.Drawing.Point(12, 54);
-            this.lblTestCompleted.Name = "lblTestCompleted";
-            this.lblTestCompleted.Size = new System.Drawing.Size(387, 65);
-            this.lblTestCompleted.TabIndex = 3;
-            this.lblTestCompleted.Text = "Test COMPLETED";
-            this.lblTestCompleted.Visible = false;
             // 
             // label2
             // 
@@ -202,7 +190,6 @@ namespace MemoryStepsUI
             // 
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(427, 371);
-            this.Controls.Add(this.lblTestCompleted);
             this.Controls.Add(this.rtbDescription);
             this.Controls.Add(this.lblStepNumber);
             this.Controls.Add(this.lblRepRem);
@@ -229,30 +216,25 @@ namespace MemoryStepsUI
             this.Close();
         }
 
-
         public void Subscribe()
         {
-            // Note: for the application hook, use the Hook.AppEvents() instead
             m_GlobalHook = Hook.GlobalEvents();
-
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '`') 
+            if (e.KeyChar == _parent.CompleteTestKeyBind) 
             {
-                e.Handled = true;
                 btnCompleteStep.PerformClick();
+                e.Handled = true;
             }
         }
 
-      
         public void Unsubscribe()
         {
             m_GlobalHook.KeyPress -= GlobalHookKeyPress;
 
-            //It is recommened to dispose it
             m_GlobalHook.Dispose();
         }
 
@@ -263,6 +245,7 @@ namespace MemoryStepsUI
                 timer = new Stopwatch();
                 timer.Start();
             }
+
             CompleteStep();
         }
     }

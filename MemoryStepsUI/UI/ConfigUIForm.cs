@@ -10,25 +10,28 @@ using System.Windows.Forms;
 
 namespace MemoryStepsUI
 {
-    public partial class Form1 : Form
+    public partial class ConfigUIForm : Form
     {
-        private int numberOfSteps = 1;
-        public Form1()
+        private int numberOfSteps = 0;
+        private Button btnAddStep;
+        private Button btnRemoveStep;
+        private Button btnLaunchTest;
+        private Label lblConfig;
+        private Label lblRepsText;
+        private TextBox tbRepsTextBox;
+        private Label lblTComp;
+        private Label lblKeyBind;
+        private TextBox txtBoxKeybind;
+        private Label lblTstCompSec;
+        Stack<StepEntity> steps;
+        public char CompleteTestKeyBind;
+        public ConfigUIForm()
         {
             InitializeComponent();
+            CompleteTestKeyBind = '`';
+            txtBoxKeybind.Text = CompleteTestKeyBind.ToString();
+            steps = new Stack<StepEntity>();
         }
-
-        TextBox textBox1;
-        Button btnAddStep;
-        Button btnRemoveStep;
-        Button btnLaunchTest;
-        Label lblConfig;
-        Label lblS1;
-        private Label label1;
-        private TextBox tbReps;
-        private Label lblTComp;
-        private Label lblTstCompSec;
-        CheckBox ckbS1;
 
         private void InitializeComponent()
         {
@@ -36,13 +39,12 @@ namespace MemoryStepsUI
             this.btnAddStep = new System.Windows.Forms.Button();
             this.btnRemoveStep = new System.Windows.Forms.Button();
             this.btnLaunchTest = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.lblS1 = new System.Windows.Forms.Label();
-            this.ckbS1 = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tbReps = new System.Windows.Forms.TextBox();
+            this.lblRepsText = new System.Windows.Forms.Label();
+            this.tbRepsTextBox = new System.Windows.Forms.TextBox();
             this.lblTComp = new System.Windows.Forms.Label();
             this.lblTstCompSec = new System.Windows.Forms.Label();
+            this.lblKeyBind = new System.Windows.Forms.Label();
+            this.txtBoxKeybind = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblConfig
@@ -51,7 +53,7 @@ namespace MemoryStepsUI
             this.lblConfig.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblConfig.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblConfig.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblConfig.Location = new System.Drawing.Point(33, 9);
+            this.lblConfig.Location = new System.Drawing.Point(11, 9);
             this.lblConfig.Name = "lblConfig";
             this.lblConfig.Size = new System.Drawing.Size(92, 21);
             this.lblConfig.TabIndex = 0;
@@ -93,63 +95,28 @@ namespace MemoryStepsUI
             this.btnLaunchTest.UseVisualStyleBackColor = true;
             this.btnLaunchTest.Click += new System.EventHandler(this.btnLaunchTest_Click);
             // 
-            // textBox1
+            // lblRepsText
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.textBox1.Enabled = false;
-            this.textBox1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.textBox1.Location = new System.Drawing.Point(91, 59);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(228, 23);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "Launch Application";
+            this.lblRepsText.AutoSize = true;
+            this.lblRepsText.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblRepsText.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblRepsText.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblRepsText.Location = new System.Drawing.Point(11, 61);
+            this.lblRepsText.Name = "lblRepsText";
+            this.lblRepsText.Size = new System.Drawing.Size(46, 21);
+            this.lblRepsText.TabIndex = 0;
+            this.lblRepsText.Text = "Reps";
             // 
-            // lblS1
+            // tbRepsTextBox
             // 
-            this.lblS1.AutoSize = true;
-            this.lblS1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblS1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblS1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblS1.Location = new System.Drawing.Point(12, 61);
-            this.lblS1.Name = "lblS1";
-            this.lblS1.Size = new System.Drawing.Size(54, 21);
-            this.lblS1.TabIndex = 0;
-            this.lblS1.Text = "Step 1";
-            // 
-            // ckbS1
-            // 
-            this.ckbS1.AutoSize = true;
-            this.ckbS1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.ckbS1.Location = new System.Drawing.Point(339, 61);
-            this.ckbS1.Name = "ckbS1";
-            this.ckbS1.Size = new System.Drawing.Size(62, 19);
-            this.ckbS1.TabIndex = 3;
-            this.ckbS1.Text = "Repeat";
-            this.ckbS1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.ckbS1.UseVisualStyleBackColor = true;
-            this.ckbS1.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(12, 98);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 21);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Reps";
-            // 
-            // tbReps
-            // 
-            this.tbReps.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.tbReps.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.tbReps.Location = new System.Drawing.Point(91, 96);
-            this.tbReps.Name = "tbReps";
-            this.tbReps.Size = new System.Drawing.Size(228, 23);
-            this.tbReps.TabIndex = 2;
-            this.tbReps.Text = "5";
+            this.tbRepsTextBox.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.tbRepsTextBox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbRepsTextBox.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.tbRepsTextBox.Location = new System.Drawing.Point(91, 59);
+            this.tbRepsTextBox.Name = "tbRepsTextBox";
+            this.tbRepsTextBox.Size = new System.Drawing.Size(56, 27);
+            this.tbRepsTextBox.TabIndex = 2;
+            this.tbRepsTextBox.Text = "5";
             // 
             // lblTComp
             // 
@@ -162,7 +129,7 @@ namespace MemoryStepsUI
             this.lblTComp.Size = new System.Drawing.Size(168, 21);
             this.lblTComp.TabIndex = 0;
             this.lblTComp.Text = "Test completion time:";
-            lblTComp.Visible = false;
+            this.lblTComp.Visible = false;
             // 
             // lblTstCompSec
             // 
@@ -175,29 +142,52 @@ namespace MemoryStepsUI
             this.lblTstCompSec.Size = new System.Drawing.Size(19, 21);
             this.lblTstCompSec.TabIndex = 0;
             this.lblTstCompSec.Text = "#";
-            lblTstCompSec.Visible = false;
+            this.lblTstCompSec.Visible = false;
             // 
-            // Form1
+            // lblKeyBind
+            // 
+            this.lblKeyBind.AutoSize = true;
+            this.lblKeyBind.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblKeyBind.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblKeyBind.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblKeyBind.Location = new System.Drawing.Point(163, 61);
+            this.lblKeyBind.Name = "lblKeyBind";
+            this.lblKeyBind.Size = new System.Drawing.Size(182, 21);
+            this.lblKeyBind.TabIndex = 0;
+            this.lblKeyBind.Text = "Complete step KeyBind";
+            // 
+            // txtBoxKeybind
+            // 
+            this.txtBoxKeybind.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.txtBoxKeybind.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtBoxKeybind.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.txtBoxKeybind.Location = new System.Drawing.Point(350, 59);
+            this.txtBoxKeybind.MaxLength = 1;
+            this.txtBoxKeybind.Name = "txtBoxKeybind";
+            this.txtBoxKeybind.Size = new System.Drawing.Size(56, 27);
+            this.txtBoxKeybind.TabIndex = 2;
+            this.txtBoxKeybind.TextChanged += new System.EventHandler(this.txtBoxKeybind_TextChanged);
+            // 
+            // ConfigUIForm
             // 
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(600, 413);
-            this.Controls.Add(this.ckbS1);
-            this.Controls.Add(this.tbReps);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtBoxKeybind);
+            this.Controls.Add(this.tbRepsTextBox);
             this.Controls.Add(this.btnLaunchTest);
             this.Controls.Add(this.btnRemoveStep);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblKeyBind);
+            this.Controls.Add(this.lblRepsText);
             this.Controls.Add(this.btnAddStep);
             this.Controls.Add(this.lblTstCompSec);
             this.Controls.Add(this.lblTComp);
-            this.Controls.Add(this.lblS1);
             this.Controls.Add(this.lblConfig);
-            this.Name = "Form1";
+            this.Name = "ConfigUIForm";
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-        Stack<StepEntity> steps = new Stack<StepEntity>();
+
 
         private void btnAddStep_Click(object sender, EventArgs e)
         {
@@ -209,6 +199,7 @@ namespace MemoryStepsUI
             this.Controls.Add(entity.StepIsReccursive);
             this.Controls.Add(entity.StepLabel);
             this.Controls.Add(entity.StepDescriptionTxt);
+
             steps.Push(entity);
 
         }
@@ -227,13 +218,22 @@ namespace MemoryStepsUI
 
         private void btnLaunchTest_Click(object sender, EventArgs e)
         {
-            TestForm form = new TestForm(this, int.Parse(tbReps.Text), ConverToList());
-            form.TopMost = true;
-            form.Show();
+            if (!int.TryParse(tbRepsTextBox.Text, out int numberOfReps))
+                throw new ApplicationException("Invalid number of reps value");
+
+            TestForm testForm = new TestForm(this, numberOfReps, ConvertEntityStackToList())
+            {
+                TopMost = true //always in focus
+            };
+
+            if (testForm.IsDisposed) //int value < 0
+                return;
+
+            testForm.Show();
             this.Hide();
         }
 
-        private List<StepEntity> ConverToList() 
+        private List<StepEntity> ConvertEntityStackToList() 
         {
             List<StepEntity> entityList = new List<StepEntity>();
             foreach (StepEntity entity in steps) 
@@ -243,11 +243,17 @@ namespace MemoryStepsUI
 
             return entityList;
         }
+
         public void CompleteTest(string time) 
         {
             lblTstCompSec.Visible = true;
             lblTstCompSec.Text = time;
             lblTComp.Visible = true;
+        }
+
+        private void txtBoxKeybind_TextChanged(object sender, EventArgs e)
+        {
+            CompleteTestKeyBind = txtBoxKeybind.Text[0];
         }
     }
 }
