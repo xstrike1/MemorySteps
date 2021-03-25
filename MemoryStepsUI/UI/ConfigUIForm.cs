@@ -24,7 +24,11 @@ namespace MemoryStepsUI
         private TextBox txtBoxKeybind;
         private Label lblTstCompSec;
         Stack<StepEntity> steps;
+        private Button btnLoadConfig;
+        private Button btnSaveConfig;
+        private CheckBox chkMouse;
         public char CompleteTestKeyBind;
+
         public ConfigUIForm()
         {
             InitializeComponent();
@@ -45,6 +49,9 @@ namespace MemoryStepsUI
             this.lblTstCompSec = new System.Windows.Forms.Label();
             this.lblKeyBind = new System.Windows.Forms.Label();
             this.txtBoxKeybind = new System.Windows.Forms.TextBox();
+            this.btnLoadConfig = new System.Windows.Forms.Button();
+            this.btnSaveConfig = new System.Windows.Forms.Button();
+            this.chkMouse = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblConfig
@@ -55,15 +62,15 @@ namespace MemoryStepsUI
             this.lblConfig.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.lblConfig.Location = new System.Drawing.Point(11, 9);
             this.lblConfig.Name = "lblConfig";
-            this.lblConfig.Size = new System.Drawing.Size(92, 21);
+            this.lblConfig.Size = new System.Drawing.Size(144, 21);
             this.lblConfig.TabIndex = 0;
-            this.lblConfig.Text = "Test Config";
+            this.lblConfig.Text = "Test Configuration";
             // 
             // btnAddStep
             // 
             this.btnAddStep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddStep.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnAddStep.Location = new System.Drawing.Point(468, 59);
+            this.btnAddStep.Location = new System.Drawing.Point(575, 78);
             this.btnAddStep.Name = "btnAddStep";
             this.btnAddStep.Size = new System.Drawing.Size(120, 60);
             this.btnAddStep.TabIndex = 1;
@@ -75,7 +82,7 @@ namespace MemoryStepsUI
             // 
             this.btnRemoveStep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveStep.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnRemoveStep.Location = new System.Drawing.Point(468, 139);
+            this.btnRemoveStep.Location = new System.Drawing.Point(575, 144);
             this.btnRemoveStep.Name = "btnRemoveStep";
             this.btnRemoveStep.Size = new System.Drawing.Size(120, 60);
             this.btnRemoveStep.TabIndex = 1;
@@ -87,7 +94,7 @@ namespace MemoryStepsUI
             // 
             this.btnLaunchTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLaunchTest.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnLaunchTest.Location = new System.Drawing.Point(468, 217);
+            this.btnLaunchTest.Location = new System.Drawing.Point(575, 342);
             this.btnLaunchTest.Name = "btnLaunchTest";
             this.btnLaunchTest.Size = new System.Drawing.Size(120, 60);
             this.btnLaunchTest.TabIndex = 1;
@@ -150,7 +157,7 @@ namespace MemoryStepsUI
             this.lblKeyBind.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblKeyBind.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblKeyBind.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblKeyBind.Location = new System.Drawing.Point(163, 61);
+            this.lblKeyBind.Location = new System.Drawing.Point(153, 62);
             this.lblKeyBind.Name = "lblKeyBind";
             this.lblKeyBind.Size = new System.Drawing.Size(182, 21);
             this.lblKeyBind.TabIndex = 0;
@@ -168,10 +175,51 @@ namespace MemoryStepsUI
             this.txtBoxKeybind.TabIndex = 2;
             this.txtBoxKeybind.TextChanged += new System.EventHandler(this.txtBoxKeybind_TextChanged);
             // 
+            // btnLoadConfig
+            // 
+            this.btnLoadConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoadConfig.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnLoadConfig.Location = new System.Drawing.Point(575, 210);
+            this.btnLoadConfig.Name = "btnLoadConfig";
+            this.btnLoadConfig.Size = new System.Drawing.Size(120, 60);
+            this.btnLoadConfig.TabIndex = 3;
+            this.btnLoadConfig.Text = "Load config";
+            this.btnLoadConfig.UseVisualStyleBackColor = true;
+            this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
+            // 
+            // btnSaveConfig
+            // 
+            this.btnSaveConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveConfig.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnSaveConfig.Location = new System.Drawing.Point(575, 276);
+            this.btnSaveConfig.Name = "btnSaveConfig";
+            this.btnSaveConfig.Size = new System.Drawing.Size(120, 60);
+            this.btnSaveConfig.TabIndex = 3;
+            this.btnSaveConfig.Text = "Save config";
+            this.btnSaveConfig.UseVisualStyleBackColor = true;
+            this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
+            // 
+            // chkMouse
+            // 
+            this.chkMouse.AutoSize = true;
+            this.chkMouse.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkMouse.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.chkMouse.ForeColor = System.Drawing.SystemColors.Control;
+            this.chkMouse.Location = new System.Drawing.Point(412, 61);
+            this.chkMouse.Name = "chkMouse";
+            this.chkMouse.Size = new System.Drawing.Size(152, 25);
+            this.chkMouse.TabIndex = 4;
+            this.chkMouse.Text = "Use mouse clicks";
+            this.chkMouse.UseVisualStyleBackColor = true;
+            this.chkMouse.CheckedChanged += new System.EventHandler(this.chkMouse_CheckedChanged);
+            // 
             // ConfigUIForm
             // 
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(600, 413);
+            this.ClientSize = new System.Drawing.Size(707, 414);
+            this.Controls.Add(this.chkMouse);
+            this.Controls.Add(this.btnSaveConfig);
+            this.Controls.Add(this.btnLoadConfig);
             this.Controls.Add(this.txtBoxKeybind);
             this.Controls.Add(this.tbRepsTextBox);
             this.Controls.Add(this.btnLaunchTest);
@@ -182,38 +230,43 @@ namespace MemoryStepsUI
             this.Controls.Add(this.lblTstCompSec);
             this.Controls.Add(this.lblTComp);
             this.Controls.Add(this.lblConfig);
+            this.MinimumSize = new System.Drawing.Size(616, 0);
             this.Name = "ConfigUIForm";
+            this.Text = "Memory steps 1.0";
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
-
         private void btnAddStep_Click(object sender, EventArgs e)
         {
             numberOfSteps++;
             if (numberOfSteps > 6)
-                this.Size = new Size(616, this.Size.Height + 50);
+                this.Size = new Size(this.Size.Width, this.Size.Height + 50);
 
-            StepEntity entity = new StepEntity(numberOfSteps);
-            this.Controls.Add(entity.StepIsReccursive);
-            this.Controls.Add(entity.StepLabel);
-            this.Controls.Add(entity.StepDescriptionTxt);
+            StepEntity entity = new StepEntity(numberOfSteps, chkMouse.Checked);
+            foreach (var control in entity.GetControlListForConfig()) 
+            {
+                this.Controls.Add(control);
+            }
 
             steps.Push(entity);
-
         }
 
         private void btnRemoveStep_Click(object sender, EventArgs e)
         {
+            if (numberOfSteps == 0)
+                return; 
+
             if (numberOfSteps > 6)
-                this.Size = new Size(616, this.Size.Height - 50);
+                this.Size = new Size(this.Size.Width, this.Size.Height - 50);
             numberOfSteps--;
 
             StepEntity entity = steps.Pop();
-            this.Controls.Remove(entity.StepIsReccursive);
-            this.Controls.Remove(entity.StepLabel);
-            this.Controls.Remove(entity.StepDescriptionTxt);
+            foreach (var control in entity.GetControlListForConfig())
+            {
+                this.Controls.Remove(control);
+            }
         }
 
         private void btnLaunchTest_Click(object sender, EventArgs e)
@@ -221,7 +274,7 @@ namespace MemoryStepsUI
             if (!int.TryParse(tbRepsTextBox.Text, out int numberOfReps))
                 throw new ApplicationException("Invalid number of reps value");
 
-            TestForm testForm = new TestForm(this, numberOfReps, ConvertEntityStackToList())
+            TestForm testForm = new TestForm(this, numberOfReps, ConvertEntityStackToList(), chkMouse.Checked)
             {
                 TopMost = true //always in focus
             };
@@ -254,6 +307,26 @@ namespace MemoryStepsUI
         private void txtBoxKeybind_TextChanged(object sender, EventArgs e)
         {
             CompleteTestKeyBind = txtBoxKeybind.Text[0];
+        }
+
+        private void btnSaveConfig_Click(object sender, EventArgs e)
+        {
+            //Not yet implemented
+        }
+
+        private void btnLoadConfig_Click(object sender, EventArgs e)
+        {
+            //Not yet implemented
+        }
+
+        private void chkMouse_CheckedChanged(object sender, EventArgs e)
+        {
+            txtBoxKeybind.Enabled = !chkMouse.Checked;
+
+            foreach (var entity in steps) 
+            {
+                entity.MouseClicksChanged(chkMouse.Checked);
+            }
         }
     }
 }

@@ -13,40 +13,46 @@ namespace MemoryStepsUI
         public int StepNumber { get {return _stepNumber; } }
 
         private TextBox _stepDescriptionTxt;
-        public TextBox StepDescriptionTxt
-        {
-            get { return _stepDescriptionTxt; }
-            set {  _stepDescriptionTxt = value; }
-        }
-
-        private CheckBox _stepIsReccursive;
-        public CheckBox StepIsReccursive
-        {
-            get { return _stepIsReccursive; }
-            set { _stepIsReccursive = value; }
-        }
-
         private Label _stepLabel;
-        public Label StepLabel
+        private TextBox _mouseClicksTxt;
+        public string StepDescription 
         {
-            get { return _stepLabel; }
-            set { _stepLabel = value; }
+            get { return _stepDescriptionTxt.Text; }
+        }
+
+        public string MouseClicks 
+        {
+            get { return _mouseClicksTxt.Text; }
         }
 
         private StepEntity() { }
 
-        public StepEntity(int stepNumber) 
+        public StepEntity(int stepNumber, bool mouseCheck) 
         {
             _stepNumber = stepNumber;
-            InitStyle();
+            InitStyle(mouseCheck);
         }
 
-        private void InitStyle() 
+        public List<Control>  GetControlListForConfig()
         {
+            List<Control> controlList = new List<Control>();
+            controlList.Add(_stepDescriptionTxt);
+            controlList.Add(_stepLabel);
+            controlList.Add(_mouseClicksTxt);
 
+            return controlList;
+        }
+
+        public void MouseClicksChanged(bool check) 
+        {
+            _mouseClicksTxt.Enabled = check;
+        }
+
+        private void InitStyle(bool mouseCheck) 
+        {
             InitTextBoxDescription();
             InitLabelStep();
-           // InitCheckBoxRepeat(); not yet implemented
+            InitTextBoxMouseCLicks(mouseCheck);
         }
 
         private void InitTextBoxDescription()
@@ -76,19 +82,19 @@ namespace MemoryStepsUI
             _stepLabel.Text = "Step " + StepNumber;
         }
 
-        private void InitCheckBoxRepeat() 
+        private void InitTextBoxMouseCLicks(bool mouseCheck)
         {
-            _stepIsReccursive = new CheckBox();
-            _stepIsReccursive.AutoSize = true;
-            _stepIsReccursive.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            _stepIsReccursive.Location = new System.Drawing.Point(339, 71 + (StepNumber * 50));
-            _stepIsReccursive.Name = "ckbS" + StepNumber;
-            _stepIsReccursive.Size = new System.Drawing.Size(82, 19);
-            _stepIsReccursive.TabIndex = 3;
-            _stepIsReccursive.Text = "Repeat";
-            _stepIsReccursive.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            _stepIsReccursive.UseVisualStyleBackColor = true;
-            _stepIsReccursive.Checked = true;
+            _mouseClicksTxt = new TextBox();
+            _mouseClicksTxt.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            _mouseClicksTxt.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            _mouseClicksTxt.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            _mouseClicksTxt.Location = new System.Drawing.Point(450, 71 + (StepNumber * 50));
+            _mouseClicksTxt.MaxLength = 2;
+            _mouseClicksTxt.Name = "txtClicks"+ StepNumber;
+            _mouseClicksTxt.Size = new System.Drawing.Size(97, 27);
+            _mouseClicksTxt.TabIndex = 2;
+            _mouseClicksTxt.Text = "1";
+            _mouseClicksTxt.Enabled = mouseCheck;
         }
     }
 }

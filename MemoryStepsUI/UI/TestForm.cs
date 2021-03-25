@@ -21,27 +21,46 @@ namespace MemoryStepsUI
         private Label label2;
         private Label lblRepRem;
         private ConfigUIForm _parent;
- 
+        private Label lblClicksRemainingTxt;
+        private Label lblClicksRemainingNumber;
+        private bool _useMouse;
+        private int _clicksThisSession;
+        private StepEntity _currentProcessingEntity;
+        private bool _formIsLoading;
+
         public TestForm()
         {
+            _formIsLoading = true;
             InitializeComponent();
-            Subscribe();
+            _clicksThisSession = 0;
         }
 
-        public TestForm(ConfigUIForm parent, int numOfRep, List<StepEntity> stack)
+        public TestForm(ConfigUIForm parent, int numOfRep, List<StepEntity> stack, bool useMouse)
             :this()
         {
             _parent = parent;
-            numberOfRepeats = numOfRep;
+            numberOfRepeats = numOfRep +1;
+            _useMouse = useMouse;
 
-            if (stack.Count == 0 || numOfRep <= 0)
+            if (stack.Count <= 1 || numOfRep <= 1)
             {
                 TestCompleted();
                 return;
             }
-            
+
+          
+
+            lblClicksRemainingNumber.Visible = useMouse;
+            lblClicksRemainingTxt.Visible = useMouse;
+
+            Subscribe(useMouse);
             ProcessStack(stack);
             CompleteStep();
+
+            if (useMouse)
+                CompleteMouseStep();
+
+            _formIsLoading = false;
         }
 
         private void ProcessStack(List<StepEntity> list) 
@@ -55,9 +74,9 @@ namespace MemoryStepsUI
 
         private void CompleteStep()
         {
-            var entity = queue.Dequeue();
+            _currentProcessingEntity = queue.Dequeue();
 
-            if (entity.StepNumber == 2)
+            if (_currentProcessingEntity.StepNumber == 1) //decrement only first step
                 numberOfRepeats--;
 
             if (numberOfRepeats == 0)
@@ -68,10 +87,20 @@ namespace MemoryStepsUI
 
             lblRepRem.Text = numberOfRepeats.ToString();
 
-            lblStepNumber.Text = entity.StepNumber.ToString();
-            rtbDescription.Text = entity.StepDescriptionTxt.Text;
+            lblStepNumber.Text = _currentProcessingEntity.StepNumber.ToString();
+            rtbDescription.Text = _currentProcessingEntity.StepDescription;
+            queue.Enqueue(_currentProcessingEntity);
+        }
 
-            queue.Enqueue(entity);
+        private void CompleteMouseStep() 
+        {
+            if (int.Parse(_currentProcessingEntity.MouseClicks) - _clicksThisSession == 0)
+            {
+                _clicksThisSession = 0;
+                CompleteStep();
+            }
+
+            lblClicksRemainingNumber.Text = (int.Parse(_currentProcessingEntity.MouseClicks) - _clicksThisSession).ToString();
         }
 
         private void TestCompleted()
@@ -104,6 +133,8 @@ namespace MemoryStepsUI
             this.rtbDescription = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lblRepRem = new System.Windows.Forms.Label();
+            this.lblClicksRemainingTxt = new System.Windows.Forms.Label();
+            this.lblClicksRemainingNumber = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCloseForm
@@ -169,7 +200,7 @@ namespace MemoryStepsUI
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(225, 33);
+            this.label2.Location = new System.Drawing.Point(230, 18);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(123, 21);
             this.label2.TabIndex = 1;
@@ -180,11 +211,35 @@ namespace MemoryStepsUI
             this.lblRepRem.AutoSize = true;
             this.lblRepRem.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblRepRem.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblRepRem.Location = new System.Drawing.Point(347, 33);
+            this.lblRepRem.Location = new System.Drawing.Point(352, 18);
             this.lblRepRem.Name = "lblRepRem";
             this.lblRepRem.Size = new System.Drawing.Size(19, 21);
             this.lblRepRem.TabIndex = 1;
             this.lblRepRem.Text = "#";
+            // 
+            // lblClicksRemainingTxt
+            // 
+            this.lblClicksRemainingTxt.AutoSize = true;
+            this.lblClicksRemainingTxt.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblClicksRemainingTxt.ForeColor = System.Drawing.SystemColors.Control;
+            this.lblClicksRemainingTxt.Location = new System.Drawing.Point(230, 49);
+            this.lblClicksRemainingTxt.Name = "lblClicksRemainingTxt";
+            this.lblClicksRemainingTxt.Size = new System.Drawing.Size(128, 21);
+            this.lblClicksRemainingTxt.TabIndex = 1;
+            this.lblClicksRemainingTxt.Text = "Clicks remaining";
+            this.lblClicksRemainingTxt.Visible = false;
+            // 
+            // lblClicksRemainingNumber
+            // 
+            this.lblClicksRemainingNumber.AutoSize = true;
+            this.lblClicksRemainingNumber.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblClicksRemainingNumber.ForeColor = System.Drawing.SystemColors.Control;
+            this.lblClicksRemainingNumber.Location = new System.Drawing.Point(352, 49);
+            this.lblClicksRemainingNumber.Name = "lblClicksRemainingNumber";
+            this.lblClicksRemainingNumber.Size = new System.Drawing.Size(19, 21);
+            this.lblClicksRemainingNumber.TabIndex = 1;
+            this.lblClicksRemainingNumber.Text = "#";
+            this.lblClicksRemainingNumber.Visible = false;
             // 
             // TestForm
             // 
@@ -192,13 +247,16 @@ namespace MemoryStepsUI
             this.ClientSize = new System.Drawing.Size(427, 371);
             this.Controls.Add(this.rtbDescription);
             this.Controls.Add(this.lblStepNumber);
+            this.Controls.Add(this.lblClicksRemainingNumber);
             this.Controls.Add(this.lblRepRem);
+            this.Controls.Add(this.lblClicksRemainingTxt);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCompleteStep);
             this.Controls.Add(this.btnCloseForm);
             this.KeyPreview = true;
             this.Name = "TestForm";
+            this.Text = "Test";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TestForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -216,10 +274,23 @@ namespace MemoryStepsUI
             this.Close();
         }
 
-        public void Subscribe()
+        public void Subscribe(bool Use)
         {
             m_GlobalHook = Hook.GlobalEvents();
-            m_GlobalHook.KeyPress += GlobalHookKeyPress;
+
+            if(_useMouse)
+                m_GlobalHook.MouseClick += GlobalHook_MouseClick; 
+            else
+                m_GlobalHook.KeyPress += GlobalHookKeyPress;
+        }
+
+        private void GlobalHook_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (_formIsLoading)
+                return;
+
+            _clicksThisSession++;
+            CompleteMouseStep();
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
@@ -233,7 +304,13 @@ namespace MemoryStepsUI
 
         public void Unsubscribe()
         {
-            m_GlobalHook.KeyPress -= GlobalHookKeyPress;
+            if (m_GlobalHook == null)
+                return;
+
+            if (_useMouse)
+                m_GlobalHook.MouseClick -= GlobalHook_MouseClick;
+            else
+                m_GlobalHook.KeyPress -= GlobalHookKeyPress;
 
             m_GlobalHook.Dispose();
         }
