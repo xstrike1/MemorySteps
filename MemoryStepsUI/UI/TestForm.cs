@@ -289,6 +289,12 @@ namespace MemoryStepsUI
             if (_formIsLoading)
                 return;
 
+            if (timer is null)
+            {
+                timer = new Stopwatch();
+                timer.Start();
+            }
+
             _clicksThisSession++;
             CompleteMouseStep();
         }
