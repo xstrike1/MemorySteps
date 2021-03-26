@@ -48,8 +48,6 @@ namespace MemoryStepsUI
                 return;
             }
 
-          
-
             lblClicksRemainingNumber.Visible = useMouse;
             lblClicksRemainingTxt.Visible = useMouse;
 
@@ -58,7 +56,10 @@ namespace MemoryStepsUI
             CompleteStep();
 
             if (useMouse)
+            {
                 CompleteMouseStep();
+                btnCompleteStep.Text = "Start test";
+            }
 
             _formIsLoading = false;
         }
@@ -116,7 +117,6 @@ namespace MemoryStepsUI
             {
                 timer.Stop();
                 _parent.CompleteTest(timer.Elapsed.ToString());
-
             }
 
             Unsubscribe();
@@ -277,23 +277,16 @@ namespace MemoryStepsUI
         public void Subscribe(bool Use)
         {
             m_GlobalHook = Hook.GlobalEvents();
-
-            if(_useMouse)
-                m_GlobalHook.MouseClick += GlobalHook_MouseClick; 
-            else
+            if(!_useMouse)
                 m_GlobalHook.KeyPress += GlobalHookKeyPress;
+
+          
         }
 
         private void GlobalHook_MouseClick(object sender, MouseEventArgs e)
         {
             if (_formIsLoading)
                 return;
-
-            if (timer is null)
-            {
-                timer = new Stopwatch();
-                timer.Start();
-            }
 
             _clicksThisSession++;
             CompleteMouseStep();
@@ -303,7 +296,11 @@ namespace MemoryStepsUI
         {
             if (e.KeyChar == _parent.CompleteTestKeyBind) 
             {
-                btnCompleteStep.PerformClick();
+                if (_useMouse)
+                    _clicksThisSession--;
+                else
+                    btnCompleteStep.PerformClick();
+
                 e.Handled = true;
             }
         }
@@ -312,11 +309,10 @@ namespace MemoryStepsUI
         {
             if (m_GlobalHook == null)
                 return;
-
-            if (_useMouse)
-                m_GlobalHook.MouseClick -= GlobalHook_MouseClick;
-            else
+            if (!_useMouse)
                 m_GlobalHook.KeyPress -= GlobalHookKeyPress;
+            else
+                m_GlobalHook.MouseClick -= GlobalHook_MouseClick;
 
             m_GlobalHook.Dispose();
         }
@@ -327,6 +323,13 @@ namespace MemoryStepsUI
             {
                 timer = new Stopwatch();
                 timer.Start();
+
+                if (_useMouse)
+                {
+                    m_GlobalHook.MouseClick += GlobalHook_MouseClick;
+                    btnCompleteStep.Visible = false;
+                    return;
+                }
             }
 
             CompleteStep();
