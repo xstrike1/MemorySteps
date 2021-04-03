@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MemoryStepsUI.Services;
+using MemoryStepsUI.UI;
+using Microsoft.Test.Input;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,10 +27,11 @@ namespace MemoryStepsUI
         private TextBox txtBoxKeybind;
         private Label lblTstCompSec;
         Stack<StepEntity> steps;
-        private Button btnLoadConfig;
+        private Button btnAutoclickerConfig;
         private Button btnSaveConfig;
         private CheckBox chkMouse;
         public char CompleteTestKeyBind;
+        public CursorRegisterService cursorRegister;
 
         public ConfigUIForm()
         {
@@ -35,6 +39,7 @@ namespace MemoryStepsUI
             CompleteTestKeyBind = '`';
             txtBoxKeybind.Text = CompleteTestKeyBind.ToString();
             steps = new Stack<StepEntity>();
+            cursorRegister = new CursorRegisterService();
         }
 
         private void InitializeComponent()
@@ -49,7 +54,7 @@ namespace MemoryStepsUI
             this.lblTstCompSec = new System.Windows.Forms.Label();
             this.lblKeyBind = new System.Windows.Forms.Label();
             this.txtBoxKeybind = new System.Windows.Forms.TextBox();
-            this.btnLoadConfig = new System.Windows.Forms.Button();
+            this.btnAutoclickerConfig = new System.Windows.Forms.Button();
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.chkMouse = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
@@ -175,17 +180,17 @@ namespace MemoryStepsUI
             this.txtBoxKeybind.TabIndex = 2;
             this.txtBoxKeybind.TextChanged += new System.EventHandler(this.txtBoxKeybind_TextChanged);
             // 
-            // btnLoadConfig
+            // btnAutoclickerConfig
             // 
-            this.btnLoadConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLoadConfig.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnLoadConfig.Location = new System.Drawing.Point(575, 210);
-            this.btnLoadConfig.Name = "btnLoadConfig";
-            this.btnLoadConfig.Size = new System.Drawing.Size(120, 60);
-            this.btnLoadConfig.TabIndex = 3;
-            this.btnLoadConfig.Text = "Load config";
-            this.btnLoadConfig.UseVisualStyleBackColor = true;
-            this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
+            this.btnAutoclickerConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAutoclickerConfig.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnAutoclickerConfig.Location = new System.Drawing.Point(575, 210);
+            this.btnAutoclickerConfig.Name = "btnAutoclickerConfig";
+            this.btnAutoclickerConfig.Size = new System.Drawing.Size(120, 60);
+            this.btnAutoclickerConfig.TabIndex = 3;
+            this.btnAutoclickerConfig.Text = "Autoclicker config";
+            this.btnAutoclickerConfig.UseVisualStyleBackColor = true;
+            this.btnAutoclickerConfig.Click += new System.EventHandler(this.btnAutoclickerConfig_Click);
             // 
             // btnSaveConfig
             // 
@@ -219,7 +224,7 @@ namespace MemoryStepsUI
             this.ClientSize = new System.Drawing.Size(707, 414);
             this.Controls.Add(this.chkMouse);
             this.Controls.Add(this.btnSaveConfig);
-            this.Controls.Add(this.btnLoadConfig);
+            this.Controls.Add(this.btnAutoclickerConfig);
             this.Controls.Add(this.txtBoxKeybind);
             this.Controls.Add(this.tbRepsTextBox);
             this.Controls.Add(this.btnLaunchTest);
@@ -232,7 +237,7 @@ namespace MemoryStepsUI
             this.Controls.Add(this.lblConfig);
             this.MinimumSize = new System.Drawing.Size(616, 0);
             this.Name = "ConfigUIForm";
-            this.Text = "Memory steps 1.0";
+            this.Text = "Memory steps 1.1 Alpha";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -314,9 +319,13 @@ namespace MemoryStepsUI
             //Not yet implemented
         }
 
-        private void btnLoadConfig_Click(object sender, EventArgs e)
+        private void btnAutoclickerConfig_Click(object sender, EventArgs e)
         {
-            //Not yet implemented
+            this.Hide();
+
+            CursorCofingForm f = new CursorCofingForm(this);
+            f.Show();
+            
         }
 
         private void chkMouse_CheckedChanged(object sender, EventArgs e)
