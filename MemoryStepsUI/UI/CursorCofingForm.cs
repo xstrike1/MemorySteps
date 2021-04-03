@@ -16,7 +16,6 @@ namespace MemoryStepsUI.UI
     {
         private ConfigUIForm _parent;
         private IKeyboardMouseEvents m_GlobalHook;
-        bool subscribed;
         public CursorCofingForm()
         {
             InitializeComponent();
@@ -49,7 +48,6 @@ namespace MemoryStepsUI.UI
             
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
             m_GlobalHook.MouseClick += GlobalHook_MouseClick;
-            subscribed = true;
         }
 
         public void Unsubscribe()
@@ -62,7 +60,6 @@ namespace MemoryStepsUI.UI
 
             _parent.cursorRegister.StopLastCursorTimewatch();
             m_GlobalHook.Dispose();
-            subscribed = false;
             this.Show();
         }
 
@@ -84,17 +81,16 @@ namespace MemoryStepsUI.UI
             e.Handled = true;
         }
 
-        private void btnStartClick_Click(object sender, EventArgs e)
+        private void btnLoadConfig_Click(object sender, EventArgs e)
         {
-            if (subscribed)
-            {
-                Unsubscribe();
-                _parent.cursorRegister.CursorList.RemoveAt(_parent.cursorRegister.CursorList.Count - 1);
-            }
-            
-            CursorExecutorService executor = new CursorExecutorService(_parent.cursorRegister);
-            executor.Execute();
+            CursorLoaderService cursorLoader = new CursorLoaderService();
+           _parent.cursorRegister.LoadList(cursorLoader.LoadConfig());
         }
 
+        private void btnSaveConfig_Click(object sender, EventArgs e)
+        {
+            CursorLoaderService cursorLoader = new CursorLoaderService();
+            cursorLoader.SaveConfig(_parent.cursorRegister.CursorList);
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace MemoryStepsUI
         private Label lblTstCompSec;
         Stack<StepEntity> steps;
         private Button btnAutoclickerConfig;
-        private Button btnSaveConfig;
+        private Button btnStartAutoclicker;
         private CheckBox chkMouse;
         public char CompleteTestKeyBind;
         public CursorRegisterService cursorRegister;
@@ -55,7 +55,7 @@ namespace MemoryStepsUI
             this.lblKeyBind = new System.Windows.Forms.Label();
             this.txtBoxKeybind = new System.Windows.Forms.TextBox();
             this.btnAutoclickerConfig = new System.Windows.Forms.Button();
-            this.btnSaveConfig = new System.Windows.Forms.Button();
+            this.btnStartAutoclicker = new System.Windows.Forms.Button();
             this.chkMouse = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
@@ -192,17 +192,17 @@ namespace MemoryStepsUI
             this.btnAutoclickerConfig.UseVisualStyleBackColor = true;
             this.btnAutoclickerConfig.Click += new System.EventHandler(this.btnAutoclickerConfig_Click);
             // 
-            // btnSaveConfig
+            // btnStartAutoclicker
             // 
-            this.btnSaveConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSaveConfig.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnSaveConfig.Location = new System.Drawing.Point(575, 276);
-            this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(120, 60);
-            this.btnSaveConfig.TabIndex = 3;
-            this.btnSaveConfig.Text = "Save config";
-            this.btnSaveConfig.UseVisualStyleBackColor = true;
-            this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
+            this.btnStartAutoclicker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStartAutoclicker.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnStartAutoclicker.Location = new System.Drawing.Point(575, 276);
+            this.btnStartAutoclicker.Name = "btnStartAutoclicker";
+            this.btnStartAutoclicker.Size = new System.Drawing.Size(120, 60);
+            this.btnStartAutoclicker.TabIndex = 3;
+            this.btnStartAutoclicker.Text = "Start Autoclicker";
+            this.btnStartAutoclicker.UseVisualStyleBackColor = true;
+            this.btnStartAutoclicker.Click += new System.EventHandler(this.btnStartAutoclicker_Click);
             // 
             // chkMouse
             // 
@@ -223,7 +223,7 @@ namespace MemoryStepsUI
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(707, 414);
             this.Controls.Add(this.chkMouse);
-            this.Controls.Add(this.btnSaveConfig);
+            this.Controls.Add(this.btnStartAutoclicker);
             this.Controls.Add(this.btnAutoclickerConfig);
             this.Controls.Add(this.txtBoxKeybind);
             this.Controls.Add(this.tbRepsTextBox);
@@ -237,7 +237,7 @@ namespace MemoryStepsUI
             this.Controls.Add(this.lblConfig);
             this.MinimumSize = new System.Drawing.Size(616, 0);
             this.Name = "ConfigUIForm";
-            this.Text = "Memory steps 1.1 Alpha";
+            this.Text = "Memory steps 1.11 Alpha";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -314,17 +314,20 @@ namespace MemoryStepsUI
             CompleteTestKeyBind = txtBoxKeybind.Text[0];
         }
 
-        private void btnSaveConfig_Click(object sender, EventArgs e)
+        private void btnStartAutoclicker_Click(object sender, EventArgs e)
         {
-            //Not yet implemented
+            this.Hide();
+
+            AutoclickerForm autoclicker = new AutoclickerForm(this);
+            autoclicker.Show();
         }
 
         private void btnAutoclickerConfig_Click(object sender, EventArgs e)
         {
             this.Hide();
 
-            CursorCofingForm f = new CursorCofingForm(this);
-            f.Show();
+            CursorCofingForm cursorConfig = new CursorCofingForm(this);
+            cursorConfig.Show();
             
         }
 

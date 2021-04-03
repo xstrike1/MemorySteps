@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.TestApi" Version="0.6.0" />
     <PackageReference Include="MouseKeyHook" Version="5.6.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>

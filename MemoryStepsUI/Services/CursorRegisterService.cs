@@ -20,6 +20,11 @@ namespace MemoryStepsUI.Services
             _cursorList = new List<CursorEntity>();
         }
 
+        public void LoadList(List<CursorEntity> cursorList) 
+        {
+            _cursorList = cursorList.ToList();
+        }
+
         public void RegisterMouseButtonClick(Point position, MouseButtons button) 
         {
             StopLastCursorTimewatch();

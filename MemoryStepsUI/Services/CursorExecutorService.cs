@@ -12,6 +12,8 @@ namespace MemoryStepsUI.Services
 {
     public class CursorExecutorService
     {
+        public event Action<bool> ExecutionCompleted;
+
         private CursorRegisterService _cursorRegister;
 
         private CursorExecutorService() { }
@@ -21,11 +23,13 @@ namespace MemoryStepsUI.Services
             _cursorRegister = cursorRegister;
         }
 
-        public void Execute() 
+        public void Execute()  //need to add cancellation token
         {
             if (_cursorRegister == null || _cursorRegister.CursorList.Count == 0)
+            {
+                ExecutionCompleted?.Invoke(true);
                 return;
-
+            }
             for (int i = 0; i < _cursorRegister.CursorList.Count; i++) 
             {
                 Dictionary<long, char> lastCursorDictionary = i == 0 ? 
@@ -34,6 +38,9 @@ namespace MemoryStepsUI.Services
 
                 ExecuteCursor(_cursorRegister.CursorList[i], lastCursorDictionary);
             }
+
+            ExecutionCompleted?.Invoke(true);
+            return;
         }
 
         private void ExecuteCursor(CursorEntity cursor, Dictionary<long, char> pressedCharacters) 
