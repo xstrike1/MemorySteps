@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialSkin.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,18 +13,16 @@ namespace MemoryStepsUI
         private int _stepNumber;
         public int StepNumber { get {return _stepNumber; } }
 
-        private TextBox _stepDescriptionTxt;
-        private Label _stepLabel;
-        private TextBox _mouseClicksTxt;
+        public MaterialLabel lblStep;
+        public MaterialTextBox txtStepDesc;
+        public MaterialCheckbox btnRepeat;
+        public MaterialButton btnRoute;
+
         public string StepDescription 
         {
-            get { return _stepDescriptionTxt.Text; }
+            get { return txtStepDesc.Text; }
         }
 
-        public string MouseClicks 
-        {
-            get { return _mouseClicksTxt.Text; }
-        }
 
         private StepEntity() { }
 
@@ -36,65 +35,89 @@ namespace MemoryStepsUI
         public List<Control>  GetControlListForConfig()
         {
             List<Control> controlList = new List<Control>();
-            controlList.Add(_stepDescriptionTxt);
-            controlList.Add(_stepLabel);
-            controlList.Add(_mouseClicksTxt);
-
+            controlList.Add(lblStep);
+            controlList.Add(txtStepDesc);
+            controlList.Add(btnRepeat);
+            controlList.Add(btnRoute);
             return controlList;
         }
-
-        public void MouseClicksChanged(bool check) 
-        {
-            _mouseClicksTxt.Enabled = check;
-        }
-
+ 
         private void InitStyle(bool mouseCheck) 
         {
             InitTextBoxDescription();
             InitLabelStep();
-            InitTextBoxMouseCLicks(mouseCheck);
+            InitRepeatCheckBox();
+            InitRouteButton();
+
         }
 
         private void InitTextBoxDescription()
         {
-            _stepDescriptionTxt = new TextBox();
-            _stepDescriptionTxt.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            _stepDescriptionTxt.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            _stepDescriptionTxt.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            _stepDescriptionTxt.Location = new System.Drawing.Point(91, 69 + (StepNumber * 50));
-            _stepDescriptionTxt.Name = "stepDesc" + StepNumber;
-            _stepDescriptionTxt.Size = new System.Drawing.Size(314, 23);
-            _stepDescriptionTxt.TabIndex = 2;
-            _stepDescriptionTxt.Text = "";
+            txtStepDesc = new MaterialSkin.Controls.MaterialTextBox();
+            txtStepDesc.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            txtStepDesc.Depth = 0;
+            txtStepDesc.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            txtStepDesc.Location = new System.Drawing.Point(145, 106 + (StepNumber * 70));
+            txtStepDesc.MaxLength = 50;
+            txtStepDesc.MouseState = MaterialSkin.MouseState.OUT;
+            txtStepDesc.Multiline = false;
+            txtStepDesc.Name = "txtStepDesc"+ StepNumber;
+            txtStepDesc.Size = new System.Drawing.Size(360, 36);
+            txtStepDesc.TabIndex = 17;
+            txtStepDesc.Text = "";
+            txtStepDesc.UseTallSize = false;
         }
 
         private void InitLabelStep() 
         {
-            _stepLabel = new Label();
-            _stepLabel.AutoSize = true;
-            _stepLabel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            _stepLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            _stepLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            _stepLabel.Location = new System.Drawing.Point(12, 71 + (StepNumber * 50));
-            _stepLabel.Name = "labelS" + StepNumber;
-            _stepLabel.Size = new System.Drawing.Size(54, 21);
-            _stepLabel.TabIndex = 0;
-            _stepLabel.Text = "Step " + StepNumber;
+            lblStep = new MaterialSkin.Controls.MaterialLabel();
+            lblStep.AutoSize = true;
+            lblStep.Depth = 0;
+            lblStep.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            lblStep.Location = new System.Drawing.Point(44, 120 + (StepNumber * 70));
+            lblStep.MouseState = MaterialSkin.MouseState.HOVER;
+            lblStep.Name = "lblStep"+StepNumber;
+            lblStep.Size = new System.Drawing.Size(46, 19);
+            lblStep.TabIndex = 15;
+            lblStep.Text = "Step "+ StepNumber;
         }
 
-        private void InitTextBoxMouseCLicks(bool mouseCheck)
+        private void InitRepeatCheckBox() 
         {
-            _mouseClicksTxt = new TextBox();
-            _mouseClicksTxt.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            _mouseClicksTxt.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            _mouseClicksTxt.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            _mouseClicksTxt.Location = new System.Drawing.Point(450, 71 + (StepNumber * 50));
-            _mouseClicksTxt.MaxLength = 2;
-            _mouseClicksTxt.Name = "txtClicks"+ StepNumber;
-            _mouseClicksTxt.Size = new System.Drawing.Size(97, 27);
-            _mouseClicksTxt.TabIndex = 2;
-            _mouseClicksTxt.Text = "1";
-            _mouseClicksTxt.Enabled = mouseCheck;
+            btnRepeat = new MaterialSkin.Controls.MaterialCheckbox();
+            btnRepeat.AutoSize = true;
+            btnRepeat.Depth = 0;
+            btnRepeat.Location = new System.Drawing.Point(526, 106 + (StepNumber * 70));
+            btnRepeat.Margin = new System.Windows.Forms.Padding(0);
+            btnRepeat.MouseLocation = new System.Drawing.Point(-1, -1);
+            btnRepeat.MouseState = MaterialSkin.MouseState.HOVER;
+            btnRepeat.Name = "btnRepeat"+StepNumber;
+            btnRepeat.Ripple = true;
+            btnRepeat.Size = new System.Drawing.Size(84, 37);
+            btnRepeat.TabIndex = 18;
+            btnRepeat.Text = "Repeat";
+            btnRepeat.UseVisualStyleBackColor = true;
+        }
+
+        private void InitRouteButton()
+        {
+            btnRoute = new MaterialSkin.Controls.MaterialButton();
+            btnRoute.AutoSize = false;
+            btnRoute.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            btnRoute.Depth = 0;
+            btnRoute.DrawShadows = true;
+            btnRoute.HighEmphasis = true;
+            btnRoute.Icon = null;
+            btnRoute.Location = new System.Drawing.Point(650, 108 + (StepNumber * 70));
+            btnRoute.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            btnRoute.MouseState = MaterialSkin.MouseState.HOVER;
+            btnRoute.Name = "btnRoute"+StepNumber;
+            btnRoute.Size = new System.Drawing.Size(132, 37);
+            btnRoute.TabIndex = 19;
+            btnRoute.Text = "Route";
+            btnRoute.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            btnRoute.UseAccentColor = false;
+            btnRoute.UseVisualStyleBackColor = true;
         }
     }
 }
