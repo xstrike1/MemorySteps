@@ -33,7 +33,7 @@ namespace MemoryStepsUI.Services
             return duration;
         }
 
-        public void Execute(ConfigUIForm parentForm)  //need to add cancellation token
+        public void Execute(ConfigUIForm parentForm)  
         {
             if (_cursorRegister == null || _cursorRegister.CursorList.Count == 0)
             {
@@ -72,7 +72,7 @@ namespace MemoryStepsUI.Services
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            while (timer.ElapsedTicks < cursor.Ticks) 
+            while (timer.ElapsedTicks < cursor.Ticks) //Need to change this asap
             {
                 timer.Stop();
 
