@@ -13,6 +13,7 @@ namespace MemoryStepsUI.Services
     public class CursorExecutorService
     {
         public event Action<bool> ExecutionCompleted;
+        public event Action<long> StepCompleted;
 
         private CursorRegisterService _cursorRegister;
 
@@ -23,7 +24,21 @@ namespace MemoryStepsUI.Services
             _cursorRegister = cursorRegister;
         }
 
-        public void Execute()  //need to add cancellation token
+
+        public long GetTotalDuration() 
+        {
+            if (_cursorRegister == null || _cursorRegister.CursorList.Count == 0) return 0;
+
+            long duration = 0;
+            foreach (var cursor in _cursorRegister.CursorList) 
+            {
+                duration += cursor.Ticks;
+            }
+
+            return duration;
+        }
+
+        public void Execute(Form form)  //need to add cancellation token
         {
             if (_cursorRegister == null || _cursorRegister.CursorList.Count == 0)
             {
@@ -40,6 +55,8 @@ namespace MemoryStepsUI.Services
             }
 
             ExecutionCompleted?.Invoke(true);
+
+            form.Show();
             return;
         }
 
@@ -48,7 +65,7 @@ namespace MemoryStepsUI.Services
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            while (timer.ElapsedTicks < cursor.Time.ElapsedTicks) 
+            while (timer.ElapsedTicks < cursor.Ticks) 
             {
                 timer.Stop();
 
@@ -62,6 +79,7 @@ namespace MemoryStepsUI.Services
             Mouse.MoveTo(cursor.Position);
             Mouse.Click(cursor.ButtonPressed);
 
+            StepCompleted?.Invoke(cursor.Ticks);
             timer.Stop();
         }
     }

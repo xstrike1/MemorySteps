@@ -53,6 +53,7 @@ namespace MemoryStepsUI.Services
                 return;
 
             _cursorList[_cursorList.Count - 1].Time.Stop();
+            _cursorList[_cursorList.Count - 1].Ticks = _cursorList[_cursorList.Count - 1].Time.ElapsedTicks;
         }
     }
 }

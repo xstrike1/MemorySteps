@@ -12,9 +12,15 @@ namespace MemoryStepsUI.Services
 {
     public class CursorLoaderService
     {
-        public void SaveConfig(List<CursorEntity> _cursorList)
+
+        public string GetCurrentConfig(List<CursorEntity> cursorList) 
         {
-            string json = JsonConvert.SerializeObject(_cursorList, Formatting.Indented);
+            return  JsonConvert.SerializeObject(cursorList, Formatting.Indented);
+        }
+
+        public void SaveConfig(List<CursorEntity> cursorList)
+        {
+            string json = GetCurrentConfig(cursorList);
 
             using SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.FileName = "MemorySteps_Config_" + DateTime.UtcNow.ToString("yyyy-mm-dd");

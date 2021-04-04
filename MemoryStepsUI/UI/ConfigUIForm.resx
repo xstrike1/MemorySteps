@@ -413,10 +413,10 @@
         gJL7flMyWFJU9ihFAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="materialButton1.Icon" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnStartManualConfig.Icon" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EAAACxABrSO9dQAAGjpJREFUeF7tnQvQdVVZx+2C4BUvY4Zg4g1LcAZE8Z7lQONdRA1TsGzMWxNOVKiJ
+        DAAACwwBP0AiyAAAGjpJREFUeF7tnQvQdVVZx+2C4BUvY4Zg4g1LcAZE8Z7lQONdRA1TsGzMWxNOVKiJ
         k05OYY4OEEimIqmpqVmmThqhYoqkoxBeRiUN8JIkF0NS7P7/zXz/8WH5fi/v2bezzzn/38xv9vd+73v2
         2pf1PHutdfbe60YhhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBC
         CCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgi9+RH5Y/LH5Y/yHzuAv+Pv+RyfDyGsEAQu7g5+t5e8mbz5
@@ -531,10 +531,10 @@
         QghryI1u9P+hfE52fhBjSgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="materialButton2.Icon" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnSaveConfig.Icon" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAB1
-        cwAAdXMBj6sWyQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAC9ySURBVHhe7d1/
+        cgAAdXIBXez0LQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAC9ySURBVHhe7d1/
         7O51ed/x28NBhB5+FBKpE1SaYmLIMNHQWJdY0qrQKSExLLTNsm5RRirBZZVEUWlwJE2LNiYVdfujSTdY
         G+ikMbEkpmE0Glo33B90GYZmJosu/qhBrSIgU9zrOv188Tqfc537nPf7c93v+32/7+crefzhm8Pnc3/v
         8+G6XsL33N/Vj3/8472mHJJXyFXyLvmo3COfkofkC/K4fE2eFPubAAD9sRlts9pmts1um+E2y22m22y3
@@ -740,10 +740,10 @@
         7TbjbdbbzN/Zb97L8ePV/wf8iY1PhkpMnQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="materialButton3.Icon" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnLoadConfig.Icon" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EQAACxEBf2RfkQAABxVJREFUeF7t3UmIXFUYhuG0iUM0EnAhBFFBFNGdQ1aiCwlEcUBERYIoAQdUCIii
+        DAAACwwBP0AiyAAABxVJREFUeF7t3UmIXFUYhuG0iUM0EnAhBFFBFNGdQ1aiCwlEcUBERYIoAQdUCIii
         G1FUUDeCuAgiGIc4ILhw5c5FcCEqOCxEECdiEBPBOGCco99Pe0lR/Dl1quvec+89//vAi5CEpPpUfXZX
         VVfXKgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAArdoRas2CrFVCVy9V76h/1bwv9rr5XX6r31Svq
         QXW9OkMtKWAUblLejbzLvlEvqBvVegUM0vHqJ+XdiEv1m3pVXarsSzRgMC5R3o22rz5XN6ujFNC7q5V3
@@ -781,7 +781,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj01LjAuMy4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAo
-        FwAAAk1TRnQBSQFMAgEBBwEAASgBAgEoAQIBIAEAASABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        FwAAAk1TRnQBSQFMAgEBBwEAAVABAgFQAQIBIAEAASABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABgAMAAUADAAEBAQABCAYAASAYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA

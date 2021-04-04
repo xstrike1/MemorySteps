@@ -1,13 +1,14 @@
 ﻿
+using Gma.System.MouseKeyHook;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using MemoryStepsUI.Services;
-using MemoryStepsUI.UI;
 using Microsoft.Test.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace MemoryStepsUI
 {
     public partial class ConfigUIForm : MaterialForm
     {
+        #region Fields
         private int numberOfSteps = 0;
         Stack<StepEntity> steps;
         public char CompleteTestKeyBind;
@@ -44,9 +46,9 @@ namespace MemoryStepsUI
         private MaterialSwitch switchTheme;
         private MaterialTextBox txtBoxKeybind;
         private MaterialLabel lblKeyBind;
-        private MaterialButton materialButton3;
-        private MaterialButton materialButton2;
-        private MaterialButton materialButton1;
+        private MaterialButton btnLoadConfig;
+        private MaterialButton btnSaveConfig;
+        private MaterialButton btnStartManualConfig;
         private MaterialCard materialCard1;
         private MaterialLabel lblAutoclickerTitle;
         private MaterialCard materialCard2;
@@ -55,6 +57,10 @@ namespace MemoryStepsUI
         private MaterialLabel lblAutoclickerSummary;
         private MaterialCard materialCard3;
         public CursorRegisterService cursorRegister;
+        private IKeyboardMouseEvents m_GlobalHook;
+        private CursorLoaderService _cursorLoader;
+        private CursorExecutorService _executor;
+        #endregion Fields
 
         public ConfigUIForm()
         {
@@ -63,6 +69,7 @@ namespace MemoryStepsUI
             txtBoxKeybind.Text = CompleteTestKeyBind.ToString();
             steps = new Stack<StepEntity>();
             cursorRegister = new CursorRegisterService();
+            _cursorLoader = new CursorLoaderService();
 
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
@@ -93,9 +100,9 @@ namespace MemoryStepsUI
             this.btnRemoveStp = new MaterialSkin.Controls.MaterialButton();
             this.tabAutoclicker = new System.Windows.Forms.TabPage();
             this.materialCard3 = new MaterialSkin.Controls.MaterialCard();
-            this.materialButton1 = new MaterialSkin.Controls.MaterialButton();
-            this.materialButton2 = new MaterialSkin.Controls.MaterialButton();
-            this.materialButton3 = new MaterialSkin.Controls.MaterialButton();
+            this.btnStartManualConfig = new MaterialSkin.Controls.MaterialButton();
+            this.btnSaveConfig = new MaterialSkin.Controls.MaterialButton();
+            this.btnLoadConfig = new MaterialSkin.Controls.MaterialButton();
             this.rtbAutoclickerCurrentConfig = new MaterialSkin.Controls.MaterialMultiLineTextBox();
             this.lblAutoclickerSummary = new MaterialSkin.Controls.MaterialLabel();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
@@ -382,9 +389,9 @@ namespace MemoryStepsUI
             // materialCard3
             // 
             this.materialCard3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard3.Controls.Add(this.materialButton1);
-            this.materialCard3.Controls.Add(this.materialButton2);
-            this.materialCard3.Controls.Add(this.materialButton3);
+            this.materialCard3.Controls.Add(this.btnStartManualConfig);
+            this.materialCard3.Controls.Add(this.btnSaveConfig);
+            this.materialCard3.Controls.Add(this.btnLoadConfig);
             this.materialCard3.Depth = 0;
             this.materialCard3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.materialCard3.Location = new System.Drawing.Point(-45, 540);
@@ -395,62 +402,65 @@ namespace MemoryStepsUI
             this.materialCard3.Size = new System.Drawing.Size(1274, 68);
             this.materialCard3.TabIndex = 6;
             // 
-            // materialButton1
+            // btnStartManualConfig
             // 
-            this.materialButton1.AutoSize = false;
-            this.materialButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialButton1.Depth = 0;
-            this.materialButton1.DrawShadows = true;
-            this.materialButton1.HighEmphasis = true;
-            this.materialButton1.Icon = ((System.Drawing.Image)(resources.GetObject("materialButton1.Icon")));
-            this.materialButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.materialButton1.Location = new System.Drawing.Point(73, 12);
-            this.materialButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialButton1.Name = "materialButton1";
-            this.materialButton1.Size = new System.Drawing.Size(280, 36);
-            this.materialButton1.TabIndex = 0;
-            this.materialButton1.Text = "Start manual configuration";
-            this.materialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.materialButton1.UseAccentColor = false;
-            this.materialButton1.UseVisualStyleBackColor = true;
+            this.btnStartManualConfig.AutoSize = false;
+            this.btnStartManualConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnStartManualConfig.Depth = 0;
+            this.btnStartManualConfig.DrawShadows = true;
+            this.btnStartManualConfig.HighEmphasis = true;
+            this.btnStartManualConfig.Icon = ((System.Drawing.Image)(resources.GetObject("btnStartManualConfig.Icon")));
+            this.btnStartManualConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStartManualConfig.Location = new System.Drawing.Point(73, 12);
+            this.btnStartManualConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnStartManualConfig.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnStartManualConfig.Name = "btnStartManualConfig";
+            this.btnStartManualConfig.Size = new System.Drawing.Size(280, 36);
+            this.btnStartManualConfig.TabIndex = 0;
+            this.btnStartManualConfig.Text = "Start manual configuration";
+            this.btnStartManualConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnStartManualConfig.UseAccentColor = false;
+            this.btnStartManualConfig.UseVisualStyleBackColor = true;
+            this.btnStartManualConfig.Click += new System.EventHandler(this.btnStartManualConfig_Click);
             // 
-            // materialButton2
+            // btnSaveConfig
             // 
-            this.materialButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialButton2.Depth = 0;
-            this.materialButton2.DrawShadows = true;
-            this.materialButton2.HighEmphasis = true;
-            this.materialButton2.Icon = ((System.Drawing.Image)(resources.GetObject("materialButton2.Icon")));
-            this.materialButton2.Location = new System.Drawing.Point(671, 12);
-            this.materialButton2.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialButton2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialButton2.Name = "materialButton2";
-            this.materialButton2.Size = new System.Drawing.Size(205, 36);
-            this.materialButton2.TabIndex = 1;
-            this.materialButton2.Text = "Save configuration";
-            this.materialButton2.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.materialButton2.UseAccentColor = false;
-            this.materialButton2.UseVisualStyleBackColor = true;
+            this.btnSaveConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSaveConfig.Depth = 0;
+            this.btnSaveConfig.DrawShadows = true;
+            this.btnSaveConfig.HighEmphasis = true;
+            this.btnSaveConfig.Icon = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Icon")));
+            this.btnSaveConfig.Location = new System.Drawing.Point(671, 12);
+            this.btnSaveConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnSaveConfig.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnSaveConfig.Name = "btnSaveConfig";
+            this.btnSaveConfig.Size = new System.Drawing.Size(205, 36);
+            this.btnSaveConfig.TabIndex = 1;
+            this.btnSaveConfig.Text = "Save configuration";
+            this.btnSaveConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnSaveConfig.UseAccentColor = false;
+            this.btnSaveConfig.UseVisualStyleBackColor = true;
+            this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
             // 
-            // materialButton3
+            // btnLoadConfig
             // 
-            this.materialButton3.AutoSize = false;
-            this.materialButton3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialButton3.Depth = 0;
-            this.materialButton3.DrawShadows = true;
-            this.materialButton3.HighEmphasis = true;
-            this.materialButton3.Icon = ((System.Drawing.Image)(resources.GetObject("materialButton3.Icon")));
-            this.materialButton3.Location = new System.Drawing.Point(430, 13);
-            this.materialButton3.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialButton3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialButton3.Name = "materialButton3";
-            this.materialButton3.Size = new System.Drawing.Size(217, 36);
-            this.materialButton3.TabIndex = 2;
-            this.materialButton3.Text = "Load configuration";
-            this.materialButton3.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.materialButton3.UseAccentColor = false;
-            this.materialButton3.UseVisualStyleBackColor = true;
+            this.btnLoadConfig.AutoSize = false;
+            this.btnLoadConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnLoadConfig.Depth = 0;
+            this.btnLoadConfig.DrawShadows = true;
+            this.btnLoadConfig.HighEmphasis = true;
+            this.btnLoadConfig.Icon = ((System.Drawing.Image)(resources.GetObject("btnLoadConfig.Icon")));
+            this.btnLoadConfig.Location = new System.Drawing.Point(430, 13);
+            this.btnLoadConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnLoadConfig.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnLoadConfig.Name = "btnLoadConfig";
+            this.btnLoadConfig.Size = new System.Drawing.Size(217, 36);
+            this.btnLoadConfig.TabIndex = 2;
+            this.btnLoadConfig.Text = "Load configuration";
+            this.btnLoadConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnLoadConfig.UseAccentColor = false;
+            this.btnLoadConfig.UseVisualStyleBackColor = true;
+            this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
             // rtbAutoclickerCurrentConfig
             // 
@@ -563,7 +573,7 @@ namespace MemoryStepsUI
             this.txtBoxKeybind.TabIndex = 8;
             this.txtBoxKeybind.Text = "";
             this.txtBoxKeybind.UseTallSize = false;
-            this.txtBoxKeybind.TextChanged += new System.EventHandler(this.txtBoxKeybind_TextChanged_1);
+            this.txtBoxKeybind.TextChanged += new System.EventHandler(this.txtBoxKeybind_TextChanged);
             // 
             // lblKeyBind
             // 
@@ -639,7 +649,6 @@ namespace MemoryStepsUI
             this.ResumeLayout(false);
 
         }
-
        
         private List<StepEntity> ConvertEntityStackToList() 
         {
@@ -659,22 +668,6 @@ namespace MemoryStepsUI
             lblTestComp.Visible = true;
         }
 
-        private void btnStartAutoclicker_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-
-            AutoclickerForm autoclicker = new AutoclickerForm(this);
-            autoclicker.Show();
-        }
-
-        private void btnAutoclickerConfig_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-
-            CursorCofingForm cursorConfig = new CursorCofingForm(this);
-            cursorConfig.Show();
-            
-        }
         private void btnAddStep_Click(object sender, EventArgs e)
         {
             numberOfSteps++;
@@ -713,19 +706,27 @@ namespace MemoryStepsUI
 
         private void btnLaunchTest_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(tbRepsTextBox.Text, out int numberOfReps))
-                throw new ApplicationException("Invalid number of reps value");
-
-            TestForm testForm = new TestForm(this, numberOfReps, ConvertEntityStackToList(), false)
+            ValidateBeforeTestLaunch();
+            if (switchAutoclicker.Checked) 
             {
-                TopMost = true //always in focus
-            };
-
-            if (testForm.IsDisposed) //int value < 0
+                LaunchAutoclicker();
                 return;
+            }
 
-            testForm.Show();
-            this.Hide();
+            LaunchTest();
+        }
+
+        private void ValidateBeforeTestLaunch() 
+        {
+            if (switchAutoclicker.Checked && string.IsNullOrEmpty(rtbAutoclickerCurrentConfig.Text))
+                throw new ApplicationException("Invalid autoclicker configuration");
+
+            if (!switchAutoclicker.Checked && !int.TryParse(tbRepsTextBox.Text, out int _))
+                throw new ApplicationException("Invalid number of repetitions value");
+
+
+            return;
+
         }
 
         private void switchTheme_CheckedChanged(object sender, EventArgs e)
@@ -738,19 +739,99 @@ namespace MemoryStepsUI
                 materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
         }
 
-        private void txtBoxKeybind_TextChanged_1(object sender, EventArgs e)
+        private void txtBoxKeybind_TextChanged(object sender, EventArgs e)
         {
             CompleteTestKeyBind = txtBoxKeybind.Text[0];
         }
 
-        private void btnAutoclickerConfig_Click_1(object sender, EventArgs e)
+        public void Subscribe()
         {
+            m_GlobalHook = Hook.GlobalEvents();
 
+            m_GlobalHook.KeyPress += GlobalHookKeyPress;
+            m_GlobalHook.MouseClick += GlobalHook_MouseClick;
         }
 
-        private void btnStartAutoclicker_Click_1(object sender, EventArgs e)
+        public void Unsubscribe()
         {
+            if (m_GlobalHook == null)
+                return;
 
+            m_GlobalHook.KeyPress -= GlobalHookKeyPress;
+            m_GlobalHook.MouseClick -= GlobalHook_MouseClick;
+
+            cursorRegister.StopLastCursorTimewatch();
+            m_GlobalHook.Dispose();
+
+            this.Show();
+            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.CursorList);
         }
+
+        private void GlobalHook_MouseClick(object sender, MouseEventArgs e)
+        {
+           cursorRegister.RegisterMouseButtonClick(e.Location, e.Button);
+        }
+
+        private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar ==  CompleteTestKeyBind)
+            {
+                Unsubscribe();
+                e.Handled = true;
+                return;
+            }
+
+            cursorRegister.RegisterKeyPress(e.KeyChar);
+            e.Handled = true;
+        }
+
+        private void btnStartManualConfig_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            cursorRegister.ResetList();
+            Subscribe();
+        }
+
+        private void btnLoadConfig_Click(object sender, EventArgs e)
+        {
+            cursorRegister.LoadList(_cursorLoader.LoadConfig());
+            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.CursorList);
+        }
+
+        private void btnSaveConfig_Click(object sender, EventArgs e)
+        {
+            _cursorLoader.SaveConfig(cursorRegister.CursorList);
+        }
+
+        private void LaunchAutoclicker()
+        {
+            this.Hide();
+
+            _executor = new CursorExecutorService(cursorRegister);
+            Stopwatch timer = new Stopwatch();
+
+            timer.Start();
+            _executor.Execute(this);
+            timer.Stop();
+
+            CompleteTest(timer.Elapsed.ToString());
+        }
+
+        private void LaunchTest() 
+        {
+            int.TryParse(tbRepsTextBox.Text, out int numberOfReps);
+            TestForm testForm = new TestForm(this, numberOfReps, ConvertEntityStackToList(), false)
+            {
+                TopMost = true //always in focus
+            };
+
+            if (testForm.IsDisposed) //int value < 0
+                return;
+
+            testForm.Show();
+            this.Hide();
+        }
+
+       
     }
 }

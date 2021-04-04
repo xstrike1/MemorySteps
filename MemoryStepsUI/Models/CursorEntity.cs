@@ -14,7 +14,12 @@ namespace MemoryStepsUI.Models
     public class CursorEntity
     {
         public Point Position { get; set; }
-        public Stopwatch Time { get; set; }
+
+        [NonSerialized]
+        public Stopwatch Time;
+
+        public long Ticks; 
+       
         public Dictionary<long, char> PressedCharacters { get; set; }
         public MouseButton ButtonPressed { get; set; }
 
