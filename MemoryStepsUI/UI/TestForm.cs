@@ -229,6 +229,7 @@ namespace MemoryStepsUI
             this.btnCompleteStep.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btnCompleteStep.UseAccentColor = false;
             this.btnCompleteStep.UseVisualStyleBackColor = true;
+            this.btnCompleteStep.Click += new System.EventHandler(this.btnCompleteStep_Click);
             // 
             // btnClose
             // 
@@ -247,6 +248,7 @@ namespace MemoryStepsUI
             this.btnClose.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btnClose.UseAccentColor = false;
             this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // TestForm
             // 
@@ -323,6 +325,7 @@ namespace MemoryStepsUI
             m_GlobalHook.Dispose();
         }
 
+
         private void btnCompleteStep_Click(object sender, EventArgs e)
         {
             if (timer is null)
@@ -339,6 +342,11 @@ namespace MemoryStepsUI
             }
 
             CompleteStep();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
