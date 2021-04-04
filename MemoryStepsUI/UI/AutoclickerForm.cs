@@ -1,4 +1,6 @@
 ﻿using Gma.System.MouseKeyHook;
+using MaterialSkin;
+using MaterialSkin.Controls;
 using MemoryStepsUI.Services;
 using System;
 using System.Collections.Generic;
@@ -12,45 +14,61 @@ using System.Windows.Forms;
 
 namespace MemoryStepsUI.UI
 {
-    public partial class AutoclickerForm : Form
+    public partial class AutoclickerForm : MaterialForm, IFormWithCancelRequest
     {
+        public bool CancelHasBeenRequested { get; set; }
         private IKeyboardMouseEvents m_GlobalHook;
         private ConfigUIForm _parent;
-        CursorExecutorService executor;
+        private CursorExecutorService _executor;
+        private decimal _totalDuration;
+        private decimal _elapsedTime;
+
         public AutoclickerForm()
         {
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.None;
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Purple800, Primary.Purple900, Primary.Purple500, Accent.DeepPurple200, TextShade.WHITE);
         }
 
-        public AutoclickerForm(ConfigUIForm parent) 
-            :this()
+        public AutoclickerForm(ConfigUIForm parent, CursorExecutorService executor, long totalDuration) 
+            : this() 
         {
             _parent = parent;
-            lblHint.Text = $"To stop the autoclicker press {_parent.CompleteTestKeyBind}";
-            executor = new CursorExecutorService(_parent.cursorRegister);
+            _executor = executor;
+            _totalDuration = totalDuration;
+            TopLevel = true;
+            lblHint.Text = $"To cancel current execution press {parent.CompleteTestKeyBind}";
+            Rectangle res = Screen.PrimaryScreen.Bounds;
+            this.Location = new Point(res.Width - Size.Width, res.Height - Size.Height);
+            Subscribe();
+        }
+
+        private void materialButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            _parent.Show();
+            Unsubscribe();
         }
 
         public void Subscribe()
         {
             m_GlobalHook = Hook.GlobalEvents();
-            m_GlobalHook.KeyPress += GlobalHookKeyPress;
-            executor.ExecutionCompleted += Executor_ExecutionCompleted;
 
+            m_GlobalHook.KeyPress += GlobalHookKeyPress;
+            _executor.StepCompleted += _executor_StepCompleted;
         }
 
-        private void Executor_ExecutionCompleted(bool status)
+        private void _executor_StepCompleted(long currentStepDuration)
         {
-            if (status)
-            {
-                StopAutoclicker();
-            }
+            _elapsedTime += currentStepDuration;
+            progressBar.Value = Convert.ToInt32(_elapsedTime / _totalDuration * 100);
+            lblProgressVal.Text = progressBar.Value + "%";
+            Application.DoEvents();
         }
 
         public void Unsubscribe()
@@ -59,8 +77,8 @@ namespace MemoryStepsUI.UI
                 return;
 
             m_GlobalHook.KeyPress -= GlobalHookKeyPress;
-            executor.ExecutionCompleted -= Executor_ExecutionCompleted;
-            
+            _executor.StepCompleted -= _executor_StepCompleted;
+
             m_GlobalHook.Dispose();
         }
 
@@ -68,34 +86,11 @@ namespace MemoryStepsUI.UI
         {
             if (e.KeyChar == _parent.CompleteTestKeyBind)
             {
-                StopAutoclicker(); //TODO: call Executor cancel
-
+                Unsubscribe();
                 e.Handled = true;
-                return;
+                CancelHasBeenRequested = true;
+                lblHint.Text = "Execution canceled by user";
             }
-
-        }
-
-        private void StopAutoclicker() 
-        {
-            Unsubscribe();
-            this.Close();
-        }
-
-        private void btnStartAutoclicker_Click(object sender, EventArgs e)
-        {
-            Rectangle res = Screen.PrimaryScreen.Bounds;
-            this.Location = new Point(res.Width - Size.Width, res.Height - Size.Height);
-            Subscribe();
-            executor.Execute();
-
-            btnStartAutoclicker.Visible = false;
-            btnExit.Visible = false;
-        }
-
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            StopAutoclicker();
         }
     }
 }

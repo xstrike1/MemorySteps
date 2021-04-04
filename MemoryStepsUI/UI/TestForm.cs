@@ -1,4 +1,6 @@
 ﻿using Gma.System.MouseKeyHook;
+using MaterialSkin;
+using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,25 +9,24 @@ using System.Windows.Forms;
 
 namespace MemoryStepsUI
 {
-    public partial class TestForm : Form
+    public partial class TestForm : MaterialForm
     {
         private int numberOfRepeats;
         private Queue<StepEntity> queue;
         private Stopwatch timer;
         private IKeyboardMouseEvents m_GlobalHook;
-        private Button btnCloseForm;
-        private Button btnCompleteStep;
-        private Label label1;
-        private Label lblStepNumber;
-        private RichTextBox rtbDescription;
-        private Label label2;
-        private Label lblRepRem;
         private ConfigUIForm _parent;
-        private Label lblClicksRemainingTxt;
-        private Label lblClicksRemainingNumber;
         private bool _useMouse;
         private int _clicksThisSession;
         private StepEntity _currentProcessingEntity;
+        private MaterialLabel lblStep;
+        private MaterialLabel lblStepNumber;
+        private MaterialLabel lblRepsRemaining;
+        private MaterialLabel lblRepRem;
+        private MaterialMultiLineTextBox rtbDescription;
+        private MaterialLabel lblDesc;
+        private MaterialButton btnCompleteStep;
+        private MaterialButton btnClose;
         private bool _formIsLoading;
 
         public TestForm()
@@ -33,6 +34,9 @@ namespace MemoryStepsUI
             _formIsLoading = true;
             InitializeComponent();
             _clicksThisSession = 0;
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.Purple800, Primary.Purple900, Primary.Purple500, Accent.DeepPurple200, TextShade.WHITE);
         }
 
         public TestForm(ConfigUIForm parent, int numOfRep, List<StepEntity> stack, bool useMouse)
@@ -48,9 +52,7 @@ namespace MemoryStepsUI
                 return;
             }
 
-            lblClicksRemainingNumber.Visible = useMouse;
-            lblClicksRemainingTxt.Visible = useMouse;
-
+          
             Subscribe(useMouse);
             ProcessStack(stack);
             CompleteStep();
@@ -95,13 +97,13 @@ namespace MemoryStepsUI
 
         private void CompleteMouseStep() 
         {
-            if (int.Parse(_currentProcessingEntity.MouseClicks) - _clicksThisSession == 0)
-            {
-                _clicksThisSession = 0;
-                CompleteStep();
-            }
+            //if (int.Parse(_currentProcessingEntity.MouseClicks) - _clicksThisSession == 0)
+            //{
+            //    _clicksThisSession = 0;
+            //    CompleteStep();
+            //}
 
-            lblClicksRemainingNumber.Text = (int.Parse(_currentProcessingEntity.MouseClicks) - _clicksThisSession).ToString();
+            //lblClicksRemainingNumber.Text = (int.Parse(_currentProcessingEntity.MouseClicks) - _clicksThisSession).ToString();
         }
 
         private void TestCompleted()
@@ -110,8 +112,6 @@ namespace MemoryStepsUI
             lblStepNumber.Visible = false;
             rtbDescription.Visible = false;
             btnCompleteStep.Visible = false;
-            label1.Visible = true;
-            label2.Visible = true;
 
             if (timer is not null)
             {
@@ -126,137 +126,144 @@ namespace MemoryStepsUI
 
         private void InitializeComponent()
         {
-            this.btnCloseForm = new System.Windows.Forms.Button();
-            this.btnCompleteStep = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblStepNumber = new System.Windows.Forms.Label();
-            this.rtbDescription = new System.Windows.Forms.RichTextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lblRepRem = new System.Windows.Forms.Label();
-            this.lblClicksRemainingTxt = new System.Windows.Forms.Label();
-            this.lblClicksRemainingNumber = new System.Windows.Forms.Label();
+            this.lblStep = new MaterialSkin.Controls.MaterialLabel();
+            this.lblStepNumber = new MaterialSkin.Controls.MaterialLabel();
+            this.lblRepsRemaining = new MaterialSkin.Controls.MaterialLabel();
+            this.lblRepRem = new MaterialSkin.Controls.MaterialLabel();
+            this.rtbDescription = new MaterialSkin.Controls.MaterialMultiLineTextBox();
+            this.lblDesc = new MaterialSkin.Controls.MaterialLabel();
+            this.btnCompleteStep = new MaterialSkin.Controls.MaterialButton();
+            this.btnClose = new MaterialSkin.Controls.MaterialButton();
             this.SuspendLayout();
             // 
-            // btnCloseForm
+            // lblStep
             // 
-            this.btnCloseForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCloseForm.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnCloseForm.Location = new System.Drawing.Point(246, 273);
-            this.btnCloseForm.Name = "btnCloseForm";
-            this.btnCloseForm.Size = new System.Drawing.Size(145, 66);
-            this.btnCloseForm.TabIndex = 0;
-            this.btnCloseForm.Text = "Close";
-            this.btnCloseForm.UseVisualStyleBackColor = true;
-            this.btnCloseForm.Click += new System.EventHandler(this.btnCloseForm_Click);
-            // 
-            // btnCompleteStep
-            // 
-            this.btnCompleteStep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCompleteStep.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnCompleteStep.Location = new System.Drawing.Point(25, 273);
-            this.btnCompleteStep.Name = "btnCompleteStep";
-            this.btnCompleteStep.Size = new System.Drawing.Size(145, 66);
-            this.btnCompleteStep.TabIndex = 0;
-            this.btnCompleteStep.Text = "Complete step";
-            this.btnCompleteStep.UseVisualStyleBackColor = true;
-            this.btnCompleteStep.Click += new System.EventHandler(this.btnCompleteStep_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.ForeColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(25, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 21);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Step";
+            this.lblStep.AutoSize = true;
+            this.lblStep.Depth = 0;
+            this.lblStep.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblStep.Location = new System.Drawing.Point(28, 74);
+            this.lblStep.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblStep.Name = "lblStep";
+            this.lblStep.Size = new System.Drawing.Size(33, 19);
+            this.lblStep.TabIndex = 3;
+            this.lblStep.Text = "Step";
             // 
             // lblStepNumber
             // 
             this.lblStepNumber.AutoSize = true;
-            this.lblStepNumber.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblStepNumber.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblStepNumber.Location = new System.Drawing.Point(75, 33);
+            this.lblStepNumber.Depth = 0;
+            this.lblStepNumber.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblStepNumber.Location = new System.Drawing.Point(67, 74);
+            this.lblStepNumber.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblStepNumber.Name = "lblStepNumber";
-            this.lblStepNumber.Size = new System.Drawing.Size(19, 21);
-            this.lblStepNumber.TabIndex = 1;
+            this.lblStepNumber.Size = new System.Drawing.Size(11, 19);
+            this.lblStepNumber.TabIndex = 4;
             this.lblStepNumber.Text = "#";
             // 
-            // rtbDescription
+            // lblRepsRemaining
             // 
-            this.rtbDescription.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.rtbDescription.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.rtbDescription.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.rtbDescription.Location = new System.Drawing.Point(25, 83);
-            this.rtbDescription.Name = "rtbDescription";
-            this.rtbDescription.ReadOnly = true;
-            this.rtbDescription.Size = new System.Drawing.Size(366, 141);
-            this.rtbDescription.TabIndex = 2;
-            this.rtbDescription.Text = "";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(230, 18);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(123, 21);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Reps remaining";
+            this.lblRepsRemaining.AutoSize = true;
+            this.lblRepsRemaining.Depth = 0;
+            this.lblRepsRemaining.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblRepsRemaining.Location = new System.Drawing.Point(193, 74);
+            this.lblRepsRemaining.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblRepsRemaining.Name = "lblRepsRemaining";
+            this.lblRepsRemaining.Size = new System.Drawing.Size(155, 19);
+            this.lblRepsRemaining.TabIndex = 5;
+            this.lblRepsRemaining.Text = "Repetitions remaining";
             // 
             // lblRepRem
             // 
             this.lblRepRem.AutoSize = true;
-            this.lblRepRem.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblRepRem.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblRepRem.Location = new System.Drawing.Point(352, 18);
+            this.lblRepRem.Depth = 0;
+            this.lblRepRem.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblRepRem.Location = new System.Drawing.Point(354, 74);
+            this.lblRepRem.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblRepRem.Name = "lblRepRem";
-            this.lblRepRem.Size = new System.Drawing.Size(19, 21);
-            this.lblRepRem.TabIndex = 1;
+            this.lblRepRem.Size = new System.Drawing.Size(11, 19);
+            this.lblRepRem.TabIndex = 6;
             this.lblRepRem.Text = "#";
             // 
-            // lblClicksRemainingTxt
+            // rtbDescription
             // 
-            this.lblClicksRemainingTxt.AutoSize = true;
-            this.lblClicksRemainingTxt.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblClicksRemainingTxt.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblClicksRemainingTxt.Location = new System.Drawing.Point(230, 49);
-            this.lblClicksRemainingTxt.Name = "lblClicksRemainingTxt";
-            this.lblClicksRemainingTxt.Size = new System.Drawing.Size(128, 21);
-            this.lblClicksRemainingTxt.TabIndex = 1;
-            this.lblClicksRemainingTxt.Text = "Clicks remaining";
-            this.lblClicksRemainingTxt.Visible = false;
+            this.rtbDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.rtbDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbDescription.Depth = 0;
+            this.rtbDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rtbDescription.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.rtbDescription.Hint = "";
+            this.rtbDescription.Location = new System.Drawing.Point(28, 139);
+            this.rtbDescription.MouseState = MaterialSkin.MouseState.HOVER;
+            this.rtbDescription.Name = "rtbDescription";
+            this.rtbDescription.Size = new System.Drawing.Size(351, 142);
+            this.rtbDescription.TabIndex = 7;
+            this.rtbDescription.Text = "";
             // 
-            // lblClicksRemainingNumber
+            // lblDesc
             // 
-            this.lblClicksRemainingNumber.AutoSize = true;
-            this.lblClicksRemainingNumber.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblClicksRemainingNumber.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblClicksRemainingNumber.Location = new System.Drawing.Point(352, 49);
-            this.lblClicksRemainingNumber.Name = "lblClicksRemainingNumber";
-            this.lblClicksRemainingNumber.Size = new System.Drawing.Size(19, 21);
-            this.lblClicksRemainingNumber.TabIndex = 1;
-            this.lblClicksRemainingNumber.Text = "#";
-            this.lblClicksRemainingNumber.Visible = false;
+            this.lblDesc.AutoSize = true;
+            this.lblDesc.Depth = 0;
+            this.lblDesc.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblDesc.Location = new System.Drawing.Point(28, 117);
+            this.lblDesc.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblDesc.Name = "lblDesc";
+            this.lblDesc.Size = new System.Drawing.Size(115, 19);
+            this.lblDesc.TabIndex = 8;
+            this.lblDesc.Text = "Step description";
+            // 
+            // btnCompleteStep
+            // 
+            this.btnCompleteStep.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnCompleteStep.Depth = 0;
+            this.btnCompleteStep.DrawShadows = true;
+            this.btnCompleteStep.HighEmphasis = true;
+            this.btnCompleteStep.Icon = null;
+            this.btnCompleteStep.Location = new System.Drawing.Point(28, 323);
+            this.btnCompleteStep.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnCompleteStep.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnCompleteStep.Name = "btnCompleteStep";
+            this.btnCompleteStep.Size = new System.Drawing.Size(136, 36);
+            this.btnCompleteStep.TabIndex = 9;
+            this.btnCompleteStep.Text = "Complete step";
+            this.btnCompleteStep.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnCompleteStep.UseAccentColor = false;
+            this.btnCompleteStep.UseVisualStyleBackColor = true;
+            this.btnCompleteStep.Click += new System.EventHandler(this.btnCompleteStep_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnClose.Depth = 0;
+            this.btnClose.DrawShadows = true;
+            this.btnClose.HighEmphasis = true;
+            this.btnClose.Icon = null;
+            this.btnClose.Location = new System.Drawing.Point(313, 323);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnClose.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(66, 36);
+            this.btnClose.TabIndex = 10;
+            this.btnClose.Text = "Close";
+            this.btnClose.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnClose.UseAccentColor = false;
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // TestForm
             // 
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(427, 371);
-            this.Controls.Add(this.rtbDescription);
-            this.Controls.Add(this.lblStepNumber);
-            this.Controls.Add(this.lblClicksRemainingNumber);
-            this.Controls.Add(this.lblRepRem);
-            this.Controls.Add(this.lblClicksRemainingTxt);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(399, 376);
+            this.Controls.Add(this.lblRepsRemaining);
             this.Controls.Add(this.btnCompleteStep);
-            this.Controls.Add(this.btnCloseForm);
+            this.Controls.Add(this.lblStep);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.lblStepNumber);
+            this.Controls.Add(this.rtbDescription);
+            this.Controls.Add(this.lblDesc);
+            this.Controls.Add(this.lblRepRem);
             this.KeyPreview = true;
             this.Name = "TestForm";
-            this.Text = "Test";
+            this.Text = "Test body";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TestForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -317,6 +324,7 @@ namespace MemoryStepsUI
             m_GlobalHook.Dispose();
         }
 
+
         private void btnCompleteStep_Click(object sender, EventArgs e)
         {
             if (timer is null)
@@ -333,6 +341,11 @@ namespace MemoryStepsUI
             }
 
             CompleteStep();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
