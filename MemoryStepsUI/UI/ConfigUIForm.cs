@@ -3,6 +3,7 @@ using Gma.System.MouseKeyHook;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using MemoryStepsUI.Services;
+using MemoryStepsUI.UI;
 using Microsoft.Test.Input;
 using System;
 using System.Collections.Generic;
@@ -806,6 +807,7 @@ namespace MemoryStepsUI
 
         private void LaunchAutoclicker()
         {
+            Application.DoEvents();
             this.Hide();
 
             _executor = new CursorExecutorService(cursorRegister);
@@ -833,6 +835,5 @@ namespace MemoryStepsUI
             this.Hide();
         }
 
-       
     }
 }
