@@ -217,9 +217,9 @@ namespace MemoryStepsUI
             this.lblRepsText.Location = new System.Drawing.Point(44, 101);
             this.lblRepsText.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblRepsText.Name = "lblRepsText";
-            this.lblRepsText.Size = new System.Drawing.Size(150, 19);
+            this.lblRepsText.Size = new System.Drawing.Size(154, 19);
             this.lblRepsText.TabIndex = 20;
-            this.lblRepsText.Text = "Number of repetitons";
+            this.lblRepsText.Text = "Number of repetitions";
             this.lblRepsText.UseAccent = true;
             // 
             // materialDivider1
@@ -473,6 +473,7 @@ namespace MemoryStepsUI
             this.rtbAutoclickerCurrentConfig.Location = new System.Drawing.Point(44, 134);
             this.rtbAutoclickerCurrentConfig.MouseState = MaterialSkin.MouseState.HOVER;
             this.rtbAutoclickerCurrentConfig.Name = "rtbAutoclickerCurrentConfig";
+            this.rtbAutoclickerCurrentConfig.ReadOnly = true;
             this.rtbAutoclickerCurrentConfig.Size = new System.Drawing.Size(733, 389);
             this.rtbAutoclickerCurrentConfig.TabIndex = 5;
             this.rtbAutoclickerCurrentConfig.Text = "";
@@ -486,9 +487,9 @@ namespace MemoryStepsUI
             this.lblAutoclickerSummary.Location = new System.Drawing.Point(44, 101);
             this.lblAutoclickerSummary.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblAutoclickerSummary.Name = "lblAutoclickerSummary";
-            this.lblAutoclickerSummary.Size = new System.Drawing.Size(222, 19);
+            this.lblAutoclickerSummary.Size = new System.Drawing.Size(151, 19);
             this.lblAutoclickerSummary.TabIndex = 4;
-            this.lblAutoclickerSummary.Text = "Current configuration summary";
+            this.lblAutoclickerSummary.Text = "Current configuration";
             // 
             // materialCard1
             // 
@@ -563,7 +564,7 @@ namespace MemoryStepsUI
             // 
             this.txtBoxKeybind.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtBoxKeybind.Depth = 0;
-            this.txtBoxKeybind.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtBoxKeybind.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtBoxKeybind.Location = new System.Drawing.Point(256, 204);
             this.txtBoxKeybind.MaxLength = 50;
             this.txtBoxKeybind.MouseState = MaterialSkin.MouseState.OUT;
