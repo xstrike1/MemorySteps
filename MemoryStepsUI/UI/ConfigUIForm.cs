@@ -77,6 +77,7 @@ namespace MemoryStepsUI
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Purple800, Primary.Purple900, Primary.Purple500, Accent.DeepPurple200, TextShade.WHITE);
             tbRepsTextBox.Text = "5";
+            this.Icon = Properties.Resources.logo;
         }
 
         private void InitializeComponent()
@@ -629,6 +630,7 @@ namespace MemoryStepsUI
             this.DrawerShowIconsWhenHidden = true;
             this.DrawerTabControl = this.materialTabControl1;
             this.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(616, 0);
             this.Name = "ConfigUIForm";
             this.Text = "Memory steps 2";

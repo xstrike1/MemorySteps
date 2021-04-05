@@ -29,6 +29,7 @@ namespace MemoryStepsUI.UI
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Purple800, Primary.Purple900, Primary.Purple500, Accent.DeepPurple200, TextShade.WHITE);
+            this.Icon = Properties.Resources.logo;
         }
 
         public AutoclickerForm(ConfigUIForm parent, CursorExecutorService executor, long totalDuration) 
