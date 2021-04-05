@@ -71,27 +71,35 @@ namespace MemoryStepsUI.Services
         {
             Stopwatch timer = new Stopwatch();
             timer.Start();
+            long firstCharacterTick = 0;
+            bool charactersPressed = false;
 
-            while (timer.ElapsedTicks < cursor.Ticks) //Need to change this asap
+            if (pressedCharacters.Count > 0)
+                firstCharacterTick = pressedCharacters.FirstOrDefault().Key;
+            else
+                charactersPressed = true;
+
+
+            while (timer.ElapsedTicks < cursor.Ticks)
             {
-                timer.Stop();
-
                 if (form.CancelHasBeenRequested)
                     return;
 
-                if (pressedCharacters.ContainsKey(timer.ElapsedTicks)) 
+                if (!charactersPressed && firstCharacterTick != 0 && timer.ElapsedTicks > firstCharacterTick)
                 {
-                    SendKeys.Send(pressedCharacters[timer.ElapsedTicks].ToString());
+                    foreach (var value in pressedCharacters.Values)
+                        SendKeys.Send(value.ToString());
+
+                    charactersPressed = true;
                 }
 
-                timer.Start();
             }
+            timer.Stop();
 
             Mouse.MoveTo(cursor.Position);
             Mouse.Click(cursor.ButtonPressed);
 
             StepCompleted?.Invoke(cursor.Ticks);
-            timer.Stop();
         }
     }
 }
