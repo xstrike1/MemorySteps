@@ -27,7 +27,7 @@ namespace MemoryStepsUI.Services
             long duration = 0;
             foreach (var cursor in _cursorRegister.CursorList) 
             {
-                duration += cursor.Ticks;
+                duration += cursor.Miliseconds;
             }
 
             return duration;
@@ -71,21 +71,21 @@ namespace MemoryStepsUI.Services
         {
             Stopwatch timer = new Stopwatch();
             timer.Start();
-            long firstCharacterTick = 0;
+            long firstCharacterMs = 0;
             bool charactersPressed = false;
 
             if (pressedCharacters.Count > 0)
-                firstCharacterTick = pressedCharacters.FirstOrDefault().Key;
+                firstCharacterMs = pressedCharacters.FirstOrDefault().Key;
             else
                 charactersPressed = true;
 
 
-            while (timer.ElapsedTicks < cursor.Ticks)
+            while (timer.ElapsedMilliseconds < cursor.Miliseconds)
             {
                 if (form.CancelHasBeenRequested)
                     return;
 
-                if (!charactersPressed && firstCharacterTick != 0 && timer.ElapsedTicks > firstCharacterTick)
+                if (!charactersPressed && firstCharacterMs != 0 && timer.ElapsedMilliseconds > firstCharacterMs)
                 {
                     foreach (var value in pressedCharacters.Values)
                         SendKeys.Send(value.ToString());
@@ -99,7 +99,7 @@ namespace MemoryStepsUI.Services
             Mouse.MoveTo(cursor.Position);
             Mouse.Click(cursor.ButtonPressed);
 
-            StepCompleted?.Invoke(cursor.Ticks);
+            StepCompleted?.Invoke(cursor.Miliseconds);
         }
     }
 }

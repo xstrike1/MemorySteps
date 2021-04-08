@@ -15,17 +15,17 @@ namespace MemoryStepsUI.Services
         private List<CursorEntity> _cursorList = new List<CursorEntity>();
         public List<CursorEntity> CursorList => _cursorList;
 
-        public void ResetList() 
+        public void ResetList()
         {
             _cursorList = new List<CursorEntity>();
         }
 
-        public void LoadList(List<CursorEntity> cursorList) 
+        public void LoadList(List<CursorEntity> cursorList)
         {
             _cursorList = cursorList.ToList();
         }
 
-        public void RegisterMouseButtonClick(Point position, MouseButtons button) 
+        public void RegisterMouseButtonClick(Point position, MouseButtons button)
         {
             StopLastCursorTimewatch();
 
@@ -38,22 +38,25 @@ namespace MemoryStepsUI.Services
             _cursorList.Add(new CursorEntity(position, btn));
         }
 
-        public void RegisterKeyPress(char key) 
+        public void RegisterKeyPress(char key)
         {
-            if (_cursorList.Count <1)
+            if (_cursorList.Count < 1)
                 return;
 
             var currentCursor = _cursorList[_cursorList.Count - 1];
-            currentCursor.PressedCharacters.Add(currentCursor.Time.ElapsedTicks, key);
+            currentCursor.PressedCharacters.Add(currentCursor.Time.ElapsedMilliseconds, key);
         }
 
-        public void StopLastCursorTimewatch() 
+        public void StopLastCursorTimewatch(bool unsubscribe = false)
         {
             if (_cursorList.Count == 0)
                 return;
 
             _cursorList[_cursorList.Count - 1].Time.Stop();
-            _cursorList[_cursorList.Count - 1].Ticks = _cursorList[_cursorList.Count - 1].Time.ElapsedTicks;
+            _cursorList[_cursorList.Count - 1].Miliseconds = _cursorList[_cursorList.Count - 1].Time.ElapsedMilliseconds;
+
+            if (unsubscribe)
+                _cursorList[_cursorList.Count - 1].Miliseconds += 1500;
         }
     }
 }

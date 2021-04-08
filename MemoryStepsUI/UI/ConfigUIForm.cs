@@ -764,7 +764,7 @@ namespace MemoryStepsUI
             m_GlobalHook.KeyPress -= GlobalHookKeyPress;
             m_GlobalHook.MouseClick -= GlobalHook_MouseClick;
 
-            cursorRegister.StopLastCursorTimewatch();
+            cursorRegister.StopLastCursorTimewatch(true);
             m_GlobalHook.Dispose();
 
             this.Show();
