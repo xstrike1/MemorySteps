@@ -2,9 +2,11 @@
 using Microsoft.Test.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,7 +14,7 @@ namespace MemoryStepsUI.Services
 {
     public class CursorRegisterService
     {
-        private List<CursorEntity> _cursorList = new List<CursorEntity>();
+        private List<CursorEntity> _cursorList = new();
         public List<CursorEntity> CursorList => _cursorList;
 
         public void ResetList()
@@ -36,6 +38,8 @@ namespace MemoryStepsUI.Services
                 btn = MouseButton.Middle;
 
             _cursorList.Add(new CursorEntity(position, btn));
+
+
         }
 
         public void RegisterKeyPress(char key)
@@ -43,7 +47,7 @@ namespace MemoryStepsUI.Services
             if (_cursorList.Count < 1)
                 return;
 
-            var currentCursor = _cursorList[_cursorList.Count - 1];
+            var currentCursor = _cursorList[^1];
             currentCursor.PressedCharacters.Add(currentCursor.Time.ElapsedMilliseconds, key);
         }
 
@@ -52,11 +56,11 @@ namespace MemoryStepsUI.Services
             if (_cursorList.Count == 0)
                 return;
 
-            _cursorList[_cursorList.Count - 1].Time.Stop();
-            _cursorList[_cursorList.Count - 1].Miliseconds = _cursorList[_cursorList.Count - 1].Time.ElapsedMilliseconds;
-
+            _cursorList[^1].Time.Stop();
+            _cursorList[^1].Milliseconds = _cursorList[^1].Time.ElapsedMilliseconds;
+        
             if (unsubscribe)
-                _cursorList[_cursorList.Count - 1].Miliseconds += 1500;
+                _cursorList[^1].Milliseconds += 1500;
         }
     }
 }

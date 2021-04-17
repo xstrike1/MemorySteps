@@ -43,7 +43,7 @@ namespace MemoryStepsUI.UI
             this.btnExit.DrawShadows = true;
             this.btnExit.HighEmphasis = true;
             this.btnExit.Icon = null;
-            this.btnExit.Location = new System.Drawing.Point(730, 167);
+            this.btnExit.Location = new System.Drawing.Point(730, 149);
             this.btnExit.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btnExit.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnExit.Name = "btnExit";
@@ -53,6 +53,7 @@ namespace MemoryStepsUI.UI
             this.btnExit.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btnExit.UseAccentColor = false;
             this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Visible = false;
             this.btnExit.Click += new System.EventHandler(this.materialButton1_Click);
             // 
             // progressBar
@@ -64,6 +65,7 @@ namespace MemoryStepsUI.UI
             this.progressBar.Size = new System.Drawing.Size(754, 5);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 1;
+            this.progressBar.Visible = false;
             // 
             // lblHint
             // 
@@ -89,6 +91,7 @@ namespace MemoryStepsUI.UI
             this.lblCurrentProgress.Size = new System.Drawing.Size(117, 19);
             this.lblCurrentProgress.TabIndex = 3;
             this.lblCurrentProgress.Text = "Current progress";
+            this.lblCurrentProgress.Visible = false;
             // 
             // lblProgressVal
             // 
@@ -101,12 +104,13 @@ namespace MemoryStepsUI.UI
             this.lblProgressVal.Size = new System.Drawing.Size(22, 19);
             this.lblProgressVal.TabIndex = 4;
             this.lblProgressVal.Text = "0%";
+            this.lblProgressVal.Visible = false;
             // 
             // AutoclickerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(813, 273);
+            this.ClientSize = new System.Drawing.Size(813, 193);
             this.Controls.Add(this.lblProgressVal);
             this.Controls.Add(this.lblCurrentProgress);
             this.Controls.Add(this.lblHint);

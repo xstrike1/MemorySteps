@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,7 +16,7 @@ namespace MemoryStepsUI.Services
     public class CursorExecutorService
     {
         public event Action<long> StepCompleted;
-        private CursorRegisterService _cursorRegister;
+        private readonly CursorRegisterService _cursorRegister;
         private CursorExecutorService() { }
 
         public CursorExecutorService(CursorRegisterService cursorRegister) 
@@ -22,15 +24,9 @@ namespace MemoryStepsUI.Services
             _cursorRegister = cursorRegister;
         }
 
-        public long GetTotalDuration() 
+        public long GetTotalDuration()
         {
-            long duration = 0;
-            foreach (var cursor in _cursorRegister.CursorList) 
-            {
-                duration += cursor.Miliseconds;
-            }
-
-            return duration;
+            return _cursorRegister.CursorList.Sum(cursor => cursor.Milliseconds);
         }
 
         public void Execute(ConfigUIForm parentForm)  
@@ -40,8 +36,8 @@ namespace MemoryStepsUI.Services
                 return;
             }
 
-            long totalDuration = GetTotalDuration();
-            AutoclickerForm autoclickerForm = new AutoclickerForm(parentForm, this, totalDuration);
+            var totalDuration = GetTotalDuration();
+            var autoclickerForm = new AutoclickerForm(parentForm, this, totalDuration) {TopMost = true};
             autoclickerForm.Show();
             Application.DoEvents(); 
 
@@ -50,13 +46,12 @@ namespace MemoryStepsUI.Services
 
         private void InternalExecute(ConfigUIForm parentForm, AutoclickerForm autoclickerForm) 
         {
-            for (int i = 0; i < _cursorRegister.CursorList.Count; i++)
-            {
-                Dictionary<long, char> lastCursorDictionary = i == 0 ?
-                    new Dictionary<long, char>() :
-                    _cursorRegister.CursorList[i - 1].PressedCharacters;
+           ExecuteMouseClick(_cursorRegister.CursorList[0]);
 
-                ExecuteCursor(_cursorRegister.CursorList[i], lastCursorDictionary, autoclickerForm);
+            for (int i = 1; i < _cursorRegister.CursorList.Count; i++)
+            {
+                var previousCursorEntity = _cursorRegister.CursorList[i - 1];
+                ExecuteCursor(_cursorRegister.CursorList[i], previousCursorEntity, autoclickerForm);
 
                 if (autoclickerForm.CancelHasBeenRequested)
                     break;
@@ -64,42 +59,45 @@ namespace MemoryStepsUI.Services
 
             autoclickerForm.Hide();
             parentForm.Show();
-            return;
         }
 
-        private void ExecuteCursor(CursorEntity cursor, Dictionary<long, char> pressedCharacters, IFormWithCancelRequest form) 
+        private void ExecuteCursor(CursorEntity cursor, CursorEntity previousCursor,  IFormWithCancelRequest form) 
         {
-            Stopwatch timer = new Stopwatch();
+            var timer = new Stopwatch();
             timer.Start();
             long firstCharacterMs = 0;
-            bool charactersPressed = false;
+            var charactersPressed = false;
 
-            if (pressedCharacters.Count > 0)
-                firstCharacterMs = pressedCharacters.FirstOrDefault().Key;
+            if (previousCursor.PressedCharacters.Count > 0)
+                firstCharacterMs = previousCursor.PressedCharacters.FirstOrDefault().Key;
             else
                 charactersPressed = true;
 
-
-            while (timer.ElapsedMilliseconds < cursor.Miliseconds)
+            while (timer.ElapsedMilliseconds < previousCursor.Milliseconds)
             {
                 if (form.CancelHasBeenRequested)
                     return;
 
-                if (!charactersPressed && firstCharacterMs != 0 && timer.ElapsedMilliseconds > firstCharacterMs)
-                {
-                    foreach (var value in pressedCharacters.Values)
-                        SendKeys.Send(value.ToString());
+                if (charactersPressed || firstCharacterMs == 0 ||
+                    timer.ElapsedMilliseconds <= firstCharacterMs) continue;
 
-                    charactersPressed = true;
-                }
+                foreach (var value in previousCursor.PressedCharacters.Values)
+                    SendKeys.Send(value.ToString());
 
+                charactersPressed = true;
             }
             timer.Stop();
 
+            ExecuteMouseClick(cursor);
+
+            StepCompleted?.Invoke(previousCursor.Milliseconds);
+        }
+
+        private void ExecuteMouseClick(CursorEntity cursor)
+        {
             Mouse.MoveTo(cursor.Position);
             Mouse.Click(cursor.ButtonPressed);
-
-            StepCompleted?.Invoke(cursor.Miliseconds);
         }
+
     }
 }

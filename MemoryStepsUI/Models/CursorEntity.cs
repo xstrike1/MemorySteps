@@ -18,7 +18,7 @@ namespace MemoryStepsUI.Models
         [NonSerialized]
         public Stopwatch Time;
 
-        public long Miliseconds; 
+        public long Milliseconds; 
        
         public Dictionary<long, char> PressedCharacters { get; set; }
         public MouseButton ButtonPressed { get; set; }

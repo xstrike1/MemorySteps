@@ -11,13 +11,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MemoryStepsUI.Properties;
 
 namespace MemoryStepsUI.UI
 {
     public partial class AutoclickerForm : MaterialForm, IFormWithCancelRequest
     {
         public bool CancelHasBeenRequested { get; set; }
-        private IKeyboardMouseEvents m_GlobalHook;
+        private IKeyboardMouseEvents _globalHook;
         private ConfigUIForm _parent;
         private CursorExecutorService _executor;
         private decimal _totalDuration;
@@ -32,16 +33,27 @@ namespace MemoryStepsUI.UI
             this.Icon = Properties.Resources.logo;
         }
 
-        public AutoclickerForm(ConfigUIForm parent, CursorExecutorService executor, long totalDuration) 
-            : this() 
+        public AutoclickerForm(ConfigUIForm parent) 
+            :this()
         {
             _parent = parent;
-            _executor = executor;
-            _totalDuration = totalDuration;
-            TopLevel = true;
-            lblHint.Text = $"To cancel current execution press {parent.CompleteTestKeyBind}";
+            lblHint.Text = string.Format(Resources.AutoclickerForm_AutoclickerForm_To_cancel_current_execution_press__0_, parent.CompleteTestKeyBind.ToString());
             Rectangle res = Screen.PrimaryScreen.Bounds;
             this.Location = new Point(res.Width - Size.Width, res.Height - Size.Height);
+
+        }
+
+
+        public AutoclickerForm(ConfigUIForm parent, CursorExecutorService executor, long totalDuration) 
+            : this(parent) 
+        {
+            _executor = executor;
+            _totalDuration = totalDuration;
+            progressBar.Visible = true;
+            btnExit.Visible = true;
+            lblCurrentProgress.Visible = true;
+            lblProgressVal.Visible = true;
+
             Subscribe();
         }
 
@@ -58,9 +70,9 @@ namespace MemoryStepsUI.UI
 
         public void Subscribe()
         {
-            m_GlobalHook = Hook.GlobalEvents();
+            _globalHook = Hook.GlobalEvents();
 
-            m_GlobalHook.KeyPress += GlobalHookKeyPress;
+            _globalHook.KeyPress += GlobalHookKeyPress;
             _executor.StepCompleted += _executor_StepCompleted;
         }
 
@@ -74,24 +86,24 @@ namespace MemoryStepsUI.UI
 
         public void Unsubscribe()
         {
-            if (m_GlobalHook == null)
+            if (_globalHook == null)
                 return;
 
-            m_GlobalHook.KeyPress -= GlobalHookKeyPress;
+            _globalHook.KeyPress -= GlobalHookKeyPress;
             _executor.StepCompleted -= _executor_StepCompleted;
 
-            m_GlobalHook.Dispose();
+            _globalHook.Dispose();
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == _parent.CompleteTestKeyBind)
-            {
-                Unsubscribe();
-                e.Handled = true;
-                CancelHasBeenRequested = true;
-                lblHint.Text = "Execution canceled by user";
-            }
+            if (e.KeyChar != _parent.CompleteTestKeyBind)
+                return;
+
+            Unsubscribe();
+            e.Handled = true;
+            CancelHasBeenRequested = true;
+            lblHint.Text = "Execution canceled by user";
         }
     }
 }

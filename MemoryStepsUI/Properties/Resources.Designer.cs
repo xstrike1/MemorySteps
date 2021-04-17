@@ -61,6 +61,15 @@ namespace MemoryStepsUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To cancel current execution press {0}.
+        /// </summary>
+        internal static string AutoclickerForm_AutoclickerForm_To_cancel_current_execution_press__0_ {
+            get {
+                return ResourceManager.GetString("AutoclickerForm_AutoclickerForm_To_cancel_current_execution_press__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap home_icon {

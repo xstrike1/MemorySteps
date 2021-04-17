@@ -5,9 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+using MemoryStepsUI.UI;
 
 
-namespace MemoryStepsUI
+namespace MemoryStepsUI.UI
 {
     public partial class TestForm : MaterialForm
     {

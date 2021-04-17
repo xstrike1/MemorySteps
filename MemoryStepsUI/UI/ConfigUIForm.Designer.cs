@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MemoryStepsUI {
+namespace MemoryStepsUI.UI {
     using System;
     
     
@@ -32,8 +32,7 @@ namespace MemoryStepsUI {
         
         private static global::System.Globalization.CultureInfo _resourceCulture;
         
-      
-        
+     
         /// <summary>
         /// Thread safe lock object used by this class.
         /// </summary>
@@ -56,7 +55,7 @@ namespace MemoryStepsUI {
                     global::System.Threading.Monitor.Enter(InternalSyncObject);
                     try {
                         if (object.ReferenceEquals(_resourceManager, null)) {
-                            global::System.Threading.Interlocked.Exchange(ref _resourceManager, new global::System.Resources.ResourceManager("MemoryStepsUI.ConfigUIForm", typeof(ConfigUIForm).Assembly));
+                            global::System.Threading.Interlocked.Exchange(ref _resourceManager, new global::System.Resources.ResourceManager("MemoryStepsUI.UI.ConfigUIForm", typeof(ConfigUIForm).Assembly));
                         }
                     }
                     finally {
@@ -82,9 +81,107 @@ namespace MemoryStepsUI {
         }
         
         /// <summary>
+        /// Looks up a resource 'btnAddStep.Icon'.
+        /// </summary>
+        public static System.Drawing.Bitmap btnAddStep_Icon {
+            get {
+                return ((System.Drawing.Bitmap)(ResourceManager.GetObject(ResourceNames.btnAddStep_Icon, _resourceCulture)));
+            }
+        }
+        
+        /// <summary>
+        /// Looks up a resource 'btnLaunchTest.Icon'.
+        /// </summary>
+        public static System.Drawing.Bitmap btnLaunchTest_Icon {
+            get {
+                return ((System.Drawing.Bitmap)(ResourceManager.GetObject(ResourceNames.btnLaunchTest_Icon, _resourceCulture)));
+            }
+        }
+        
+        /// <summary>
+        /// Looks up a resource 'btnLoadConfig.Icon'.
+        /// </summary>
+        public static System.Drawing.Bitmap btnLoadConfig_Icon {
+            get {
+                return ((System.Drawing.Bitmap)(ResourceManager.GetObject(ResourceNames.btnLoadConfig_Icon, _resourceCulture)));
+            }
+        }
+        
+        /// <summary>
+        /// Looks up a resource 'btnRemoveStp.Icon'.
+        /// </summary>
+        public static System.Drawing.Bitmap btnRemoveStp_Icon {
+            get {
+                return ((System.Drawing.Bitmap)(ResourceManager.GetObject(ResourceNames.btnRemoveStp_Icon, _resourceCulture)));
+            }
+        }
+        
+        /// <summary>
+        /// Looks up a resource 'btnSaveConfig.Icon'.
+        /// </summary>
+        public static System.Drawing.Bitmap btnSaveConfig_Icon {
+            get {
+                return ((System.Drawing.Bitmap)(ResourceManager.GetObject(ResourceNames.btnSaveConfig_Icon, _resourceCulture)));
+            }
+        }
+        
+        /// <summary>
+        /// Looks up a resource 'btnStartManualConfig.Icon'.
+        /// </summary>
+        public static System.Drawing.Bitmap btnStartManualConfig_Icon {
+            get {
+                return ((System.Drawing.Bitmap)(ResourceManager.GetObject(ResourceNames.btnStartManualConfig_Icon, _resourceCulture)));
+            }
+        }
+        
+        /// <summary>
+        /// Looks up a resource 'icons_imageList.ImageStream'.
+        /// </summary>
+        public static object icons_imageList_ImageStream {
+            get {
+                return ((object)(ResourceManager.GetObject(ResourceNames.icons_imageList_ImageStream, _resourceCulture)));
+            }
+        }
+        
+        /// <summary>
         /// Lists all the resource names as constant string fields.
         /// </summary>
         public class ResourceNames {
+            
+            /// <summary>
+            /// Stores the resource name 'btnAddStep.Icon'.
+            /// </summary>
+            public const string btnAddStep_Icon = "btnAddStep.Icon";
+            
+            /// <summary>
+            /// Stores the resource name 'btnLaunchTest.Icon'.
+            /// </summary>
+            public const string btnLaunchTest_Icon = "btnLaunchTest.Icon";
+            
+            /// <summary>
+            /// Stores the resource name 'btnLoadConfig.Icon'.
+            /// </summary>
+            public const string btnLoadConfig_Icon = "btnLoadConfig.Icon";
+            
+            /// <summary>
+            /// Stores the resource name 'btnRemoveStp.Icon'.
+            /// </summary>
+            public const string btnRemoveStp_Icon = "btnRemoveStp.Icon";
+            
+            /// <summary>
+            /// Stores the resource name 'btnSaveConfig.Icon'.
+            /// </summary>
+            public const string btnSaveConfig_Icon = "btnSaveConfig.Icon";
+            
+            /// <summary>
+            /// Stores the resource name 'btnStartManualConfig.Icon'.
+            /// </summary>
+            public const string btnStartManualConfig_Icon = "btnStartManualConfig.Icon";
+            
+            /// <summary>
+            /// Stores the resource name 'icons_imageList.ImageStream'.
+            /// </summary>
+            public const string icons_imageList_ImageStream = "icons_imageList.ImageStream";
         }
     }
 }

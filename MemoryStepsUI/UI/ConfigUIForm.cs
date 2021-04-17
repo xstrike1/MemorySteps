@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MemoryStepsUI
+namespace MemoryStepsUI.UI
 {
     public partial class ConfigUIForm : MaterialForm
     {
@@ -190,9 +190,9 @@ namespace MemoryStepsUI
             this.switchAutoclicker.MouseState = MaterialSkin.MouseState.HOVER;
             this.switchAutoclicker.Name = "switchAutoclicker";
             this.switchAutoclicker.Ripple = true;
-            this.switchAutoclicker.Size = new System.Drawing.Size(165, 37);
+            this.switchAutoclicker.Size = new System.Drawing.Size(168, 37);
             this.switchAutoclicker.TabIndex = 22;
-            this.switchAutoclicker.Text = "Use autoclicker";
+            this.switchAutoclicker.Text = "Use AutoClicker";
             this.switchAutoclicker.UseVisualStyleBackColor = true;
             // 
             // tbRepsTextBox
@@ -385,7 +385,7 @@ namespace MemoryStepsUI
             this.tabAutoclicker.Name = "tabAutoclicker";
             this.tabAutoclicker.Size = new System.Drawing.Size(888, 616);
             this.tabAutoclicker.TabIndex = 2;
-            this.tabAutoclicker.Text = "Autoclicker";
+            this.tabAutoclicker.Text = "AutoClicker";
             this.tabAutoclicker.UseVisualStyleBackColor = true;
             // 
             // materialCard3
@@ -516,9 +516,9 @@ namespace MemoryStepsUI
             this.lblAutoclickerTitle.Location = new System.Drawing.Point(9, 16);
             this.lblAutoclickerTitle.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblAutoclickerTitle.Name = "lblAutoclickerTitle";
-            this.lblAutoclickerTitle.Size = new System.Drawing.Size(271, 29);
+            this.lblAutoclickerTitle.Size = new System.Drawing.Size(274, 29);
             this.lblAutoclickerTitle.TabIndex = 0;
-            this.lblAutoclickerTitle.Text = "Autoclicker configuration";
+            this.lblAutoclickerTitle.Text = "AutoClicker configuration";
             // 
             // tabSettings
             // 
@@ -766,7 +766,8 @@ namespace MemoryStepsUI
 
             cursorRegister.StopLastCursorTimewatch(true);
             m_GlobalHook.Dispose();
-
+            autoclickerF.Hide();
+            autoclickerF.Dispose();
             this.Show();
             rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.CursorList);
         }
@@ -789,10 +790,16 @@ namespace MemoryStepsUI
             e.Handled = true;
         }
 
+        private AutoclickerForm autoclickerF; 
         private void btnStartManualConfig_Click(object sender, EventArgs e)
         {
             this.Hide();
             cursorRegister.ResetList();
+            autoclickerF = new AutoclickerForm(this)
+            {
+                TopMost = true
+            };
+            autoclickerF.Show();
             Subscribe();
         }
 
