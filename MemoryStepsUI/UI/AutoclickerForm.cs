@@ -43,7 +43,6 @@ namespace MemoryStepsUI.UI
 
         }
 
-
         public AutoclickerForm(MainForm parent, CursorExecutorService executor, long totalDuration) 
             : this(parent) 
         {
@@ -70,9 +69,7 @@ namespace MemoryStepsUI.UI
 
         public void Subscribe()
         {
-            _globalHook = Hook.GlobalEvents();
-
-            _globalHook.KeyPress += GlobalHookKeyPress;
+            _globalHook = GlobalHookService.Instance.SubscribeGlobalHook(GlobalHookKeyPress);
             _executor.StepCompleted += _executor_StepCompleted;
         }
 
@@ -86,13 +83,8 @@ namespace MemoryStepsUI.UI
 
         public void Unsubscribe()
         {
-            if (_globalHook == null)
-                return;
-
-            _globalHook.KeyPress -= GlobalHookKeyPress;
+            GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress);
             _executor.StepCompleted -= _executor_StepCompleted;
-
-            _globalHook.Dispose();
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)

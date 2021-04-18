@@ -18,10 +18,12 @@ namespace MemoryStepsUI.UI
     public partial class MainForm : MaterialForm
     {
         public CursorRegisterService cursorRegister = new CursorRegisterService();
-        private IKeyboardMouseEvents m_GlobalHook;
+        private IKeyboardMouseEvents _globalHook;
         private CursorLoaderService _cursorLoader = new CursorLoaderService();
         private CursorExecutorService _executor;
         public readonly char CompleteTestKeyBind = '`';
+        private AutoclickerForm autoclickerF;
+
         public MainForm()
         {
             InitializeComponent();
@@ -49,39 +51,16 @@ namespace MemoryStepsUI.UI
             return;
         }
 
-        //private void switchTheme_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    var materialSkinManager = MaterialSkinManager.Instance;
-
-        //    if (switchTheme.Checked)
-        //        materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
-        //    else
-        //        materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
-        //}
-
-        //private void txtBoxKeybind_TextChanged(object sender, EventArgs e)
-        //{
-        //    CompleteTestKeyBind = txtBoxKeybind.Text[0];
-        //}
-
         public void Subscribe()
         {
-            m_GlobalHook = Hook.GlobalEvents();
-
-            m_GlobalHook.KeyPress += GlobalHookKeyPress;
-            m_GlobalHook.MouseClick += GlobalHook_MouseClick;
+            _globalHook = GlobalHookService.Instance.SubscribeGlobalHook(GlobalHookKeyPress, GlobalHook_MouseClick);
         }
 
         public void Unsubscribe()
         {
-            if (m_GlobalHook == null)
-                return;
-
-            m_GlobalHook.KeyPress -= GlobalHookKeyPress;
-            m_GlobalHook.MouseClick -= GlobalHook_MouseClick;
+            GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress, GlobalHook_MouseClick);
 
             cursorRegister.StopLastCursorTimewatch(true);
-            m_GlobalHook.Dispose();
             autoclickerF.Hide();
             autoclickerF.Dispose();
             this.Show();
@@ -106,7 +85,6 @@ namespace MemoryStepsUI.UI
             e.Handled = true;
         }
 
-        private AutoclickerForm autoclickerF;
         private void btnStartManualConfig_Click(object sender, EventArgs e)
         {
             this.Hide();

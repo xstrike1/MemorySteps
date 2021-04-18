@@ -191,7 +191,7 @@ namespace MemoryStepsUI.UI
             this.btnLaunchTest.Depth = 0;
             this.btnLaunchTest.DrawShadows = true;
             this.btnLaunchTest.HighEmphasis = true;
-            this.btnLaunchTest.Icon = null;
+            this.btnLaunchTest.Icon = global::MemoryStepsUI.Properties.Resources.launch_icon;
             this.btnLaunchTest.ImageKey = "(none)";
             this.btnLaunchTest.Location = new System.Drawing.Point(671, 12);
             this.btnLaunchTest.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
@@ -211,9 +211,9 @@ namespace MemoryStepsUI.UI
             this.tabAutoclicker.Controls.Add(this.rtbAutoclickerCurrentConfig);
             this.tabAutoclicker.Controls.Add(this.materialCard1);
             this.tabAutoclicker.ImageKey = "mouse_icon.png";
-            this.tabAutoclicker.Location = new System.Drawing.Point(4, 74);
+            this.tabAutoclicker.Location = new System.Drawing.Point(4, 39);
             this.tabAutoclicker.Name = "tabAutoclicker";
-            this.tabAutoclicker.Size = new System.Drawing.Size(888, 0);
+            this.tabAutoclicker.Size = new System.Drawing.Size(888, 616);
             this.tabAutoclicker.TabIndex = 2;
             this.tabAutoclicker.Text = "AutoClicker";
             this.tabAutoclicker.UseVisualStyleBackColor = true;
@@ -241,7 +241,7 @@ namespace MemoryStepsUI.UI
             this.btnStartManualConfig.Depth = 0;
             this.btnStartManualConfig.DrawShadows = true;
             this.btnStartManualConfig.HighEmphasis = true;
-            this.btnStartManualConfig.Icon = null;
+            this.btnStartManualConfig.Icon = global::MemoryStepsUI.Properties.Resources.start_icon;
             this.btnStartManualConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStartManualConfig.Location = new System.Drawing.Point(73, 12);
             this.btnStartManualConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
@@ -257,16 +257,17 @@ namespace MemoryStepsUI.UI
             // 
             // btnSaveConfig
             // 
+            this.btnSaveConfig.AutoSize = false;
             this.btnSaveConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnSaveConfig.Depth = 0;
             this.btnSaveConfig.DrawShadows = true;
             this.btnSaveConfig.HighEmphasis = true;
-            this.btnSaveConfig.Icon = null;
+            this.btnSaveConfig.Icon = global::MemoryStepsUI.Properties.Resources.save_icon;
             this.btnSaveConfig.Location = new System.Drawing.Point(671, 12);
             this.btnSaveConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btnSaveConfig.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(177, 36);
+            this.btnSaveConfig.Size = new System.Drawing.Size(205, 36);
             this.btnSaveConfig.TabIndex = 1;
             this.btnSaveConfig.Text = "Save configuration";
             this.btnSaveConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
@@ -281,7 +282,7 @@ namespace MemoryStepsUI.UI
             this.btnLoadConfig.Depth = 0;
             this.btnLoadConfig.DrawShadows = true;
             this.btnLoadConfig.HighEmphasis = true;
-            this.btnLoadConfig.Icon = null;
+            this.btnLoadConfig.Icon = global::MemoryStepsUI.Properties.Resources.load_icon;
             this.btnLoadConfig.Location = new System.Drawing.Point(430, 13);
             this.btnLoadConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btnLoadConfig.MouseState = MaterialSkin.MouseState.HOVER;
@@ -374,7 +375,6 @@ namespace MemoryStepsUI.UI
             this.matcard_Down.ResumeLayout(false);
             this.tabAutoclicker.ResumeLayout(false);
             this.materialCard3.ResumeLayout(false);
-            this.materialCard3.PerformLayout();
             this.materialCard1.ResumeLayout(false);
             this.materialCard1.PerformLayout();
             this.ResumeLayout(false);
