@@ -19,7 +19,7 @@ namespace MemoryStepsUI.UI
     {
         public bool CancelHasBeenRequested { get; set; }
         private IKeyboardMouseEvents _globalHook;
-        private ConfigUIForm _parent;
+        private MainForm _parent;
         private CursorExecutorService _executor;
         private decimal _totalDuration;
         private decimal _elapsedTime;
@@ -33,7 +33,7 @@ namespace MemoryStepsUI.UI
             this.Icon = Properties.Resources.logo;
         }
 
-        public AutoclickerForm(ConfigUIForm parent) 
+        public AutoclickerForm(MainForm parent) 
             :this()
         {
             _parent = parent;
@@ -44,7 +44,7 @@ namespace MemoryStepsUI.UI
         }
 
 
-        public AutoclickerForm(ConfigUIForm parent, CursorExecutorService executor, long totalDuration) 
+        public AutoclickerForm(MainForm parent, CursorExecutorService executor, long totalDuration) 
             : this(parent) 
         {
             _executor = executor;

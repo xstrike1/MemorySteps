@@ -29,7 +29,7 @@ namespace MemoryStepsUI.Services
             return _cursorRegister.CursorList.Sum(cursor => cursor.Milliseconds);
         }
 
-        public void Execute(ConfigUIForm parentForm)  
+        public void Execute(MainForm parentForm)  
         {
             if (_cursorRegister == null || _cursorRegister.CursorList.Count == 0)
             {
@@ -44,7 +44,7 @@ namespace MemoryStepsUI.Services
             InternalExecute(parentForm, autoclickerForm);
         }
 
-        private void InternalExecute(ConfigUIForm parentForm, AutoclickerForm autoclickerForm) 
+        private void InternalExecute(MainForm parentForm, AutoclickerForm autoclickerForm) 
         {
            ExecuteMouseClick(_cursorRegister.CursorList[0]);
 
@@ -79,7 +79,8 @@ namespace MemoryStepsUI.Services
                     return;
 
                 if (charactersPressed || firstCharacterMs == 0 ||
-                    timer.ElapsedMilliseconds <= firstCharacterMs) continue;
+                    timer.ElapsedMilliseconds <= firstCharacterMs) 
+                    continue;
 
                 foreach (var value in previousCursor.PressedCharacters.Values)
                     SendKeys.Send(value.ToString());
@@ -89,7 +90,6 @@ namespace MemoryStepsUI.Services
             timer.Stop();
 
             ExecuteMouseClick(cursor);
-
             StepCompleted?.Invoke(previousCursor.Milliseconds);
         }
 

@@ -19,30 +19,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="UI\ConfigUIForm.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ConfigUIForm.resx</DependentUpon>
-    </Compile>
-    <Compile Update="UI\TestForm.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TestForm.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="UI\ConfigUIForm.resx">
-      <Generator>ResXFileCodeGeneratorEx</Generator>
-      <LastGenOutput>ConfigUIForm.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="UI\TestForm.resx">
-      <Generator>ResXFileCodeGeneratorEx</Generator>
-      <LastGenOutput>TestForm.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

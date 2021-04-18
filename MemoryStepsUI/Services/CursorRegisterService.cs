@@ -38,8 +38,6 @@ namespace MemoryStepsUI.Services
                 btn = MouseButton.Middle;
 
             _cursorList.Add(new CursorEntity(position, btn));
-
-
         }
 
         public void RegisterKeyPress(char key)
