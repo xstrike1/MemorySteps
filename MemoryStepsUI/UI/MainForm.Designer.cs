@@ -39,6 +39,18 @@ namespace MemoryStepsUI.UI
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabHome = new System.Windows.Forms.TabPage();
+            this.cardConfig = new MaterialSkin.Controls.MaterialCard();
+            this.txtBoxTestDescr = new MaterialSkin.Controls.MaterialMultiLineTextBox();
+            this.lblTestDescr = new MaterialSkin.Controls.MaterialLabel();
+            this.txtNumberOfClicks = new MaterialSkin.Controls.MaterialTextBox();
+            this.txtTestDuration = new MaterialSkin.Controls.MaterialTextBox();
+            this.txtNumberOfCharacters = new MaterialSkin.Controls.MaterialTextBox();
+            this.txtBoxTestName = new MaterialSkin.Controls.MaterialTextBox();
+            this.lblTestName = new MaterialSkin.Controls.MaterialLabel();
+            this.lblEstDurat = new MaterialSkin.Controls.MaterialLabel();
+            this.lblPressedChars = new MaterialSkin.Controls.MaterialLabel();
+            this.lblNumberOfClicks = new MaterialSkin.Controls.MaterialLabel();
+            this.lblAutoClickerConfigTitle = new MaterialSkin.Controls.MaterialLabel();
             this.matCard_Top = new MaterialSkin.Controls.MaterialCard();
             this.lblTestSummary = new MaterialSkin.Controls.MaterialLabel();
             this.lblTstCompSec = new MaterialSkin.Controls.MaterialLabel();
@@ -54,8 +66,10 @@ namespace MemoryStepsUI.UI
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.lblAutoclickerTitle = new MaterialSkin.Controls.MaterialLabel();
             this.icons_imageList = new System.Windows.Forms.ImageList(this.components);
+            this.materialTextBox3 = new MaterialSkin.Controls.MaterialTextBox();
             this.materialTabControl1.SuspendLayout();
             this.tabHome.SuspendLayout();
+            this.cardConfig.SuspendLayout();
             this.matCard_Top.SuspendLayout();
             this.matcard_Down.SuspendLayout();
             this.tabAutoclicker.SuspendLayout();
@@ -100,6 +114,7 @@ namespace MemoryStepsUI.UI
             // 
             // tabHome
             // 
+            this.tabHome.Controls.Add(this.cardConfig);
             this.tabHome.Controls.Add(this.matCard_Top);
             this.tabHome.Controls.Add(this.matcard_Down);
             this.tabHome.ImageKey = "home_icon.png";
@@ -110,6 +125,188 @@ namespace MemoryStepsUI.UI
             this.tabHome.TabIndex = 0;
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
+            // 
+            // cardConfig
+            // 
+            this.cardConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cardConfig.Controls.Add(this.txtBoxTestDescr);
+            this.cardConfig.Controls.Add(this.lblTestDescr);
+            this.cardConfig.Controls.Add(this.txtNumberOfClicks);
+            this.cardConfig.Controls.Add(this.txtTestDuration);
+            this.cardConfig.Controls.Add(this.txtNumberOfCharacters);
+            this.cardConfig.Controls.Add(this.txtBoxTestName);
+            this.cardConfig.Controls.Add(this.lblTestName);
+            this.cardConfig.Controls.Add(this.lblEstDurat);
+            this.cardConfig.Controls.Add(this.lblPressedChars);
+            this.cardConfig.Controls.Add(this.lblNumberOfClicks);
+            this.cardConfig.Controls.Add(this.lblAutoClickerConfigTitle);
+            this.cardConfig.Depth = 0;
+            this.cardConfig.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cardConfig.Location = new System.Drawing.Point(28, 112);
+            this.cardConfig.Margin = new System.Windows.Forms.Padding(14);
+            this.cardConfig.MouseState = MaterialSkin.MouseState.HOVER;
+            this.cardConfig.Name = "cardConfig";
+            this.cardConfig.Padding = new System.Windows.Forms.Padding(14);
+            this.cardConfig.Size = new System.Drawing.Size(764, 420);
+            this.cardConfig.TabIndex = 15;
+            // 
+            // txtBoxTestDescr
+            // 
+            this.txtBoxTestDescr.AutoWordSelection = true;
+            this.txtBoxTestDescr.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txtBoxTestDescr.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtBoxTestDescr.Depth = 0;
+            this.txtBoxTestDescr.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txtBoxTestDescr.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtBoxTestDescr.Hint = "";
+            this.txtBoxTestDescr.Location = new System.Drawing.Point(206, 221);
+            this.txtBoxTestDescr.MouseState = MaterialSkin.MouseState.HOVER;
+            this.txtBoxTestDescr.Name = "txtBoxTestDescr";
+            this.txtBoxTestDescr.Size = new System.Drawing.Size(447, 159);
+            this.txtBoxTestDescr.TabIndex = 7;
+            this.txtBoxTestDescr.Text = "Write a description here";
+            this.txtBoxTestDescr.TextChanged += new System.EventHandler(this.txtBoxTestDescr_TextChanged);
+            // 
+            // lblTestDescr
+            // 
+            this.lblTestDescr.AutoSize = true;
+            this.lblTestDescr.Depth = 0;
+            this.lblTestDescr.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblTestDescr.FontType = MaterialSkin.MaterialSkinManager.fontType.Body2;
+            this.lblTestDescr.Location = new System.Drawing.Point(20, 225);
+            this.lblTestDescr.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblTestDescr.Name = "lblTestDescr";
+            this.lblTestDescr.Size = new System.Drawing.Size(100, 17);
+            this.lblTestDescr.TabIndex = 6;
+            this.lblTestDescr.Text = "Test description";
+            // 
+            // txtNumberOfClicks
+            // 
+            this.txtNumberOfClicks.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNumberOfClicks.Depth = 0;
+            this.txtNumberOfClicks.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtNumberOfClicks.Location = new System.Drawing.Point(206, 125);
+            this.txtNumberOfClicks.MaxLength = 50;
+            this.txtNumberOfClicks.MouseState = MaterialSkin.MouseState.OUT;
+            this.txtNumberOfClicks.Multiline = false;
+            this.txtNumberOfClicks.Name = "txtNumberOfClicks";
+            this.txtNumberOfClicks.ReadOnly = true;
+            this.txtNumberOfClicks.Size = new System.Drawing.Size(447, 36);
+            this.txtNumberOfClicks.TabIndex = 5;
+            this.txtNumberOfClicks.Text = "";
+            this.txtNumberOfClicks.UseTallSize = false;
+            // 
+            // txtTestDuration
+            // 
+            this.txtTestDuration.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtTestDuration.Depth = 0;
+            this.txtTestDuration.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtTestDuration.Location = new System.Drawing.Point(206, 83);
+            this.txtTestDuration.MaxLength = 50;
+            this.txtTestDuration.MouseState = MaterialSkin.MouseState.OUT;
+            this.txtTestDuration.Multiline = false;
+            this.txtTestDuration.Name = "txtTestDuration";
+            this.txtTestDuration.ReadOnly = true;
+            this.txtTestDuration.Size = new System.Drawing.Size(447, 36);
+            this.txtTestDuration.TabIndex = 5;
+            this.txtTestDuration.Text = "";
+            this.txtTestDuration.UseTallSize = false;
+            // 
+            // txtNumberOfCharacters
+            // 
+            this.txtNumberOfCharacters.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNumberOfCharacters.Depth = 0;
+            this.txtNumberOfCharacters.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtNumberOfCharacters.Location = new System.Drawing.Point(206, 167);
+            this.txtNumberOfCharacters.MaxLength = 50;
+            this.txtNumberOfCharacters.MouseState = MaterialSkin.MouseState.OUT;
+            this.txtNumberOfCharacters.Multiline = false;
+            this.txtNumberOfCharacters.Name = "txtNumberOfCharacters";
+            this.txtNumberOfCharacters.ReadOnly = true;
+            this.txtNumberOfCharacters.Size = new System.Drawing.Size(447, 36);
+            this.txtNumberOfCharacters.TabIndex = 5;
+            this.txtNumberOfCharacters.Text = "";
+            this.txtNumberOfCharacters.UseTallSize = false;
+            // 
+            // txtBoxTestName
+            // 
+            this.txtBoxTestName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtBoxTestName.Depth = 0;
+            this.txtBoxTestName.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtBoxTestName.Location = new System.Drawing.Point(206, 41);
+            this.txtBoxTestName.MaxLength = 50;
+            this.txtBoxTestName.MouseState = MaterialSkin.MouseState.OUT;
+            this.txtBoxTestName.Multiline = false;
+            this.txtBoxTestName.Name = "txtBoxTestName";
+            this.txtBoxTestName.Size = new System.Drawing.Size(447, 36);
+            this.txtBoxTestName.TabIndex = 5;
+            this.txtBoxTestName.Text = "";
+            this.txtBoxTestName.UseTallSize = false;
+            this.txtBoxTestName.TextChanged += new System.EventHandler(this.txtBoxTestName_TextChanged);
+            // 
+            // lblTestName
+            // 
+            this.lblTestName.AutoSize = true;
+            this.lblTestName.Depth = 0;
+            this.lblTestName.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblTestName.FontType = MaterialSkin.MaterialSkinManager.fontType.Body2;
+            this.lblTestName.Location = new System.Drawing.Point(20, 60);
+            this.lblTestName.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblTestName.Name = "lblTestName";
+            this.lblTestName.Size = new System.Drawing.Size(66, 17);
+            this.lblTestName.TabIndex = 4;
+            this.lblTestName.Text = "Test name";
+            // 
+            // lblEstDurat
+            // 
+            this.lblEstDurat.AutoSize = true;
+            this.lblEstDurat.Depth = 0;
+            this.lblEstDurat.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblEstDurat.FontType = MaterialSkin.MaterialSkinManager.fontType.Body2;
+            this.lblEstDurat.Location = new System.Drawing.Point(20, 102);
+            this.lblEstDurat.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblEstDurat.Name = "lblEstDurat";
+            this.lblEstDurat.Size = new System.Drawing.Size(84, 17);
+            this.lblEstDurat.TabIndex = 3;
+            this.lblEstDurat.Text = "Test duration";
+            // 
+            // lblPressedChars
+            // 
+            this.lblPressedChars.AutoSize = true;
+            this.lblPressedChars.Depth = 0;
+            this.lblPressedChars.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblPressedChars.FontType = MaterialSkin.MaterialSkinManager.fontType.Body2;
+            this.lblPressedChars.Location = new System.Drawing.Point(20, 186);
+            this.lblPressedChars.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblPressedChars.Name = "lblPressedChars";
+            this.lblPressedChars.Size = new System.Drawing.Size(137, 17);
+            this.lblPressedChars.TabIndex = 2;
+            this.lblPressedChars.Text = "Number of characters";
+            // 
+            // lblNumberOfClicks
+            // 
+            this.lblNumberOfClicks.AutoSize = true;
+            this.lblNumberOfClicks.Depth = 0;
+            this.lblNumberOfClicks.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblNumberOfClicks.FontType = MaterialSkin.MaterialSkinManager.fontType.Body2;
+            this.lblNumberOfClicks.Location = new System.Drawing.Point(20, 144);
+            this.lblNumberOfClicks.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblNumberOfClicks.Name = "lblNumberOfClicks";
+            this.lblNumberOfClicks.Size = new System.Drawing.Size(104, 17);
+            this.lblNumberOfClicks.TabIndex = 1;
+            this.lblNumberOfClicks.Text = "Number of clicks";
+            // 
+            // lblAutoClickerConfigTitle
+            // 
+            this.lblAutoClickerConfigTitle.AutoSize = true;
+            this.lblAutoClickerConfigTitle.Depth = 0;
+            this.lblAutoClickerConfigTitle.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblAutoClickerConfigTitle.Location = new System.Drawing.Point(9, 11);
+            this.lblAutoClickerConfigTitle.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblAutoClickerConfigTitle.Name = "lblAutoClickerConfigTitle";
+            this.lblAutoClickerConfigTitle.Size = new System.Drawing.Size(151, 19);
+            this.lblAutoClickerConfigTitle.TabIndex = 0;
+            this.lblAutoClickerConfigTitle.Text = "Current configuration";
             // 
             // matCard_Top
             // 
@@ -210,12 +407,12 @@ namespace MemoryStepsUI.UI
             this.tabAutoclicker.Controls.Add(this.materialCard3);
             this.tabAutoclicker.Controls.Add(this.rtbAutoclickerCurrentConfig);
             this.tabAutoclicker.Controls.Add(this.materialCard1);
-            this.tabAutoclicker.ImageKey = "mouse_icon.png";
+            this.tabAutoclicker.ImageKey = "settings_icon.png";
             this.tabAutoclicker.Location = new System.Drawing.Point(4, 39);
             this.tabAutoclicker.Name = "tabAutoclicker";
             this.tabAutoclicker.Size = new System.Drawing.Size(888, 616);
             this.tabAutoclicker.TabIndex = 2;
-            this.tabAutoclicker.Text = "AutoClicker";
+            this.tabAutoclicker.Text = "Configuration";
             this.tabAutoclicker.UseVisualStyleBackColor = true;
             // 
             // materialCard3
@@ -354,6 +551,21 @@ namespace MemoryStepsUI.UI
             this.icons_imageList.Images.SetKeyName(8, "home_icon.png");
             this.icons_imageList.Images.SetKeyName(9, "settings_icon.png");
             // 
+            // materialTextBox3
+            // 
+            this.materialTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.materialTextBox3.Depth = 0;
+            this.materialTextBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.materialTextBox3.Location = new System.Drawing.Point(206, 167);
+            this.materialTextBox3.MaxLength = 50;
+            this.materialTextBox3.MouseState = MaterialSkin.MouseState.OUT;
+            this.materialTextBox3.Multiline = false;
+            this.materialTextBox3.Name = "materialTextBox3";
+            this.materialTextBox3.Size = new System.Drawing.Size(447, 36);
+            this.materialTextBox3.TabIndex = 5;
+            this.materialTextBox3.Text = "";
+            this.materialTextBox3.UseTallSize = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -370,6 +582,8 @@ namespace MemoryStepsUI.UI
             this.Text = "Memory steps 3";
             this.materialTabControl1.ResumeLayout(false);
             this.tabHome.ResumeLayout(false);
+            this.cardConfig.ResumeLayout(false);
+            this.cardConfig.PerformLayout();
             this.matCard_Top.ResumeLayout(false);
             this.matCard_Top.PerformLayout();
             this.matcard_Down.ResumeLayout(false);
@@ -399,7 +613,21 @@ namespace MemoryStepsUI.UI
         private MaterialLabel lblAutoclickerTitle;
         private MaterialMultiLineTextBox rtbAutoclickerCurrentConfig;
         private MaterialCard materialCard3;
-      
+
         #endregion
+
+        private MaterialCard cardConfig;
+        private MaterialLabel lblAutoClickerConfigTitle;
+        private MaterialTextBox txtBoxTestName;
+        private MaterialLabel lblTestName;
+        private MaterialLabel lblEstDurat;
+        private MaterialLabel lblPressedChars;
+        private MaterialLabel lblNumberOfClicks;
+        private MaterialTextBox txtNumberOfClicks;
+        private MaterialTextBox txtTestDuration;
+        private MaterialTextBox txtNumberOfCharacters;
+        private MaterialTextBox materialTextBox3;
+        private MaterialMultiLineTextBox txtBoxTestDescr;
+        private MaterialLabel lblTestDescr;
     }
 }

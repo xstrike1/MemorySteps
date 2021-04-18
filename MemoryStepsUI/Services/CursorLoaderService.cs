@@ -12,18 +12,21 @@ namespace MemoryStepsUI.Services
 {
     public class CursorLoaderService
     {
-
-        public string GetCurrentConfig(List<CursorEntity> cursorList) 
+        public string GetCurrentConfig(TestConfigEntity testConfig) 
         {
-            return  JsonConvert.SerializeObject(cursorList, Formatting.Indented);
+            return  JsonConvert.SerializeObject(testConfig, Formatting.Indented);
         }
 
-        public void SaveConfig(List<CursorEntity> cursorList)
+        public void SaveConfig(TestConfigEntity testConfig)
         {
-            string json = GetCurrentConfig(cursorList);
+            string json = GetCurrentConfig(testConfig);
 
-            using SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.FileName = "MemorySteps_Config_" + DateTime.UtcNow.ToString("yyyy-mm-dd");
+            using SaveFileDialog saveFile = new();
+            if(string.IsNullOrEmpty(testConfig.TestName))
+                saveFile.FileName = "MemorySteps_Config_" + DateTime.UtcNow.ToString("yyyy-mm-dd");
+            else
+                saveFile.FileName = testConfig.TestName;
+
             saveFile.DefaultExt = ".txt";
             saveFile.Filter = "Text documents (.txt)|*.txt";
 
@@ -36,18 +39,17 @@ namespace MemoryStepsUI.Services
                 {
                     File.Delete(fileName);
                 }
-                using (FileStream fs = File.Create(fileName))
-                {
-                    byte[] jsonBytes = new UTF8Encoding(true).GetBytes(json);
-                    fs.Write(jsonBytes, 0, jsonBytes.Length);
-                }
+
+                using FileStream fs = File.Create(fileName);
+                byte[] jsonBytes = new UTF8Encoding(true).GetBytes(json);
+                fs.Write(jsonBytes, 0, jsonBytes.Length);
             }
         }
 
-        public List<CursorEntity> LoadConfig() 
+        public TestConfigEntity LoadConfig() 
         {
-            List<CursorEntity> cursorList = new List<CursorEntity>();
-            var fileContent = string.Empty;
+            TestConfigEntity testConfig = new();
+             var fileContent = string.Empty;
 
             using OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = "c:\\";
@@ -57,21 +59,18 @@ namespace MemoryStepsUI.Services
             {
                 var filePath = openFileDialog.FileName;
 
-                //Read the contents of the file into a stream
                 var fileStream = openFileDialog.OpenFile();
 
-                using (StreamReader reader = new StreamReader(fileStream))
-                {
-                    fileContent = reader.ReadToEnd();
-                }
+                using StreamReader reader = new StreamReader(fileStream);
+                fileContent = reader.ReadToEnd();
             }
 
             if (fileContent != null)
             {
-                cursorList = JsonConvert.DeserializeObject<List<CursorEntity>>(fileContent);
+                testConfig = JsonConvert.DeserializeObject<TestConfigEntity>(fileContent);
             }
 
-            return cursorList;
+            return testConfig;
         }
 
     }

@@ -29,32 +29,11 @@ namespace MemoryStepsUI.UI
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnExit = new MaterialSkin.Controls.MaterialButton();
             this.progressBar = new MaterialSkin.Controls.MaterialProgressBar();
             this.lblHint = new MaterialSkin.Controls.MaterialLabel();
             this.lblCurrentProgress = new MaterialSkin.Controls.MaterialLabel();
             this.lblProgressVal = new MaterialSkin.Controls.MaterialLabel();
             this.SuspendLayout();
-            // 
-            // btnExit
-            // 
-            this.btnExit.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnExit.Depth = 0;
-            this.btnExit.DrawShadows = true;
-            this.btnExit.HighEmphasis = true;
-            this.btnExit.Icon = null;
-            this.btnExit.Location = new System.Drawing.Point(730, 149);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnExit.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(52, 36);
-            this.btnExit.TabIndex = 0;
-            this.btnExit.Text = "Exit";
-            this.btnExit.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btnExit.UseAccentColor = false;
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Visible = false;
-            this.btnExit.Click += new System.EventHandler(this.materialButton1_Click);
             // 
             // progressBar
             // 
@@ -115,7 +94,6 @@ namespace MemoryStepsUI.UI
             this.Controls.Add(this.lblCurrentProgress);
             this.Controls.Add(this.lblHint);
             this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.btnExit);
             this.Name = "AutoclickerForm";
             this.Text = "Autoclicker execution";
             this.ResumeLayout(false);
@@ -124,8 +102,6 @@ namespace MemoryStepsUI.UI
         }
 
         #endregion
-
-        private MaterialSkin.Controls.MaterialButton btnExit;
         private MaterialSkin.Controls.MaterialProgressBar progressBar;
         private MaterialSkin.Controls.MaterialLabel lblHint;
         private MaterialSkin.Controls.MaterialLabel lblCurrentProgress;

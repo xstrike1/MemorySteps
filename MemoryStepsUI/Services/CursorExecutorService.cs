@@ -4,6 +4,7 @@ using Microsoft.Test.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -26,32 +27,37 @@ namespace MemoryStepsUI.Services
 
         public long GetTotalDuration()
         {
-            return _cursorRegister.CursorList.Sum(cursor => cursor.Milliseconds);
+            return _cursorRegister.TestConfig.CursorList.Sum(cursor => cursor.Milliseconds);
         }
 
-        public void Execute(MainForm parentForm)  
+        public TimeSpan Execute(MainForm parentForm)  
         {
-            if (_cursorRegister == null || _cursorRegister.CursorList.Count == 0)
+            if (_cursorRegister == null || _cursorRegister.TestConfig.CursorList.Count == 0)
             {
-                return;
+                return new TimeSpan(0);
             }
 
+            Stopwatch time = new();
+            time.Start();
             var totalDuration = GetTotalDuration();
             var autoclickerForm = new AutoclickerForm(parentForm, this, totalDuration) {TopMost = true};
             autoclickerForm.Show();
             Application.DoEvents(); 
 
             InternalExecute(parentForm, autoclickerForm);
+            time.Stop();
+
+            return time.Elapsed;
         }
 
         private void InternalExecute(MainForm parentForm, AutoclickerForm autoclickerForm) 
         {
-           ExecuteMouseClick(_cursorRegister.CursorList[0]);
+           ExecuteMouseClick(_cursorRegister.TestConfig.CursorList[0]);
 
-            for (int i = 1; i < _cursorRegister.CursorList.Count; i++)
+            for (int i = 1; i < _cursorRegister.TestConfig.CursorList.Count; i++)
             {
-                var previousCursorEntity = _cursorRegister.CursorList[i - 1];
-                ExecuteCursor(_cursorRegister.CursorList[i], previousCursorEntity, autoclickerForm);
+                var previousCursorEntity = _cursorRegister.TestConfig.CursorList[i - 1];
+                ExecuteCursor(_cursorRegister.TestConfig.CursorList[i], previousCursorEntity, autoclickerForm);
 
                 if (autoclickerForm.CancelHasBeenRequested)
                     break;

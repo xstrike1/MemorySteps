@@ -27,38 +27,41 @@ namespace MemoryStepsUI.UI
         public AutoclickerForm()
         {
             InitializeComponent();
-            var materialSkinManager = MaterialSkinManager.Instance;
-            materialSkinManager.AddFormToManage(this);
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.Purple800, Primary.Purple900, Primary.Purple500, Accent.DeepPurple200, TextShade.WHITE);
-            this.Icon = Properties.Resources.logo;
+
+            FormStyleService.InitMaterialSkin(this);
         }
 
+        /// <summary>
+        /// Constructor used for manual configuration
+        /// </summary>
         public AutoclickerForm(MainForm parent) 
             :this()
         {
             _parent = parent;
             lblHint.Text = string.Format(Resources.AutoclickerForm_AutoclickerForm_To_cancel_current_execution_press__0_, parent.CompleteTestKeyBind.ToString());
-            Rectangle res = Screen.PrimaryScreen.Bounds;
-            this.Location = new Point(res.Width - Size.Width, res.Height - Size.Height);
-
         }
 
+        /// <summary>
+        /// Constructor used for execution
+        /// </summary>
         public AutoclickerForm(MainForm parent, CursorExecutorService executor, long totalDuration) 
             : this(parent) 
         {
             _executor = executor;
             _totalDuration = totalDuration;
             progressBar.Visible = true;
-            btnExit.Visible = true;
             lblCurrentProgress.Visible = true;
             lblProgressVal.Visible = true;
-
+         
             Subscribe();
         }
 
-        private void materialButton1_Click(object sender, EventArgs e)
+        protected override void OnShown(EventArgs e)
         {
-            this.Close();
+            base.OnShown(e);
+
+            Rectangle res = Screen.PrimaryScreen.Bounds;
+            Location = new Point(res.Width - Size.Width, res.Height - Size.Height);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -67,23 +70,20 @@ namespace MemoryStepsUI.UI
             Unsubscribe();
         }
 
-        public void Subscribe()
+        private void Subscribe()
         {
             _globalHook = GlobalHookService.Instance.SubscribeGlobalHook(GlobalHookKeyPress);
             _executor.StepCompleted += _executor_StepCompleted;
+           
         }
 
-        private void _executor_StepCompleted(long currentStepDuration)
-        {
-            _elapsedTime += currentStepDuration;
-            progressBar.Value = Convert.ToInt32(_elapsedTime / _totalDuration * 100);
-            lblProgressVal.Text = progressBar.Value + "%";
-            Application.DoEvents();
-        }
-
-        public void Unsubscribe()
+        private void Unsubscribe()
         {
             GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress);
+
+            if (_executor == null)
+                return;
+
             _executor.StepCompleted -= _executor_StepCompleted;
         }
 
@@ -97,5 +97,14 @@ namespace MemoryStepsUI.UI
             CancelHasBeenRequested = true;
             lblHint.Text = "Execution canceled by user";
         }
+
+        private void _executor_StepCompleted(long currentStepDuration)
+        {
+            _elapsedTime += currentStepDuration;
+            progressBar.Value = Convert.ToInt32(_elapsedTime / _totalDuration * 100);
+            lblProgressVal.Text = progressBar.Value + "%";
+            Application.DoEvents();
+        }
+
     }
 }

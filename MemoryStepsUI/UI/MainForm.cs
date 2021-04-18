@@ -30,25 +30,11 @@ namespace MemoryStepsUI.UI
             FormStyleService.InitMaterialSkin(this);
         }
 
-        public void CompleteTest(string time)
+        public void CompleteTest(string timeElapsed)
         {
             lblTstCompSec.Visible = true;
-            lblTstCompSec.Text = time;
+            lblTstCompSec.Text = timeElapsed;
             lblTestComp.Visible = true;
-        }
-
-        private void btnLaunchTest_Click(object sender, EventArgs e)
-        {
-            ValidateBeforeTestLaunch();
-            LaunchAutoclicker();
-        }
-
-        private void ValidateBeforeTestLaunch()
-        {
-            if (string.IsNullOrEmpty(rtbAutoclickerCurrentConfig.Text))
-                throw new ApplicationException("Invalid autoclicker configuration");
-
-            return;
         }
 
         public void Subscribe()
@@ -64,7 +50,25 @@ namespace MemoryStepsUI.UI
             autoclickerF.Hide();
             autoclickerF.Dispose();
             this.Show();
-            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.CursorList);
+            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
+        }
+
+        private void LaunchAutoclicker()
+        {
+            Application.DoEvents();
+            this.Hide();
+
+            _executor = new CursorExecutorService(cursorRegister);
+            
+            CompleteTest(_executor.Execute(this).ToString());
+        }
+
+        private void ValidateBeforeTestLaunch()
+        {
+            if (string.IsNullOrEmpty(rtbAutoclickerCurrentConfig.Text))
+                throw new ApplicationException("Invalid autoclicker configuration");
+
+            return;
         }
 
         private void GlobalHook_MouseClick(object sender, MouseEventArgs e)
@@ -78,6 +82,7 @@ namespace MemoryStepsUI.UI
             {
                 Unsubscribe();
                 e.Handled = true;
+                SetTestFields(true);
                 return;
             }
 
@@ -85,42 +90,58 @@ namespace MemoryStepsUI.UI
             e.Handled = true;
         }
 
+        private void btnLaunchTest_Click(object sender, EventArgs e)
+        {
+            ValidateBeforeTestLaunch();
+            LaunchAutoclicker();
+        }
+
         private void btnStartManualConfig_Click(object sender, EventArgs e)
         {
             this.Hide();
-            cursorRegister.ResetList();
+            cursorRegister.TestConfig.ResetList();
             autoclickerF = new AutoclickerForm(this)
             {
                 TopMost = true
             };
             autoclickerF.Show();
+         
             Subscribe();
         }
 
         private void btnLoadConfig_Click(object sender, EventArgs e)
         {
-            cursorRegister.LoadList(_cursorLoader.LoadConfig());
-            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.CursorList);
+            cursorRegister.TestConfig = _cursorLoader.LoadConfig();
+            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
+            SetTestFields();
         }
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
-            _cursorLoader.SaveConfig(cursorRegister.CursorList);
+            _cursorLoader.SaveConfig(cursorRegister.TestConfig);
         }
 
-        private void LaunchAutoclicker()
+        private void SetTestFields(bool manualConfig = false) 
         {
-            Application.DoEvents();
-            this.Hide();
+            txtTestDuration.Text = cursorRegister.TestConfig.TotalDuration.ToString();
+            txtNumberOfClicks.Text = cursorRegister.TestConfig.NumberOfClicks.ToString();
+            txtNumberOfCharacters.Text = cursorRegister.TestConfig.NumberOfCharacters.ToString();
 
-            _executor = new CursorExecutorService(cursorRegister);
-            Stopwatch timer = new Stopwatch();
+            if (manualConfig)
+                return;
 
-            timer.Start();
-            _executor.Execute(this);
-            timer.Stop();
+            txtBoxTestName.Text = cursorRegister.TestConfig.TestName;
+            txtBoxTestDescr.Text = cursorRegister.TestConfig.TestDescription;
+        }
 
-            CompleteTest(timer.Elapsed.ToString());
+        private void txtBoxTestName_TextChanged(object sender, EventArgs e)
+        {
+            cursorRegister.TestConfig.TestName = txtBoxTestName.Text;
+        }
+
+        private void txtBoxTestDescr_TextChanged(object sender, EventArgs e)
+        {
+            cursorRegister.TestConfig.TestDescription = txtBoxTestDescr.Text;
         }
     }
 }
