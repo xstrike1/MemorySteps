@@ -1,25 +1,18 @@
 ﻿using Gma.System.MouseKeyHook;
-using MaterialSkin;
 using MaterialSkin.Controls;
 using MemoryStepsUI.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using MemoryStepsUI.Models;
 
 namespace MemoryStepsUI.UI
 {
     public partial class MainForm : MaterialForm
     {
-        public CursorRegisterService cursorRegister = new CursorRegisterService();
+        public CursorRegisterService cursorRegister = new();
         private IKeyboardMouseEvents _globalHook;
-        private CursorLoaderService _cursorLoader = new CursorLoaderService();
+        private CursorLoaderService _cursorLoader = new();
         private CursorExecutorService _executor;
         public readonly char CompleteTestKeyBind = '`';
         private AutoclickerForm autoclickerF;
@@ -92,14 +85,21 @@ namespace MemoryStepsUI.UI
 
         private void btnLaunchTest_Click(object sender, EventArgs e)
         {
-            ValidateBeforeTestLaunch();
-            LaunchAutoclicker();
+            try
+            {
+                ValidateBeforeTestLaunch();
+                LaunchAutoclicker();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnStartManualConfig_Click(object sender, EventArgs e)
         {
             this.Hide();
-            cursorRegister.TestConfig.ResetList();
+            cursorRegister.TestConfig.CursorList = new List<CursorEntity>();
             autoclickerF = new AutoclickerForm(this)
             {
                 TopMost = true

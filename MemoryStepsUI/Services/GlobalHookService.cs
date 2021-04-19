@@ -1,18 +1,14 @@
 ﻿using Gma.System.MouseKeyHook;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MemoryStepsUI.Services
 {
     public sealed class GlobalHookService
     {
-        private static readonly Lazy<GlobalHookService> lazy = new(() => new GlobalHookService());
+        private static readonly Lazy<GlobalHookService> Lazy = new(() => new GlobalHookService());
 
-        public static GlobalHookService Instance { get { return lazy.Value; } }
+        public static GlobalHookService Instance => Lazy.Value;
 
         private GlobalHookService() {}
 

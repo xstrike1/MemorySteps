@@ -14,15 +14,5 @@ namespace MemoryStepsUI.Models
         public TimeSpan TotalDuration => TimeSpan.FromMilliseconds(CursorList.Sum(cursor => cursor.Milliseconds) - CursorList[^1].Milliseconds);
         public int NumberOfCharacters => CursorList.Sum(cursor => cursor.PressedCharacters.Count);
         public string TestDescription { get; set; } = "";
-        
-        public void ResetList()
-        {
-            CursorList = new List<CursorEntity>();
-        }
-
-        public void LoadList(List<CursorEntity> cursorList)
-        {
-            CursorList = cursorList.ToList();
-        }
     }
 }

@@ -50,9 +50,6 @@ namespace MemoryStepsUI.Services
 
             TestConfig.CursorList[^1].Time.Stop();
             TestConfig.CursorList[^1].Milliseconds = TestConfig.CursorList[^1].Time.ElapsedMilliseconds;
-        
-            //if (unsubscribe)
-            //    TestConfig.CursorList[^1].Milliseconds += 1500;
         }
     }
 }

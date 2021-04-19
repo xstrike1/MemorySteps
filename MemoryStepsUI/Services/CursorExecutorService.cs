@@ -18,7 +18,6 @@ namespace MemoryStepsUI.Services
     {
         public event Action<long> StepCompleted;
         private readonly CursorRegisterService _cursorRegister;
-        private CursorExecutorService() { }
 
         public CursorExecutorService(CursorRegisterService cursorRegister) 
         {
@@ -104,6 +103,5 @@ namespace MemoryStepsUI.Services
             Mouse.MoveTo(cursor.Position);
             Mouse.Click(cursor.ButtonPressed);
         }
-
     }
 }

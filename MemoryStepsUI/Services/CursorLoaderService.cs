@@ -30,45 +30,41 @@ namespace MemoryStepsUI.Services
             saveFile.DefaultExt = ".txt";
             saveFile.Filter = "Text documents (.txt)|*.txt";
 
-            if (saveFile.ShowDialog() == DialogResult.OK)
+            if (saveFile.ShowDialog() != DialogResult.OK) 
+                return;
+
+            var fileName = saveFile.FileName;
+
+            if (File.Exists(fileName))
             {
-                string fileName = saveFile.FileName;
-
-                // Check if file already exists. If yes, delete it.     
-                if (File.Exists(fileName))
-                {
-                    File.Delete(fileName);
-                }
-
-                using FileStream fs = File.Create(fileName);
-                byte[] jsonBytes = new UTF8Encoding(true).GetBytes(json);
-                fs.Write(jsonBytes, 0, jsonBytes.Length);
+                File.Delete(fileName);
             }
+
+            using var fs = File.Create(fileName);
+            byte[] jsonBytes = new UTF8Encoding(true).GetBytes(json);
+            fs.Write(jsonBytes, 0, jsonBytes.Length);
         }
 
         public TestConfigEntity LoadConfig() 
         {
-            TestConfigEntity testConfig = new();
-             var fileContent = string.Empty;
+            var fileContent = string.Empty;
 
-            using OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = "c:\\";
-            openFileDialog.Filter = "Text documents (.txt)|*.txt";
-            openFileDialog.RestoreDirectory = true;
+            using OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = "c:\\", Filter = "Text documents (.txt)|*.txt", RestoreDirectory = true
+            };
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var filePath = openFileDialog.FileName;
 
                 var fileStream = openFileDialog.OpenFile();
 
-                using StreamReader reader = new StreamReader(fileStream);
+                using var reader = new StreamReader(fileStream);
                 fileContent = reader.ReadToEnd();
             }
 
-            if (fileContent != null)
-            {
-                testConfig = JsonConvert.DeserializeObject<TestConfigEntity>(fileContent);
-            }
+            var testConfig = JsonConvert.DeserializeObject<TestConfigEntity>(fileContent);
 
             return testConfig;
         }

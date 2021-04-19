@@ -1,15 +1,8 @@
 ﻿using Gma.System.MouseKeyHook;
-using MaterialSkin;
 using MaterialSkin.Controls;
 using MemoryStepsUI.Services;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MemoryStepsUI.Properties;
 
@@ -19,9 +12,9 @@ namespace MemoryStepsUI.UI
     {
         public bool CancelHasBeenRequested { get; set; }
         private IKeyboardMouseEvents _globalHook;
-        private MainForm _parent;
-        private CursorExecutorService _executor;
-        private decimal _totalDuration;
+        private readonly MainForm _parent;
+        private readonly CursorExecutorService _executor;
+        private readonly decimal _totalDuration;
         private decimal _elapsedTime;
 
         public AutoclickerForm()
@@ -38,7 +31,7 @@ namespace MemoryStepsUI.UI
             :this()
         {
             _parent = parent;
-            lblHint.Text = string.Format(Resources.AutoclickerForm_AutoclickerForm_To_cancel_current_execution_press__0_, parent.CompleteTestKeyBind.ToString());
+            lblHint.Text = string.Format(Resources.CaptionCancelCurrentExecutionFormat, parent.CompleteTestKeyBind.ToString());
         }
 
         /// <summary>
@@ -95,14 +88,14 @@ namespace MemoryStepsUI.UI
             Unsubscribe();
             e.Handled = true;
             CancelHasBeenRequested = true;
-            lblHint.Text = "Execution canceled by user";
+            lblHint.Text = Resources.CaptionExecutionCanceledByUser;
         }
 
         private void _executor_StepCompleted(long currentStepDuration)
         {
             _elapsedTime += currentStepDuration;
             progressBar.Value = Convert.ToInt32(_elapsedTime / _totalDuration * 100);
-            lblProgressVal.Text = progressBar.Value + "%";
+            lblProgressVal.Text = $"{progressBar.Value.ToString()}%";
             Application.DoEvents();
         }
 
