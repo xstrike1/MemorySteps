@@ -40,7 +40,7 @@ namespace MemoryStepsUI.UI
             GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress, GlobalHook_MouseClick);
 
             cursorRegister.StopLastCursorTimer(true);
-            autoclickerF.Hide();
+            autoclickerF.Close();
             autoclickerF.Dispose();
             this.Show();
             rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);

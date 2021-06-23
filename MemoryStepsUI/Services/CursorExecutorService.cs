@@ -63,7 +63,7 @@ namespace MemoryStepsUI.Services
                 }
                 catch 
                 {
-                    autoclickerForm.Hide();
+                    autoclickerForm.Close();
                     parentForm.Show();
                 }
 
@@ -71,7 +71,7 @@ namespace MemoryStepsUI.Services
                     break;
             }
 
-            autoclickerForm.Hide();
+            autoclickerForm.Close();
             parentForm.Show();
         }
 
@@ -89,6 +89,7 @@ namespace MemoryStepsUI.Services
 
             while (timer.ElapsedMilliseconds < previousCursor.Milliseconds)
             {
+
                 if (form.CancelHasBeenRequested)
                     return;
 
@@ -104,10 +105,10 @@ namespace MemoryStepsUI.Services
             timer.Stop();
 
             ExecuteMouseClick(cursor);
-            StepCompleted?.Invoke(previousCursor.Milliseconds);
+            StepCompleted?.Invoke(timer.ElapsedMilliseconds);
         }
 
-        private void ExecuteMouseClick(CursorEntity cursor)
+        private static void ExecuteMouseClick(CursorEntity cursor)
         {
             Mouse.MoveTo(cursor.Position);
             Thread.Sleep(100);
@@ -121,7 +122,7 @@ namespace MemoryStepsUI.Services
             Mouse.Click(cursor.ButtonPressed);
         }
 
-        private bool IsMouseOverControl(CursorEntity cursor, Stopwatch st)
+        private static bool IsMouseOverControl(CursorEntity cursor, Stopwatch st)
         {
             if (cursor.ControlType == AppConfig.Undefined) return true;
 
@@ -132,14 +133,15 @@ namespace MemoryStepsUI.Services
                 try
                 {
                     if (cursor.ControlType == "" || r == null ||
-                        r.ControlType.ToString() != cursor.ControlType || r.Name != cursor.ControlName) continue;
+                        r.ControlType.ToString() != cursor.ControlType || r.Name != cursor.ControlName)
+                        continue;
+
                     return true;
                 }
                 catch(PropertyNotSupportedException)
                 {
                     Thread.Sleep(50);
                 }
-               
             }
         }
     }
