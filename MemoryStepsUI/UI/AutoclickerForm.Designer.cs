@@ -38,7 +38,7 @@ namespace MemoryStepsUI.UI
             // progressBar
             // 
             this.progressBar.Depth = 0;
-            this.progressBar.Location = new System.Drawing.Point(28, 135);
+            this.progressBar.Location = new System.Drawing.Point(28, 121);
             this.progressBar.MouseState = MaterialSkin.MouseState.HOVER;
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(754, 5);
@@ -64,7 +64,7 @@ namespace MemoryStepsUI.UI
             this.lblCurrentProgress.AutoSize = true;
             this.lblCurrentProgress.Depth = 0;
             this.lblCurrentProgress.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblCurrentProgress.Location = new System.Drawing.Point(28, 110);
+            this.lblCurrentProgress.Location = new System.Drawing.Point(28, 96);
             this.lblCurrentProgress.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblCurrentProgress.Name = "lblCurrentProgress";
             this.lblCurrentProgress.Size = new System.Drawing.Size(117, 19);
@@ -77,7 +77,7 @@ namespace MemoryStepsUI.UI
             this.lblProgressVal.AutoSize = true;
             this.lblProgressVal.Depth = 0;
             this.lblProgressVal.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblProgressVal.Location = new System.Drawing.Point(750, 110);
+            this.lblProgressVal.Location = new System.Drawing.Point(750, 96);
             this.lblProgressVal.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblProgressVal.Name = "lblProgressVal";
             this.lblProgressVal.Size = new System.Drawing.Size(22, 19);
@@ -89,7 +89,7 @@ namespace MemoryStepsUI.UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(813, 193);
+            this.ClientSize = new System.Drawing.Size(813, 140);
             this.Controls.Add(this.lblProgressVal);
             this.Controls.Add(this.lblCurrentProgress);
             this.Controls.Add(this.lblHint);

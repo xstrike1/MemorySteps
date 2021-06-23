@@ -14,7 +14,7 @@ namespace MemoryStepsUI.UI
         private IKeyboardMouseEvents _globalHook;
         private CursorLoaderService _cursorLoader = new();
         private CursorExecutorService _executor;
-        public readonly char CompleteTestKeyBind = '`';
+        public readonly char CompleteTestKeyBind = AppConfig.KeyBind;
         private AutoclickerForm autoclickerF;
 
         public MainForm()
@@ -39,7 +39,7 @@ namespace MemoryStepsUI.UI
         {
             GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress, GlobalHook_MouseClick);
 
-            cursorRegister.StopLastCursorTimewatch(true);
+            cursorRegister.StopLastCursorTimer(true);
             autoclickerF.Hide();
             autoclickerF.Dispose();
             this.Show();
@@ -73,6 +73,7 @@ namespace MemoryStepsUI.UI
         {
             if (e.KeyChar == CompleteTestKeyBind)
             {
+                AutomationService.StopTimer();
                 Unsubscribe();
                 e.Handled = true;
                 SetTestFields(true);
@@ -99,13 +100,13 @@ namespace MemoryStepsUI.UI
         private void btnStartManualConfig_Click(object sender, EventArgs e)
         {
             this.Hide();
+            AutomationService.StartTimer();
             cursorRegister.TestConfig.CursorList = new List<CursorEntity>();
             autoclickerF = new AutoclickerForm(this)
             {
                 TopMost = true
             };
             autoclickerF.Show();
-         
             Subscribe();
         }
 

@@ -23,6 +23,9 @@ namespace MemoryStepsUI.Models
         public Dictionary<long, char> PressedCharacters { get; set; }
         public MouseButton ButtonPressed { get; set; }
 
+        public string ControlType { get; set; }
+        public string ControlName { get; set; }
+
         public CursorEntity() 
         {
             Time = new Stopwatch();
@@ -36,10 +39,12 @@ namespace MemoryStepsUI.Models
             Position = position;
         }
 
-        public CursorEntity(Point position, MouseButton buttonPressed)
+        public CursorEntity(Point position, MouseButton buttonPressed, string controlType, string controlName)
            : this(position)
         {
             ButtonPressed = buttonPressed;
+            ControlType = controlType;
+            ControlName = controlName;
         }
     }
 }

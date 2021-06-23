@@ -89,6 +89,8 @@ namespace MemoryStepsUI.UI
             e.Handled = true;
             CancelHasBeenRequested = true;
             lblHint.Text = Resources.CaptionExecutionCanceledByUser;
+            this.Hide();
+            _parent.Show();
         }
 
         private void _executor_StepCompleted(long currentStepDuration)
