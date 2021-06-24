@@ -14,7 +14,6 @@ namespace MemoryStepsUI.Services
 {
     public static  class AutomationService
     {
-        public static readonly string UndefinedType = "Undefined";
         private static readonly AutomationBase AutBase = new UIA3Automation();
         public static AutomationElement CurrentHoveredElement;
         private static Timer Timer;
@@ -23,7 +22,7 @@ namespace MemoryStepsUI.Services
         {
             Timer = new Timer()
             {
-                Interval = 40,
+                Interval = 10,
                 Enabled = true
             };
             Timer.Elapsed += TimerOnTick;
