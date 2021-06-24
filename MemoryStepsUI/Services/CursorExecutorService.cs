@@ -65,6 +65,7 @@ namespace MemoryStepsUI.Services
                 {
                     autoclickerForm.Close();
                     parentForm.Show();
+                    break;
                 }
 
                 if (autoclickerForm.CancelHasBeenRequested)
@@ -111,7 +112,7 @@ namespace MemoryStepsUI.Services
         private static void ExecuteMouseClick(CursorEntity cursor)
         {
             Mouse.MoveTo(cursor.Position);
-            Thread.Sleep(100);
+
             var st = new Stopwatch();
             st.Start();
             var controlIsGood =  IsMouseOverControl(cursor, st);
