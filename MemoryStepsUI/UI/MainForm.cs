@@ -68,7 +68,7 @@ namespace MemoryStepsUI.UI
 
         private void GlobalHook_MouseClick(object sender, MouseEventArgs e)
         {
-            Task.Factory.StartNew(() => cursorRegister.RegisterMouseButtonClick(e.Location, e.Button, e.Clicks));
+            cursorRegister.RegisterMouseButtonClick(e.Location, e.Button);
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)

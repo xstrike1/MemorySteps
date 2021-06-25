@@ -22,7 +22,6 @@ namespace MemoryStepsUI.Models
        
         public Dictionary<long, char> PressedCharacters { get; set; }
         public MouseButton ButtonPressed { get; set; }
-        public int Clicks { get; set; }
         public string ControlType { get; set; } = AppConfig.Undefined;
         public string ControlName { get; set; } = AppConfig.Undefined;
 
@@ -39,15 +38,14 @@ namespace MemoryStepsUI.Models
             Position = position;
         }
 
-        public CursorEntity(Point position, MouseButton buttonPressed, int clicks)
+        public CursorEntity(Point position, MouseButton buttonPressed)
            : this(position)
         {
             ButtonPressed = buttonPressed;
-            Clicks = clicks;
         }   
 
-        public CursorEntity(Point position, MouseButton buttonPressed, int clicks , string controlType, string controlName)
-            : this(position, buttonPressed, clicks)
+        public CursorEntity(Point position, MouseButton buttonPressed , string controlType, string controlName)
+            : this(position, buttonPressed)
         {
             ButtonPressed = buttonPressed;
             ControlType = controlType;

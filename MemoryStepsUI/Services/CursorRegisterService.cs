@@ -26,7 +26,7 @@ namespace MemoryStepsUI.Services
             TestConfig = new TestConfigEntity();
         }
 
-        public void RegisterMouseButtonClick(Point position, MouseButtons button, int clicks)
+        public void RegisterMouseButtonClick(Point position, MouseButtons button)
         {
             StopLastCursorTimer();
 
@@ -48,11 +48,10 @@ namespace MemoryStepsUI.Services
             catch (PropertyNotSupportedException) { }
 
             if (controlType == ControlType.Unknown || AppConfig.UndefinedControlTypes.Contains(controlType.ToString()))
-                TestConfig.CursorList.Add(new CursorEntity(position, btn, clicks));
+                TestConfig.CursorList.Add(new CursorEntity(position, btn));
             else
-                TestConfig.CursorList.Add(new CursorEntity(position, btn, clicks, controlType.ToString(),
+                TestConfig.CursorList.Add(new CursorEntity(position, btn, controlType.ToString(),
                 automationElement?.Name));
-          
         }
 
         public void RegisterKeyPress(char key)

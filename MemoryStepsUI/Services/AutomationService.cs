@@ -22,7 +22,7 @@ namespace MemoryStepsUI.Services
         {
             Timer = new Timer()
             {
-                Interval = 5,
+                Interval = 10,
                 Enabled = true
             };
             Timer.Elapsed += TimerOnTick;
