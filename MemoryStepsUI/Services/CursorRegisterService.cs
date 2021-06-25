@@ -19,20 +19,24 @@ namespace MemoryStepsUI.Services
     public class CursorRegisterService
     {
         public TestConfigEntity TestConfig;
+        private int doubleClickTime = System.Windows.Forms.SystemInformation.DoubleClickTime;
+
         public CursorRegisterService() 
         {
             TestConfig = new TestConfigEntity();
         }
 
-        public void RegisterMouseButtonClick(Point position, MouseButtons button)
+        public void RegisterMouseButtonClick(Point position, MouseButtons button, int clicks)
         {
             StopLastCursorTimer();
 
-            MouseButton btn = MouseButton.Left;
-            if (button == MouseButtons.Right)
-                btn = MouseButton.Right;
-            if (button == MouseButtons.Middle)
-                btn = MouseButton.Middle;
+            var btn = button switch
+            {
+                MouseButtons.Right => MouseButton.Right,
+                MouseButtons.Middle => MouseButton.Middle,
+                _ => MouseButton.Left
+            };
+
             var automationElement = AutomationService.HighlightMouseClickedElement();
             var controlType = ControlType.Unknown;
 
@@ -41,16 +45,13 @@ namespace MemoryStepsUI.Services
                 if(automationElement != null)
                     controlType = automationElement.ControlType;
             }
-            catch (PropertyNotSupportedException)
-            {
-
-            }
+            catch (PropertyNotSupportedException) { }
 
             if (controlType == ControlType.Unknown || AppConfig.UndefinedControlTypes.Contains(controlType.ToString()))
-                TestConfig.CursorList.Add(new CursorEntity(position, btn, AppConfig.Undefined, AppConfig.Undefined));
+                TestConfig.CursorList.Add(new CursorEntity(position, btn, clicks));
             else
-                TestConfig.CursorList.Add(new CursorEntity(position, btn, controlType.ToString(),
-                automationElement.Name));
+                TestConfig.CursorList.Add(new CursorEntity(position, btn, clicks, controlType.ToString(),
+                automationElement?.Name));
           
         }
 

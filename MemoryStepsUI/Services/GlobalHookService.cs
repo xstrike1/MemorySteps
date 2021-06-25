@@ -19,7 +19,7 @@ namespace MemoryStepsUI.Services
             if(keyPressEventHandler != null)
                 globalHook.KeyPress += keyPressEventHandler;
 
-            if (mouseEventHandler != null)
+            if (mouseEventHandler != null) 
                 globalHook.MouseClick += mouseEventHandler;
 
             return globalHook;

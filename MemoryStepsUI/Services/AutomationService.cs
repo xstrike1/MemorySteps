@@ -50,7 +50,6 @@ namespace MemoryStepsUI.Services
         {
             var screenPos = Mouse.Position;
             CurrentHoveredElement = AutBase.FromPoint(screenPos);
-
         }
     }
 }

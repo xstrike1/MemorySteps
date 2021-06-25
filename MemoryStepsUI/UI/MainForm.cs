@@ -3,6 +3,8 @@ using MaterialSkin.Controls;
 using MemoryStepsUI.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MemoryStepsUI.Models;
 
@@ -66,7 +68,7 @@ namespace MemoryStepsUI.UI
 
         private void GlobalHook_MouseClick(object sender, MouseEventArgs e)
         {
-            cursorRegister.RegisterMouseButtonClick(e.Location, e.Button);
+            Task.Factory.StartNew(() => cursorRegister.RegisterMouseButtonClick(e.Location, e.Button, e.Clicks));
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
