@@ -35,9 +35,12 @@ namespace MemoryStepsUI.UI
 
         public void CloseProcessingForm() 
         {
+            this.Show();
+            if (processingForm == null)
+                return;
+
             processingForm.Close();
             processingForm.Dispose();
-            this.Show();
         }
 
         public void CompleteTest(string timeElapsed)
@@ -134,6 +137,9 @@ namespace MemoryStepsUI.UI
         private void btnLoadConfig_Click(object sender, EventArgs e)
         {
             cursorRegister.TestConfig = _cursorLoader.LoadConfig();
+            if (cursorRegister.TestConfig == null)
+                return;
+
             rtbCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
             SetTestFields();
         }
@@ -158,11 +164,17 @@ namespace MemoryStepsUI.UI
 
         private void txtBoxTestName_TextChanged(object sender, EventArgs e)
         {
+            if (cursorRegister.TestConfig == null)
+                return;
+
             cursorRegister.TestConfig.TestName = txtBoxTestName.Text;
         }
 
         private void txtBoxTestDescr_TextChanged(object sender, EventArgs e)
         {
+            if (cursorRegister.TestConfig == null)
+                return;
+
             cursorRegister.TestConfig.TestDescription = txtBoxTestDescr.Text;
         }
     }

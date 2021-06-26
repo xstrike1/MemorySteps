@@ -47,7 +47,9 @@ namespace MemoryStepsUI.UI
             progressBar.Visible = true;
             lblCurrentProgress.Visible = true;
             lblProgressVal.Visible = true;
-         
+            cardCurrent.Visible = true;
+            cardNext.Visible = true;
+
             Subscribe();
         }
 
@@ -95,13 +97,27 @@ namespace MemoryStepsUI.UI
             _parent.Show();
         }
 
-        private void _executor_StepCompleted(long currentStepDuration)
+        private void _executor_StepCompleted(long currentStepDuration, long currentDuration, CursorEntity currentCursor, CursorEntity nextCursor)
         {
             _elapsedTime += currentStepDuration;
             progressBar.Value = Convert.ToInt32(_elapsedTime / _totalDuration * 100);
-            lblProgressVal.Text = $"{progressBar.Value.ToString()}%";
+            lblProgressVal.Text = $"{progressBar.Value}%";
+            SetCardsValues(currentDuration, currentCursor, nextCursor);
             Application.DoEvents();
         }
 
+        private void SetCardsValues(long currentDuration, CursorEntity currentCursor, CursorEntity nextCursor) 
+        {
+            lblCurrentType.Text = currentCursor.ControlType;
+            lblCurrentName.Text = currentCursor.ControlName;
+            lblCurrentPos.Text = currentCursor.Position.ToString();
+            lblCurrentDuration.Text = currentDuration.ToString() + " ms";
+
+            lblNextType.Text = nextCursor == null ? "" : nextCursor.ControlType;
+            lblNextName.Text = nextCursor == null ? "" : nextCursor.ControlName;
+            lblNextPos.Text = nextCursor == null ? "" : nextCursor.Position.ToString();
+            lblNextDuration.Text = nextCursor == null ? "" : currentCursor.Milliseconds.ToString() + " ms";
+
+        }
     }
 }
