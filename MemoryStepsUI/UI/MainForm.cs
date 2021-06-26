@@ -3,11 +3,9 @@ using MaterialSkin.Controls;
 using MemoryStepsUI.Services;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MemoryStepsUI.Models;
 using MemoryStepsCore.Models;
+using MemoryStepsCore.Services;
 
 namespace MemoryStepsUI.UI
 {
@@ -15,7 +13,7 @@ namespace MemoryStepsUI.UI
     {
         public CursorRegisterService cursorRegister = new();
         private IKeyboardMouseEvents _globalHook;
-        private CursorLoaderService _cursorLoader = new();
+        private readonly CursorLoaderService _cursorLoader = new();
         private CursorExecutorService _executor;
         public readonly char CompleteTestKeyBind = AppConfig.KeyBind;
         private AutoclickerForm autoclickerF;

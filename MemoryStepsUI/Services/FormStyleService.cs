@@ -1,6 +1,6 @@
 ﻿using MaterialSkin;
 using MaterialSkin.Controls;
-using MemoryStepsUI.Models;
+using MemoryStepsCore.Models;
 
 namespace MemoryStepsUI.Services
 {

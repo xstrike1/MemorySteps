@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using FlaUI.Core.Definitions;
-using MemoryStepsUI.Models;
 using Newtonsoft.Json;
 
-namespace MemoryStepsUI.Models
+namespace MemoryStepsCore.Models
 {
     public static class AppConfig
     {

@@ -5,7 +5,7 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
 using FlaUI.UIA3;
 
-namespace MemoryStepsUI.Services
+namespace MemoryStepsCore.Services
 {
     public static  class AutomationService
     {

@@ -1,5 +1,4 @@
-﻿using MemoryStepsUI.Models;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -8,7 +7,7 @@ using FlaUI.Core.Exceptions;
 using Microsoft.Test.Input;
 using MemoryStepsCore.Models;
 
-namespace MemoryStepsUI.Services
+namespace MemoryStepsCore.Services
 {
     public class CursorExecutorService
     {

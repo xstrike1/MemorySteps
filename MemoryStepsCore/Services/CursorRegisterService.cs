@@ -1,20 +1,11 @@
-﻿using MemoryStepsUI.Models;
+﻿using MemoryStepsCore.Models;
 using Microsoft.Test.Input;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Exceptions;
 
-namespace MemoryStepsUI.Services
+namespace MemoryStepsCore.Services
 {
     public class CursorRegisterService
     {

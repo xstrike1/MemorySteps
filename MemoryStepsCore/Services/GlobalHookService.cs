@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace MemoryStepsUI.Services
+namespace MemoryStepsCore.Services
 {
     public sealed class GlobalHookService
     {
