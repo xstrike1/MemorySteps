@@ -37,7 +37,7 @@ namespace MemoryStepsCore.Services
             }
             catch (PropertyNotSupportedException) { }
 
-            if (controlType == ControlType.Unknown || AppConfig.UndefinedControlTypes.Contains(controlType.ToString()))
+            if (controlType == ControlType.Unknown || AppConfig.Config.UndefinedControlTypes.Contains(controlType.ToString()))
                 TestConfig.CursorList.Add(new CursorEntity(position, btn));
             else
                 TestConfig.CursorList.Add(new CursorEntity(position, btn, controlType.ToString(),

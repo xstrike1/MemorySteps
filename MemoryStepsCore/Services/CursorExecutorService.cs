@@ -117,12 +117,12 @@ namespace MemoryStepsCore.Services
 
         private static bool IsMouseOverControl(CursorEntity cursor, Stopwatch st)
         {
-            if (cursor.ControlType == AppConfig.Undefined) return true;
+            if (cursor.ControlType == AppConfig.Config.Undefined) return true;
 
             while (true)
             {
                 var r = AutomationService.GetHoveredElement();
-                if (st.ElapsedMilliseconds > AppConfig.MaxActionDelay) return false;
+                if (st.ElapsedMilliseconds > AppConfig.Config.MaxActionDelay) return false;
                 try
                 {
                     if (cursor.ControlType == "" || r == null ||

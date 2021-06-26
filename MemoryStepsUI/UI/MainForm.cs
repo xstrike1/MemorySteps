@@ -15,8 +15,8 @@ namespace MemoryStepsUI.UI
         private IKeyboardMouseEvents _globalHook;
         private readonly CursorLoaderService _cursorLoader = new();
         private CursorExecutorService _executor;
-        public readonly char CompleteTestKeyBind = AppConfig.KeyBind;
-        private AutoclickerForm autoclickerF;
+        public readonly char CompleteTestKeyBind = AppConfig.Config.KeyBind;
+        private ProcessingForm processingForm;
 
         public MainForm()
         {
@@ -26,16 +26,17 @@ namespace MemoryStepsUI.UI
 
         public IMemoryProcessingForm CreateProcessingForm(IMemoryMainForm mainForm, CursorExecutorService cursorExecutor, long totalDuration) 
         {
-            autoclickerF =  new AutoclickerForm(this, cursorExecutor, totalDuration)
+            processingForm =  new ProcessingForm(this, cursorExecutor, totalDuration)
             {
                 TopMost = true
             };
-            return autoclickerF;
+            return processingForm;
         }
 
         public void CloseProcessingForm() 
         {
-            autoclickerF.Close();
+            processingForm.Close();
+            processingForm.Dispose();
             this.Show();
         }
 
@@ -56,16 +57,14 @@ namespace MemoryStepsUI.UI
             GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress, GlobalHook_MouseClick);
 
             cursorRegister.StopLastCursorTimer(true);
-            autoclickerF.Close();
-            autoclickerF.Dispose();
-            this.Show();
-            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
+            CloseProcessingForm();
+            rtbCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
         }
 
         private void LaunchAutoclicker()
         {
             Application.DoEvents();
-            this.Hide();
+            Hide();
 
             _executor = new CursorExecutorService(cursorRegister);
             
@@ -74,8 +73,8 @@ namespace MemoryStepsUI.UI
 
         private void ValidateBeforeTestLaunch()
         {
-            if (string.IsNullOrEmpty(rtbAutoclickerCurrentConfig.Text))
-                throw new ApplicationException("Invalid autoclicker configuration");
+            if (string.IsNullOrEmpty(rtbCurrentConfig.Text))
+                throw new ApplicationException("Empty autoclicker configuration");
 
             return;
         }
@@ -110,26 +109,32 @@ namespace MemoryStepsUI.UI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                CloseProcessingForm();
             }
+        }
+
+        private void ShowProcessingForm(IMemoryMainForm mainForm) 
+        {
+            processingForm = new ProcessingForm(this)
+            {
+                TopMost = true
+            };
+            Hide();
+            processingForm.Show();
         }
 
         private void btnStartManualConfig_Click(object sender, EventArgs e)
         {
-            this.Hide();
             AutomationService.StartTimer();
             cursorRegister.TestConfig.CursorList = new List<CursorEntity>();
-            autoclickerF = new AutoclickerForm(this)
-            {
-                TopMost = true
-            };
-            autoclickerF.Show();
+            ShowProcessingForm(this);
             Subscribe();
         }
 
         private void btnLoadConfig_Click(object sender, EventArgs e)
         {
             cursorRegister.TestConfig = _cursorLoader.LoadConfig();
-            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
+            rtbCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
             SetTestFields();
         }
 

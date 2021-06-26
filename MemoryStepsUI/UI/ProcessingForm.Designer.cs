@@ -1,7 +1,7 @@
 ﻿
 namespace MemoryStepsUI.UI
 {
-    partial class AutoclickerForm
+    partial class ProcessingForm
     {
         /// <summary>
         /// Required designer variable.

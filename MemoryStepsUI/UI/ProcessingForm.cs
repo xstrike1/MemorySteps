@@ -10,7 +10,7 @@ using MemoryStepsCore.Models;
 
 namespace MemoryStepsUI.UI
 {
-    public partial class AutoclickerForm : MaterialForm, IMemoryProcessingForm
+    public partial class ProcessingForm : MaterialForm, IMemoryProcessingForm
     {
         public bool CancelHasBeenRequested { get; set; }
         private IKeyboardMouseEvents _globalHook;
@@ -19,7 +19,7 @@ namespace MemoryStepsUI.UI
         private readonly decimal _totalDuration;
         private decimal _elapsedTime;
 
-        public AutoclickerForm()
+        public ProcessingForm()
         {
             InitializeComponent();
 
@@ -29,7 +29,7 @@ namespace MemoryStepsUI.UI
         /// <summary>
         /// Constructor used for manual configuration
         /// </summary>
-        public AutoclickerForm(MainForm parent) 
+        public ProcessingForm(MainForm parent) 
             :this()
         {
             _parent = parent;
@@ -39,7 +39,7 @@ namespace MemoryStepsUI.UI
         /// <summary>
         /// Constructor used for execution
         /// </summary>
-        public AutoclickerForm(MainForm parent, CursorExecutorService executor, long totalDuration) 
+        public ProcessingForm(MainForm parent, CursorExecutorService executor, long totalDuration) 
             : this(parent) 
         {
             _executor = executor;

@@ -17,8 +17,8 @@ namespace MemoryStepsCore.Models
        
         public Dictionary<long, char> PressedCharacters { get; set; }
         public MouseButton ButtonPressed { get; set; }
-        public string ControlType { get; set; } = AppConfig.Undefined;
-        public string ControlName { get; set; } = AppConfig.Undefined;
+        public string ControlType { get; set; } = AppConfig.Config.Undefined;
+        public string ControlName { get; set; } = AppConfig.Config.Undefined;
 
         public CursorEntity() 
         {

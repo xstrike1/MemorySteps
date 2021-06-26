@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MemoryStepsCore.Models;
 using MemoryStepsUI.UI;
 
 namespace MemoryStepsUI
@@ -24,7 +25,6 @@ namespace MemoryStepsUI
 
             Application.Run(new MainForm());
         }
-
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Exception ex = (Exception)e.ExceptionObject;
