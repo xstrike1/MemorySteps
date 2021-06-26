@@ -41,6 +41,7 @@ namespace MemoryStepsUI.UI
             this.lblNextName = new MaterialSkin.Controls.MaterialLabel();
             this.lblNextType = new MaterialSkin.Controls.MaterialLabel();
             this.cardCurrent = new MaterialSkin.Controls.MaterialCard();
+            this.lblCurrentCursorNumber = new MaterialSkin.Controls.MaterialLabel();
             this.lblCurrentDuration = new MaterialSkin.Controls.MaterialLabel();
             this.lblCurrentPos = new MaterialSkin.Controls.MaterialLabel();
             this.lblCurrentName = new MaterialSkin.Controls.MaterialLabel();
@@ -199,6 +200,7 @@ namespace MemoryStepsUI.UI
             // cardCurrent
             // 
             this.cardCurrent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.cardCurrent.Controls.Add(this.lblCurrentCursorNumber);
             this.cardCurrent.Controls.Add(this.lblCurrentDuration);
             this.cardCurrent.Controls.Add(this.lblCurrentPos);
             this.cardCurrent.Controls.Add(this.lblCurrentName);
@@ -214,6 +216,18 @@ namespace MemoryStepsUI.UI
             this.cardCurrent.Size = new System.Drawing.Size(188, 111);
             this.cardCurrent.TabIndex = 7;
             this.cardCurrent.Visible = false;
+            // 
+            // lblCurrentCursorNumber
+            // 
+            this.lblCurrentCursorNumber.AutoSize = true;
+            this.lblCurrentCursorNumber.Depth = 0;
+            this.lblCurrentCursorNumber.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblCurrentCursorNumber.Location = new System.Drawing.Point(159, 3);
+            this.lblCurrentCursorNumber.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblCurrentCursorNumber.Name = "lblCurrentCursorNumber";
+            this.lblCurrentCursorNumber.Size = new System.Drawing.Size(11, 19);
+            this.lblCurrentCursorNumber.TabIndex = 10;
+            this.lblCurrentCursorNumber.Text = "#";
             // 
             // lblCurrentDuration
             // 
@@ -312,5 +326,6 @@ namespace MemoryStepsUI.UI
         private MaterialSkin.Controls.MaterialLabel lblNextName;
         private MaterialSkin.Controls.MaterialLabel lblNextType;
         private MaterialSkin.Controls.MaterialLabel r;
+        private MaterialSkin.Controls.MaterialLabel lblCurrentCursorNumber;
     }
 }

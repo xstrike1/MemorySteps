@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Exceptions;
+using MemoryStepsCore.Config;
 
 namespace MemoryStepsCore.Services
 {
@@ -24,6 +25,8 @@ namespace MemoryStepsCore.Services
             {
                 MouseButtons.Right => MouseButton.Right,
                 MouseButtons.Middle => MouseButton.Middle,
+                MouseButtons.XButton1 => MouseButton.XButton1,
+                MouseButtons.XButton2 => MouseButton.XButton2,
                 _ => MouseButton.Left
             };
 
@@ -42,6 +45,16 @@ namespace MemoryStepsCore.Services
             else
                 TestConfig.CursorList.Add(new CursorEntity(position, btn, controlType.ToString(),
                 automationElement?.Name));
+
+            TestConfig.CursorList[^1].CursorNumber = TestConfig.CursorList.Count;
+        }
+
+        public void RegisterMouseDoubleClick() 
+        {
+            if (TestConfig.CursorList.Count == 0)
+                return;
+
+            TestConfig.CursorList[^1].DoubleClick = true;
         }
 
         public void RegisterKeyPress(char key)
@@ -59,7 +72,7 @@ namespace MemoryStepsCore.Services
                 return;
 
             TestConfig.CursorList[^1].Time.Stop();
-            TestConfig.CursorList[^1].Milliseconds = TestConfig.CursorList[^1].Time.ElapsedMilliseconds;
+            TestConfig.CursorList[^1].MilisecondsToNextCursor = TestConfig.CursorList[^1].Time.ElapsedMilliseconds;
         }
     }
 }

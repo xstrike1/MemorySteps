@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using MemoryStepsCore.Models;
 using MemoryStepsCore.Services;
+using MemoryStepsCore.Config;
 
 namespace MemoryStepsUI.UI
 {
@@ -52,12 +53,12 @@ namespace MemoryStepsUI.UI
 
         public void Subscribe()
         {
-            _globalHook = GlobalHookService.Instance.SubscribeGlobalHook(GlobalHookKeyPress, GlobalHook_MouseClick);
+            _globalHook = GlobalHookService.Instance.SubscribeGlobalHook(GlobalHookKeyPress, GlobalHook_MouseClick, GlobalHook_MouseDoubleClick);
         }
 
         public void Unsubscribe()
         {
-            GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress, GlobalHook_MouseClick);
+            GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress, GlobalHook_MouseClick, GlobalHook_MouseDoubleClick);
 
             cursorRegister.StopLastCursorTimer(true);
             CloseProcessingForm();
@@ -85,6 +86,11 @@ namespace MemoryStepsUI.UI
         private void GlobalHook_MouseClick(object sender, MouseEventArgs e)
         {
             cursorRegister.RegisterMouseButtonClick(e.Location, e.Button);
+        }
+
+        private void GlobalHook_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            cursorRegister.RegisterMouseDoubleClick();
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)

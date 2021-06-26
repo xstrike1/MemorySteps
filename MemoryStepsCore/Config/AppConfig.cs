@@ -1,15 +1,15 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
+using MemoryStepsCore.Models;
 using Newtonsoft.Json;
 
-namespace MemoryStepsCore.Models
+namespace MemoryStepsCore.Config
 {
     public class AppConfig
     {
         private static readonly string configLocation = "appSettings.json";
-        private static Config _config;
-        public static Config Config 
+        private static ConfigModel _config;
+        public static ConfigModel Config 
         {
             get 
             {
@@ -23,7 +23,7 @@ namespace MemoryStepsCore.Models
         {
             try
             {
-                _config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configLocation));
+                _config = JsonConvert.DeserializeObject<ConfigModel>(File.ReadAllText(configLocation));
             }
             catch (FileNotFoundException)
             {
@@ -33,7 +33,7 @@ namespace MemoryStepsCore.Models
 
         private static void CreateConfig() 
         {
-            _config = new Config();
+            _config = new ConfigModel();
             string _configString = JsonConvert.SerializeObject(_config, Formatting.Indented);
             using var fs = File.Create(configLocation);
             byte[] jsonBytes = new UTF8Encoding(true).GetBytes(_configString);

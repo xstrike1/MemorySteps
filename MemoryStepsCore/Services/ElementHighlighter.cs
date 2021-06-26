@@ -9,7 +9,7 @@ namespace MemoryStepsCore.Services
 {
     public static class ElementHighlighter
     {
-        public static void HighlightElement(AutomationElement automationElement)
+        public static void HighlightElement(AutomationElement automationElement, Color? highlightColor = null)
         {
             if(automationElement == null)
                 return;
@@ -18,7 +18,7 @@ namespace MemoryStepsCore.Services
             {
                 Task.Run(() =>
                 {
-                    return automationElement.DrawHighlight(false, Color.Blue, TimeSpan.FromSeconds(1));
+                    return automationElement.DrawHighlight(false, highlightColor ?? Color.Blue, TimeSpan.FromMilliseconds(500));
                 });
             }
             catch (PropertyNotSupportedException ex)

@@ -112,12 +112,18 @@ namespace MemoryStepsUI.UI
             lblCurrentName.Text = currentCursor.ControlName;
             lblCurrentPos.Text = currentCursor.Position.ToString();
             lblCurrentDuration.Text = currentDuration.ToString() + " ms";
+            lblCurrentCursorNumber.Text = currentCursor.CursorNumber.ToString();
 
-            lblNextType.Text = nextCursor == null ? "" : nextCursor.ControlType;
-            lblNextName.Text = nextCursor == null ? "" : nextCursor.ControlName;
-            lblNextPos.Text = nextCursor == null ? "" : nextCursor.Position.ToString();
-            lblNextDuration.Text = nextCursor == null ? "" : currentCursor.Milliseconds.ToString() + " ms";
+            if (nextCursor == null)
+            {
+                cardNext.Visible = false;
+                return;
+            }
 
+            lblNextType.Text = nextCursor.ControlType;
+            lblNextName.Text =  nextCursor.ControlName;
+            lblNextPos.Text =  nextCursor.Position.ToString();
+            lblNextDuration.Text =  currentCursor.MilisecondsToNextCursor.ToString() + " ms";
         }
     }
 }

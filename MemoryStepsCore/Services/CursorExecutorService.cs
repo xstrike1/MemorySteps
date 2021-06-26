@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using FlaUI.Core.Exceptions;
 using Microsoft.Test.Input;
 using MemoryStepsCore.Models;
+using MemoryStepsCore.Config;
+using System.Drawing;
 
 namespace MemoryStepsCore.Services
 {
@@ -21,7 +23,7 @@ namespace MemoryStepsCore.Services
 
         public long GetTotalDuration()
         {
-            return _cursorRegister.TestConfig.CursorList.Sum(cursor => cursor.Milliseconds);
+            return _cursorRegister.TestConfig.CursorList.Sum(cursor => cursor.MilisecondsToNextCursor);
         }
 
         public TimeSpan Execute(IMemoryMainForm parentForm)  
@@ -53,7 +55,7 @@ namespace MemoryStepsCore.Services
                 var previousCursorEntity = _cursorRegister.TestConfig.CursorList[i - 1];
                 var currentCursor = _cursorRegister.TestConfig.CursorList[i];
                 var nextCursor = i < _cursorRegister.TestConfig.CursorList.Count - 1 ? _cursorRegister.TestConfig.CursorList[i + 1] : null;
-                StepCompleted?.Invoke(lastCursorTimer, previousCursorEntity.Milliseconds, currentCursor, nextCursor);
+                StepCompleted?.Invoke(lastCursorTimer, previousCursorEntity.MilisecondsToNextCursor, currentCursor, nextCursor);
 
                 try
                 {
@@ -84,7 +86,7 @@ namespace MemoryStepsCore.Services
             else
                 charactersPressed = true;
 
-            while (timer.ElapsedMilliseconds < previousCursor.Milliseconds)
+            while (timer.ElapsedMilliseconds < previousCursor.MilisecondsToNextCursor)
             {
 
                 if (form.CancelHasBeenRequested)
@@ -116,7 +118,10 @@ namespace MemoryStepsCore.Services
             if (!controlIsGood)
                 throw new ApplicationException("Control not found!");
 
-            Mouse.Click(cursor.ButtonPressed);
+            if (cursor.DoubleClick)
+                Mouse.DoubleClick(cursor.ButtonPressed);
+            else
+                Mouse.Click(cursor.ButtonPressed);
         }
 
         private static bool IsMouseOverControl(CursorEntity cursor, Stopwatch st)
@@ -130,9 +135,13 @@ namespace MemoryStepsCore.Services
                 try
                 {
                     if (cursor.ControlType == "" || r == null ||
-                        r.ControlType.ToString() != cursor.ControlType || r.Name != cursor.ControlName)
+                        r.ControlType.ToString() != cursor.ControlType)
                         continue;
 
+                    if (AppConfig.Config.CheckControlName && r.Name != cursor.ControlName)
+                        continue;
+
+                    ElementHighlighter.HighlightElement(r, Color.BlueViolet);
                     return true;
                 }
                 catch(PropertyNotSupportedException)
