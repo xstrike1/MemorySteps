@@ -13,28 +13,27 @@ namespace MemoryStepsUI.UI
     public partial class MainForm : MaterialForm, IMemoryMainForm
     {
         public CursorRegisterService cursorRegister = new();
-        private IKeyboardMouseEvents _globalHook;
         private readonly CursorLoaderService _cursorLoader = new();
         private CursorExecutorService _executor;
-        public readonly char CompleteTestKeyBind = AppConfig.Config.KeyBind;
         private ProcessingForm processingForm;
 
         public MainForm()
         {
             InitializeComponent();
             FormStyleService.InitMaterialSkin(this);
+            cursorRegister.OnRegisterFinish += OnRegisterComplete;
         }
 
-        public IMemoryProcessingForm CreateProcessingForm(IMemoryMainForm mainForm, CursorExecutorService cursorExecutor, long totalDuration) 
+        public IMemoryProcessingForm CreateProcessingForm(IMemoryMainForm mainForm, CursorExecutorService cursorExecutor, long totalDuration)
         {
-            processingForm =  new ProcessingForm(this, cursorExecutor, totalDuration)
+            processingForm = new ProcessingForm(this, cursorExecutor, totalDuration)
             {
                 TopMost = true
             };
             return processingForm;
         }
 
-        public void CloseProcessingForm() 
+        public void CloseProcessingForm()
         {
             this.Show();
             if (processingForm == null)
@@ -51,27 +50,13 @@ namespace MemoryStepsUI.UI
             lblTestComp.Visible = true;
         }
 
-        public void Subscribe()
-        {
-            _globalHook = GlobalHookService.Instance.SubscribeGlobalHook(GlobalHookKeyPress, GlobalHook_MouseClick, GlobalHook_MouseDoubleClick);
-        }
-
-        public void Unsubscribe()
-        {
-            GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress, GlobalHook_MouseClick, GlobalHook_MouseDoubleClick);
-
-            cursorRegister.StopLastCursorTimer(true);
-            CloseProcessingForm();
-            rtbCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
-        }
-
         private void LaunchAutoclicker()
         {
             Application.DoEvents();
             Hide();
 
             _executor = new CursorExecutorService(cursorRegister);
-            
+
             CompleteTest(_executor.Execute(this).ToString());
         }
 
@@ -83,29 +68,11 @@ namespace MemoryStepsUI.UI
             return;
         }
 
-        private void GlobalHook_MouseClick(object sender, MouseEventArgs e)
+        public void OnRegisterComplete() 
         {
-            cursorRegister.RegisterMouseButtonClick(e.Location, e.Button);
-        }
-
-        private void GlobalHook_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            cursorRegister.RegisterMouseDoubleClick();
-        }
-
-        private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == CompleteTestKeyBind)
-            {
-                AutomationService.StopTimer();
-                Unsubscribe();
-                e.Handled = true;
-                SetTestFields(true);
-                return;
-            }
-
-            cursorRegister.RegisterKeyPress(e.KeyChar);
-            e.Handled = true;
+            SetTestFields(true);
+            rtbCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
+            CloseProcessingForm();
         }
 
         private void btnLaunchTest_Click(object sender, EventArgs e)
@@ -135,9 +102,8 @@ namespace MemoryStepsUI.UI
         private void btnStartManualConfig_Click(object sender, EventArgs e)
         {
             AutomationService.StartTimer();
-            cursorRegister.TestConfig.CursorList = new List<CursorEntity>();
             ShowProcessingForm(this);
-            Subscribe();
+            cursorRegister.StartCursorRegister();
         }
 
         private void btnLoadConfig_Click(object sender, EventArgs e)

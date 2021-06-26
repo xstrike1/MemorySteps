@@ -1,0 +1,12 @@
+﻿using System.Windows.Forms;
+
+namespace MemoryStepsCore.Models
+{
+    public class MouseEventHandlers
+    {
+        public MouseEventHandler MouseClickEventHandler { get; set; }
+        public MouseEventHandler MouseDoubleClickEventHandler { get; set; }
+        public MouseEventHandler MouseDragStartedEventHandler{ get; set; }
+        public MouseEventHandler MouseDragFinishedEventHandler { get; set; }
+    }
+}

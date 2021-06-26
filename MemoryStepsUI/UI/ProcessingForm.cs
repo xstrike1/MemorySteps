@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using MemoryStepsUI.Properties;
 using MemoryStepsCore.Models;
+using MemoryStepsCore.Config;
 
 namespace MemoryStepsUI.UI
 {
@@ -33,7 +34,7 @@ namespace MemoryStepsUI.UI
             :this()
         {
             _parent = parent;
-            lblHint.Text = string.Format(Resources.CaptionCancelCurrentExecutionFormat, parent.CompleteTestKeyBind.ToString());
+            lblHint.Text = string.Format(Resources.CaptionCancelCurrentExecutionFormat, AppConfig.Config.KeyBind.ToString());
         }
 
         /// <summary>
@@ -69,14 +70,14 @@ namespace MemoryStepsUI.UI
 
         private void Subscribe()
         {
-            _globalHook = GlobalHookService.Instance.SubscribeGlobalHook(GlobalHookKeyPress);
+            _globalHook = GlobalHookService.SubscribeGlobalHook(GlobalHookKeyPress);
             _executor.StepCompleted += _executor_StepCompleted;
            
         }
 
         private void Unsubscribe()
         {
-            GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress);
+            GlobalHookService.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress);
 
             if (_executor == null)
                 return;
@@ -86,7 +87,7 @@ namespace MemoryStepsUI.UI
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar != _parent.CompleteTestKeyBind)
+            if (e.KeyChar != AppConfig.Config.KeyBind)
                 return;
 
             Unsubscribe();

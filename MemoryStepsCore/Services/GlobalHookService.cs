@@ -1,4 +1,5 @@
 ﻿using Gma.System.MouseKeyHook;
+using MemoryStepsCore.Models;
 using System;
 using System.Windows.Forms;
 
@@ -12,23 +13,26 @@ namespace MemoryStepsCore.Services
 
         private GlobalHookService() {}
 
-        public IKeyboardMouseEvents SubscribeGlobalHook(KeyPressEventHandler keyPressEventHandler = null, MouseEventHandler mouseEventHandler = null, MouseEventHandler mouseDoubleClick = null) 
+        public static IKeyboardMouseEvents SubscribeGlobalHook(KeyPressEventHandler keyPressEventHandler = null, MouseEventHandlers mouseEventHandlers = null)
         {
             IKeyboardMouseEvents globalHook = Hook.GlobalEvents();
 
             if(keyPressEventHandler != null)
                 globalHook.KeyPress += keyPressEventHandler;
 
-            if (mouseEventHandler != null) 
-                globalHook.MouseClick += mouseEventHandler;
-
-            if (mouseDoubleClick != null)
-                globalHook.MouseDoubleClick += mouseDoubleClick;
+            if (mouseEventHandlers?.MouseClickEventHandler != null)
+                globalHook.MouseClick += mouseEventHandlers.MouseClickEventHandler;
+            if (mouseEventHandlers?.MouseDoubleClickEventHandler != null)
+                globalHook.MouseDoubleClick += mouseEventHandlers.MouseDoubleClickEventHandler;
+            if (mouseEventHandlers?.MouseDragStartedEventHandler != null)
+                globalHook.MouseDragStarted += mouseEventHandlers.MouseDragStartedEventHandler;
+            if (mouseEventHandlers?.MouseDragFinishedEventHandler != null)
+                globalHook.MouseDragFinished += mouseEventHandlers.MouseDragFinishedEventHandler;
 
             return globalHook;
         }
 
-        public void UnsubscribeGlobalHook(IKeyboardMouseEvents globalHook, KeyPressEventHandler keyPressEventHandler = null, MouseEventHandler mouseEventHandler = null, MouseEventHandler m2 = null) 
+        public static void UnsubscribeGlobalHook(IKeyboardMouseEvents globalHook, KeyPressEventHandler keyPressEventHandler = null, MouseEventHandlers mouseEventHandlers = null)
         {
             if (globalHook == null)
                 return;
@@ -36,11 +40,14 @@ namespace MemoryStepsCore.Services
             if (keyPressEventHandler != null)
                 globalHook.KeyPress -= keyPressEventHandler;
 
-            if (mouseEventHandler != null)
-                globalHook.MouseClick -= mouseEventHandler;
-
-            if (m2 != null)
-                globalHook.MouseDoubleClick -= m2;
+            if (mouseEventHandlers?.MouseClickEventHandler != null)
+                globalHook.MouseClick -= mouseEventHandlers.MouseClickEventHandler;
+            if (mouseEventHandlers?.MouseDoubleClickEventHandler != null)
+                globalHook.MouseDoubleClick -= mouseEventHandlers.MouseDoubleClickEventHandler;
+            if (mouseEventHandlers?.MouseDragStartedEventHandler != null)
+                globalHook.MouseDragStarted -= mouseEventHandlers.MouseDragStartedEventHandler;
+            if (mouseEventHandlers?.MouseDragFinishedEventHandler != null)
+                globalHook.MouseDragFinished -= mouseEventHandlers.MouseDragFinishedEventHandler;
 
             globalHook.Dispose();
         }

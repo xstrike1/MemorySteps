@@ -12,6 +12,7 @@ namespace MemoryStepsCore.Models
         public int CursorNumber { get; set; }
         public long MilisecondsToNextCursor { get; set; }
         public Point Position { get; set; }
+        public Point DragPosition { get; set; }
         [NonSerialized]
         public Stopwatch Time;
         public Dictionary<long, char> PressedCharacters { get; set; }

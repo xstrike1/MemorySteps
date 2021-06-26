@@ -74,7 +74,7 @@ namespace MemoryStepsCore.Services
             parentForm.CloseProcessingForm();
         }
 
-        private long ExecuteCursor(CursorEntity cursor, CursorEntity previousCursor,  IMemoryProcessingForm form) 
+        private static long ExecuteCursor(CursorEntity cursor, CursorEntity previousCursor,  IMemoryProcessingForm form) 
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -118,10 +118,17 @@ namespace MemoryStepsCore.Services
             if (!controlIsGood)
                 throw new ApplicationException("Control not found!");
 
+            if (cursor.DragPosition != Point.Empty)
+            {
+                Mouse.DragTo(cursor.ButtonPressed, cursor.DragPosition);
+                return;
+            }
+
             if (cursor.DoubleClick)
                 Mouse.DoubleClick(cursor.ButtonPressed);
             else
                 Mouse.Click(cursor.ButtonPressed);
+
         }
 
         private static bool IsMouseOverControl(CursorEntity cursor, Stopwatch st)
