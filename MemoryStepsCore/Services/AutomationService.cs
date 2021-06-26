@@ -10,7 +10,7 @@ namespace MemoryStepsCore.Services
     public static  class AutomationService
     {
         private static readonly AutomationBase AutBase = new UIA3Automation();
-        public static AutomationElement CurrentHoveredElement;
+        private static AutomationElement CurrentHoveredElement;
         private static Timer Timer;
 
         public static void StartTimer()

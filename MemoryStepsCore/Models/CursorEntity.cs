@@ -17,6 +17,7 @@ namespace MemoryStepsCore.Models
         public Stopwatch Time;
         public Dictionary<long, char> PressedCharacters { get; set; }
         public MouseButton ButtonPressed { get; set; }
+        public int MouseWheelDelta { get; set; }
         public bool DoubleClick { get; set; }
         public string ControlType { get; set; } = AppConfig.Config.Undefined;
         public string ControlName { get; set; } = AppConfig.Config.Undefined;
@@ -38,7 +39,13 @@ namespace MemoryStepsCore.Models
            : this(position)
         {
             ButtonPressed = buttonPressed;
-        }   
+        }
+
+        public CursorEntity(Point position, MouseButton buttonPressed, int mouseWheelDelta)
+        : this(position, buttonPressed)
+        {
+            MouseWheelDelta = mouseWheelDelta;
+        }
 
         public CursorEntity(Point position, MouseButton buttonPressed , string controlType, string controlName)
             : this(position, buttonPressed)

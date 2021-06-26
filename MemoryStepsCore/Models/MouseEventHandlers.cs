@@ -8,5 +8,6 @@ namespace MemoryStepsCore.Models
         public MouseEventHandler MouseDoubleClickEventHandler { get; set; }
         public MouseEventHandler MouseDragStartedEventHandler{ get; set; }
         public MouseEventHandler MouseDragFinishedEventHandler { get; set; }
+        public MouseEventHandler MouseWheelEventHandler { get; set; }
     }
 }

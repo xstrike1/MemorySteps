@@ -124,11 +124,16 @@ namespace MemoryStepsCore.Services
                 return;
             }
 
+            if (cursor.MouseWheelDelta != 0)
+            {
+                Mouse.Scroll(cursor.MouseWheelDelta / SystemInformation.MouseWheelScrollDelta);
+                return;
+            }
+
             if (cursor.DoubleClick)
                 Mouse.DoubleClick(cursor.ButtonPressed);
             else
                 Mouse.Click(cursor.ButtonPressed);
-
         }
 
         private static bool IsMouseOverControl(CursorEntity cursor, Stopwatch st)

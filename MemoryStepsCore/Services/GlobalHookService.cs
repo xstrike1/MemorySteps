@@ -28,6 +28,8 @@ namespace MemoryStepsCore.Services
                 globalHook.MouseDragStarted += mouseEventHandlers.MouseDragStartedEventHandler;
             if (mouseEventHandlers?.MouseDragFinishedEventHandler != null)
                 globalHook.MouseDragFinished += mouseEventHandlers.MouseDragFinishedEventHandler;
+            if (mouseEventHandlers?.MouseWheelEventHandler != null)
+                globalHook.MouseWheel += mouseEventHandlers.MouseWheelEventHandler;
 
             return globalHook;
         }
@@ -48,6 +50,8 @@ namespace MemoryStepsCore.Services
                 globalHook.MouseDragStarted -= mouseEventHandlers.MouseDragStartedEventHandler;
             if (mouseEventHandlers?.MouseDragFinishedEventHandler != null)
                 globalHook.MouseDragFinished -= mouseEventHandlers.MouseDragFinishedEventHandler;
+            if (mouseEventHandlers?.MouseWheelEventHandler != null)
+                globalHook.MouseWheel -= mouseEventHandlers.MouseWheelEventHandler;
 
             globalHook.Dispose();
         }

@@ -24,8 +24,9 @@ namespace MemoryStepsCore.Services
             {
                 MouseClickEventHandler = GlobalHook_MouseClick,
                 MouseDoubleClickEventHandler = GlobalHook_MouseDoubleClick,
-                MouseDragStartedEventHandler = GlobalHool_MouseDragStarted,
-                MouseDragFinishedEventHandler = GlobalHool_MouseDragFinished
+                MouseDragStartedEventHandler = GlobalHook_MouseDragStarted,
+                MouseDragFinishedEventHandler = GlobalHook_MouseDragFinished,
+                MouseWheelEventHandler = GlobalHook_MouseWheel
             };
         }
 
@@ -73,18 +74,31 @@ namespace MemoryStepsCore.Services
         {
             RegisterMouseDoubleClick();
         }
+        private void GlobalHook_MouseWheel(object sender, MouseEventArgs e)
+        {
+            RegisterMouseWheel(e.Location, e.Delta);
+        }
 
         bool mouseDragStarted = false;
 
-        private void GlobalHool_MouseDragStarted(object sender, MouseEventArgs e) 
+        private void GlobalHook_MouseDragStarted(object sender, MouseEventArgs e) 
         {
             mouseDragStarted = true;
             RegisterMouseButtonClick(e.Location, e.Button);
         }
-        private void GlobalHool_MouseDragFinished(object sender, MouseEventArgs e) 
+        private void GlobalHook_MouseDragFinished(object sender, MouseEventArgs e) 
         {
             mouseDragStarted = false;
             TestConfig.CursorList[^1].DragPosition = e.Location;
+        }
+
+        private void RegisterKeyPress(char key)
+        {
+            if (TestConfig.CursorList.Count < 1)
+                return;
+
+            var currentCursor = TestConfig.CursorList[^1];
+            currentCursor.PressedCharacters.Add(currentCursor.Time.ElapsedMilliseconds, key);
         }
 
         private void RegisterMouseButtonClick(Point position, MouseButtons button)
@@ -127,13 +141,10 @@ namespace MemoryStepsCore.Services
             TestConfig.CursorList[^1].DoubleClick = true;
         }
 
-        private void RegisterKeyPress(char key)
+        private void RegisterMouseWheel(Point position, int delta)
         {
-            if (TestConfig.CursorList.Count < 1)
-                return;
-
-            var currentCursor = TestConfig.CursorList[^1];
-            currentCursor.PressedCharacters.Add(currentCursor.Time.ElapsedMilliseconds, key);
+            TestConfig.CursorList.Add(new CursorEntity(position, MouseButton.Middle, delta));
+            TestConfig.CursorList[^1].CursorNumber = TestConfig.CursorList.Count;
         }
 
         private void StopLastCursorTimer()
