@@ -11,11 +11,9 @@ namespace MemoryStepsUI.Services
         {
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(form);
-            materialSkinManager.Theme = AppConfig.Theme;
+            materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = ColorScheme;
             form.Icon = Properties.Resources.logo;
         }
-
-
     }
 }

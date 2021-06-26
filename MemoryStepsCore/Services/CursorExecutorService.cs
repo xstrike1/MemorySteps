@@ -1,17 +1,12 @@
 ﻿using MemoryStepsUI.Models;
-using MemoryStepsUI.UI;
-using Microsoft.Test.Input;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FlaUI.Core.Exceptions;
+using Microsoft.Test.Input;
+using MemoryStepsCore.Models;
 
 namespace MemoryStepsUI.Services
 {
@@ -30,7 +25,7 @@ namespace MemoryStepsUI.Services
             return _cursorRegister.TestConfig.CursorList.Sum(cursor => cursor.Milliseconds);
         }
 
-        public TimeSpan Execute(MainForm parentForm)  
+        public TimeSpan Execute(IMemoryMainForm parentForm)  
         {
             if (_cursorRegister == null || _cursorRegister.TestConfig.CursorList.Count == 0)
             {
@@ -40,7 +35,7 @@ namespace MemoryStepsUI.Services
             Stopwatch time = new();
             time.Start();
             var totalDuration = GetTotalDuration();
-            var autoclickerForm = new AutoclickerForm(parentForm, this, totalDuration) {TopMost = true};
+            var autoclickerForm = parentForm.CreateProcessingForm(parentForm, this, totalDuration);
             autoclickerForm.Show();
             Application.DoEvents(); 
 
@@ -50,7 +45,7 @@ namespace MemoryStepsUI.Services
             return time.Elapsed;
         }
 
-        private void InternalExecute(MainForm parentForm, AutoclickerForm autoclickerForm) 
+        private void InternalExecute(IMemoryMainForm parentForm, IMemoryProcessingForm autoclickerForm) 
         {
            ExecuteMouseClick(_cursorRegister.TestConfig.CursorList[0]);
 
@@ -63,8 +58,7 @@ namespace MemoryStepsUI.Services
                 }
                 catch 
                 {
-                    autoclickerForm.Close();
-                    parentForm.Show();
+                    parentForm.CloseProcessingForm();
                     break;
                 }
 
@@ -72,11 +66,10 @@ namespace MemoryStepsUI.Services
                     break;
             }
 
-            autoclickerForm.Close();
-            parentForm.Show();
+            parentForm.CloseProcessingForm();
         }
 
-        private void ExecuteCursor(CursorEntity cursor, CursorEntity previousCursor,  IFormWithCancelRequest form) 
+        private void ExecuteCursor(CursorEntity cursor, CursorEntity previousCursor,  IMemoryProcessingForm form) 
         {
             var timer = new Stopwatch();
             timer.Start();

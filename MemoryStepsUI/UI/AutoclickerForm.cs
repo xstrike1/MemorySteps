@@ -5,10 +5,11 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using MemoryStepsUI.Properties;
+using MemoryStepsCore.Models;
 
 namespace MemoryStepsUI.UI
 {
-    public partial class AutoclickerForm : MaterialForm, IFormWithCancelRequest
+    public partial class AutoclickerForm : MaterialForm, IMemoryProcessingForm
     {
         public bool CancelHasBeenRequested { get; set; }
         private IKeyboardMouseEvents _globalHook;

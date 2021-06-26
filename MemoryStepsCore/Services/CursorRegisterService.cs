@@ -19,7 +19,6 @@ namespace MemoryStepsUI.Services
     public class CursorRegisterService
     {
         public TestConfigEntity TestConfig;
-        private int doubleClickTime = System.Windows.Forms.SystemInformation.DoubleClickTime;
 
         public CursorRegisterService() 
         {

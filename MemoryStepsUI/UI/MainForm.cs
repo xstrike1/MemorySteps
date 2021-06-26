@@ -7,10 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MemoryStepsUI.Models;
+using MemoryStepsCore.Models;
 
 namespace MemoryStepsUI.UI
 {
-    public partial class MainForm : MaterialForm
+    public partial class MainForm : MaterialForm, IMemoryMainForm
     {
         public CursorRegisterService cursorRegister = new();
         private IKeyboardMouseEvents _globalHook;
@@ -23,6 +24,21 @@ namespace MemoryStepsUI.UI
         {
             InitializeComponent();
             FormStyleService.InitMaterialSkin(this);
+        }
+
+        public IMemoryProcessingForm CreateProcessingForm(IMemoryMainForm mainForm, CursorExecutorService cursorExecutor, long totalDuration) 
+        {
+            autoclickerF =  new AutoclickerForm(this, cursorExecutor, totalDuration)
+            {
+                TopMost = true
+            };
+            return autoclickerF;
+        }
+
+        public void CloseProcessingForm() 
+        {
+            autoclickerF.Close();
+            this.Show();
         }
 
         public void CompleteTest(string timeElapsed)
