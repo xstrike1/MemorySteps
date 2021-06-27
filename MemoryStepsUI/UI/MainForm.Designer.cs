@@ -38,6 +38,16 @@ namespace MemoryStepsUI.UI
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
+            this.tabAutoclicker = new System.Windows.Forms.TabPage();
+            this.cursorEditorControl1 = new MemoryStepsUI.Controls.CursorEditorControl();
+            this.pnlCurrentConfig = new System.Windows.Forms.FlowLayoutPanel();
+            this.materialCard3 = new MaterialSkin.Controls.MaterialCard();
+            this.btnStartManualConfig = new MaterialSkin.Controls.MaterialButton();
+            this.btnSaveConfig = new MaterialSkin.Controls.MaterialButton();
+            this.btnLoadConfig = new MaterialSkin.Controls.MaterialButton();
+            this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.lblQuickLaunch = new MaterialSkin.Controls.MaterialButton();
+            this.lblAutoclickerTitle = new MaterialSkin.Controls.MaterialLabel();
             this.tabHome = new System.Windows.Forms.TabPage();
             this.cardConfig = new MaterialSkin.Controls.MaterialCard();
             this.txtBoxTestDescr = new MaterialSkin.Controls.MaterialMultiLineTextBox();
@@ -57,24 +67,16 @@ namespace MemoryStepsUI.UI
             this.lblTestComp = new MaterialSkin.Controls.MaterialLabel();
             this.matcard_Down = new MaterialSkin.Controls.MaterialCard();
             this.btnLaunchTest = new MaterialSkin.Controls.MaterialButton();
-            this.tabAutoclicker = new System.Windows.Forms.TabPage();
-            this.materialCard3 = new MaterialSkin.Controls.MaterialCard();
-            this.btnStartManualConfig = new MaterialSkin.Controls.MaterialButton();
-            this.btnSaveConfig = new MaterialSkin.Controls.MaterialButton();
-            this.btnLoadConfig = new MaterialSkin.Controls.MaterialButton();
-            this.rtbAutoclickerCurrentConfig = new MaterialSkin.Controls.MaterialMultiLineTextBox();
-            this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
-            this.lblAutoclickerTitle = new MaterialSkin.Controls.MaterialLabel();
             this.icons_imageList = new System.Windows.Forms.ImageList(this.components);
             this.materialTextBox3 = new MaterialSkin.Controls.MaterialTextBox();
             this.materialTabControl1.SuspendLayout();
+            this.tabAutoclicker.SuspendLayout();
+            this.materialCard3.SuspendLayout();
+            this.materialCard1.SuspendLayout();
             this.tabHome.SuspendLayout();
             this.cardConfig.SuspendLayout();
             this.matCard_Top.SuspendLayout();
             this.matcard_Down.SuspendLayout();
-            this.tabAutoclicker.SuspendLayout();
-            this.materialCard3.SuspendLayout();
-            this.materialCard1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage1
@@ -99,18 +101,174 @@ namespace MemoryStepsUI.UI
             // 
             // materialTabControl1
             // 
-            this.materialTabControl1.Controls.Add(this.tabHome);
             this.materialTabControl1.Controls.Add(this.tabAutoclicker);
+            this.materialTabControl1.Controls.Add(this.tabHome);
             this.materialTabControl1.Depth = 0;
             this.materialTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.materialTabControl1.ImageList = this.icons_imageList;
-            this.materialTabControl1.Location = new System.Drawing.Point(3, 3);
+            this.materialTabControl1.Location = new System.Drawing.Point(3, 64);
             this.materialTabControl1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabControl1.Multiline = true;
             this.materialTabControl1.Name = "materialTabControl1";
             this.materialTabControl1.SelectedIndex = 0;
-            this.materialTabControl1.Size = new System.Drawing.Size(896, 659);
+            this.materialTabControl1.Size = new System.Drawing.Size(874, 698);
             this.materialTabControl1.TabIndex = 5;
+            // 
+            // tabAutoclicker
+            // 
+            this.tabAutoclicker.Controls.Add(this.cursorEditorControl1);
+            this.tabAutoclicker.Controls.Add(this.pnlCurrentConfig);
+            this.tabAutoclicker.Controls.Add(this.materialCard3);
+            this.tabAutoclicker.Controls.Add(this.materialCard1);
+            this.tabAutoclicker.ImageKey = "settings_icon.png";
+            this.tabAutoclicker.Location = new System.Drawing.Point(4, 39);
+            this.tabAutoclicker.Name = "tabAutoclicker";
+            this.tabAutoclicker.Size = new System.Drawing.Size(866, 655);
+            this.tabAutoclicker.TabIndex = 2;
+            this.tabAutoclicker.Text = "Configuration";
+            this.tabAutoclicker.UseVisualStyleBackColor = true;
+            // 
+            // cursorEditorControl1
+            // 
+            this.cursorEditorControl1.Location = new System.Drawing.Point(333, 83);
+            this.cursorEditorControl1.Name = "cursorEditorControl1";
+            this.cursorEditorControl1.Size = new System.Drawing.Size(473, 527);
+            this.cursorEditorControl1.TabIndex = 8;
+            this.cursorEditorControl1.Visible = false;
+            // 
+            // pnlCurrentConfig
+            // 
+            this.pnlCurrentConfig.AutoScroll = true;
+            this.pnlCurrentConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.pnlCurrentConfig.Location = new System.Drawing.Point(28, 89);
+            this.pnlCurrentConfig.Name = "pnlCurrentConfig";
+            this.pnlCurrentConfig.Size = new System.Drawing.Size(280, 521);
+            this.pnlCurrentConfig.TabIndex = 7;
+            this.pnlCurrentConfig.WrapContents = false;
+            // 
+            // materialCard3
+            // 
+            this.materialCard3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard3.Controls.Add(this.btnStartManualConfig);
+            this.materialCard3.Controls.Add(this.btnSaveConfig);
+            this.materialCard3.Controls.Add(this.btnLoadConfig);
+            this.materialCard3.Depth = 0;
+            this.materialCard3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard3.Location = new System.Drawing.Point(-45, 627);
+            this.materialCard3.Margin = new System.Windows.Forms.Padding(14);
+            this.materialCard3.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard3.Name = "materialCard3";
+            this.materialCard3.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard3.Size = new System.Drawing.Size(1274, 68);
+            this.materialCard3.TabIndex = 6;
+            // 
+            // btnStartManualConfig
+            // 
+            this.btnStartManualConfig.AutoSize = false;
+            this.btnStartManualConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnStartManualConfig.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnStartManualConfig.Depth = 0;
+            this.btnStartManualConfig.HighEmphasis = true;
+            this.btnStartManualConfig.Icon = global::MemoryStepsUI.Properties.Resources.start_icon;
+            this.btnStartManualConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStartManualConfig.Location = new System.Drawing.Point(73, 12);
+            this.btnStartManualConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnStartManualConfig.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnStartManualConfig.Name = "btnStartManualConfig";
+            this.btnStartManualConfig.Size = new System.Drawing.Size(280, 36);
+            this.btnStartManualConfig.TabIndex = 0;
+            this.btnStartManualConfig.Text = "Start manual configuration";
+            this.btnStartManualConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnStartManualConfig.UseAccentColor = false;
+            this.btnStartManualConfig.UseVisualStyleBackColor = true;
+            this.btnStartManualConfig.Click += new System.EventHandler(this.btnStartManualConfig_Click);
+            // 
+            // btnSaveConfig
+            // 
+            this.btnSaveConfig.AutoSize = false;
+            this.btnSaveConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSaveConfig.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnSaveConfig.Depth = 0;
+            this.btnSaveConfig.HighEmphasis = true;
+            this.btnSaveConfig.Icon = global::MemoryStepsUI.Properties.Resources.save_icon;
+            this.btnSaveConfig.Location = new System.Drawing.Point(629, 12);
+            this.btnSaveConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnSaveConfig.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnSaveConfig.Name = "btnSaveConfig";
+            this.btnSaveConfig.Size = new System.Drawing.Size(205, 36);
+            this.btnSaveConfig.TabIndex = 1;
+            this.btnSaveConfig.Text = "Save configuration";
+            this.btnSaveConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnSaveConfig.UseAccentColor = false;
+            this.btnSaveConfig.UseVisualStyleBackColor = true;
+            this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
+            // 
+            // btnLoadConfig
+            // 
+            this.btnLoadConfig.AutoSize = false;
+            this.btnLoadConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnLoadConfig.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnLoadConfig.Depth = 0;
+            this.btnLoadConfig.HighEmphasis = true;
+            this.btnLoadConfig.Icon = global::MemoryStepsUI.Properties.Resources.load_icon;
+            this.btnLoadConfig.Location = new System.Drawing.Point(388, 12);
+            this.btnLoadConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnLoadConfig.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnLoadConfig.Name = "btnLoadConfig";
+            this.btnLoadConfig.Size = new System.Drawing.Size(217, 36);
+            this.btnLoadConfig.TabIndex = 2;
+            this.btnLoadConfig.Text = "Load configuration";
+            this.btnLoadConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnLoadConfig.UseAccentColor = false;
+            this.btnLoadConfig.UseVisualStyleBackColor = true;
+            this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
+            // 
+            // materialCard1
+            // 
+            this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.lblQuickLaunch);
+            this.materialCard1.Controls.Add(this.lblAutoclickerTitle);
+            this.materialCard1.Depth = 0;
+            this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialCard1.Location = new System.Drawing.Point(28, 6);
+            this.materialCard1.Margin = new System.Windows.Forms.Padding(14);
+            this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCard1.Name = "materialCard1";
+            this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
+            this.materialCard1.Size = new System.Drawing.Size(765, 66);
+            this.materialCard1.TabIndex = 3;
+            // 
+            // lblQuickLaunch
+            // 
+            this.lblQuickLaunch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.lblQuickLaunch.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.lblQuickLaunch.Depth = 0;
+            this.lblQuickLaunch.HighEmphasis = true;
+            this.lblQuickLaunch.Icon = null;
+            this.lblQuickLaunch.Location = new System.Drawing.Point(621, 16);
+            this.lblQuickLaunch.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblQuickLaunch.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblQuickLaunch.Name = "lblQuickLaunch";
+            this.lblQuickLaunch.Size = new System.Drawing.Size(126, 36);
+            this.lblQuickLaunch.TabIndex = 1;
+            this.lblQuickLaunch.Text = "Quick launch";
+            this.lblQuickLaunch.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Outlined;
+            this.lblQuickLaunch.UseAccentColor = false;
+            this.lblQuickLaunch.UseVisualStyleBackColor = true;
+            this.lblQuickLaunch.Click += new System.EventHandler(this.btnLaunchTest_Click);
+            // 
+            // lblAutoclickerTitle
+            // 
+            this.lblAutoclickerTitle.AutoSize = true;
+            this.lblAutoclickerTitle.Depth = 0;
+            this.lblAutoclickerTitle.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.lblAutoclickerTitle.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.lblAutoclickerTitle.Location = new System.Drawing.Point(9, 16);
+            this.lblAutoclickerTitle.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblAutoclickerTitle.Name = "lblAutoclickerTitle";
+            this.lblAutoclickerTitle.Size = new System.Drawing.Size(220, 29);
+            this.lblAutoclickerTitle.TabIndex = 0;
+            this.lblAutoclickerTitle.Text = "Cursor configuration";
             // 
             // tabHome
             // 
@@ -121,7 +279,7 @@ namespace MemoryStepsUI.UI
             this.tabHome.Location = new System.Drawing.Point(4, 39);
             this.tabHome.Name = "tabHome";
             this.tabHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHome.Size = new System.Drawing.Size(888, 616);
+            this.tabHome.Size = new System.Drawing.Size(866, 655);
             this.tabHome.TabIndex = 0;
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
@@ -147,7 +305,7 @@ namespace MemoryStepsUI.UI
             this.cardConfig.MouseState = MaterialSkin.MouseState.HOVER;
             this.cardConfig.Name = "cardConfig";
             this.cardConfig.Padding = new System.Windows.Forms.Padding(14);
-            this.cardConfig.Size = new System.Drawing.Size(764, 420);
+            this.cardConfig.Size = new System.Drawing.Size(764, 507);
             this.cardConfig.TabIndex = 15;
             // 
             // txtBoxTestDescr
@@ -158,11 +316,10 @@ namespace MemoryStepsUI.UI
             this.txtBoxTestDescr.Depth = 0;
             this.txtBoxTestDescr.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txtBoxTestDescr.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.txtBoxTestDescr.Hint = "";
             this.txtBoxTestDescr.Location = new System.Drawing.Point(206, 221);
             this.txtBoxTestDescr.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtBoxTestDescr.Name = "txtBoxTestDescr";
-            this.txtBoxTestDescr.Size = new System.Drawing.Size(447, 159);
+            this.txtBoxTestDescr.Size = new System.Drawing.Size(447, 269);
             this.txtBoxTestDescr.TabIndex = 7;
             this.txtBoxTestDescr.Text = "Write a description here";
             this.txtBoxTestDescr.TextChanged += new System.EventHandler(this.txtBoxTestDescr_TextChanged);
@@ -184,7 +341,8 @@ namespace MemoryStepsUI.UI
             // 
             this.txtNumberOfClicks.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNumberOfClicks.Depth = 0;
-            this.txtNumberOfClicks.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtNumberOfClicks.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txtNumberOfClicks.LeadingIcon = null;
             this.txtNumberOfClicks.Location = new System.Drawing.Point(206, 125);
             this.txtNumberOfClicks.MaxLength = 50;
             this.txtNumberOfClicks.MouseState = MaterialSkin.MouseState.OUT;
@@ -194,13 +352,15 @@ namespace MemoryStepsUI.UI
             this.txtNumberOfClicks.Size = new System.Drawing.Size(447, 36);
             this.txtNumberOfClicks.TabIndex = 5;
             this.txtNumberOfClicks.Text = "";
+            this.txtNumberOfClicks.TrailingIcon = null;
             this.txtNumberOfClicks.UseTallSize = false;
             // 
             // txtTestDuration
             // 
             this.txtTestDuration.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtTestDuration.Depth = 0;
-            this.txtTestDuration.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtTestDuration.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txtTestDuration.LeadingIcon = null;
             this.txtTestDuration.Location = new System.Drawing.Point(206, 83);
             this.txtTestDuration.MaxLength = 50;
             this.txtTestDuration.MouseState = MaterialSkin.MouseState.OUT;
@@ -210,13 +370,15 @@ namespace MemoryStepsUI.UI
             this.txtTestDuration.Size = new System.Drawing.Size(447, 36);
             this.txtTestDuration.TabIndex = 5;
             this.txtTestDuration.Text = "";
+            this.txtTestDuration.TrailingIcon = null;
             this.txtTestDuration.UseTallSize = false;
             // 
             // txtNumberOfCharacters
             // 
             this.txtNumberOfCharacters.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNumberOfCharacters.Depth = 0;
-            this.txtNumberOfCharacters.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtNumberOfCharacters.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txtNumberOfCharacters.LeadingIcon = null;
             this.txtNumberOfCharacters.Location = new System.Drawing.Point(206, 167);
             this.txtNumberOfCharacters.MaxLength = 50;
             this.txtNumberOfCharacters.MouseState = MaterialSkin.MouseState.OUT;
@@ -226,13 +388,15 @@ namespace MemoryStepsUI.UI
             this.txtNumberOfCharacters.Size = new System.Drawing.Size(447, 36);
             this.txtNumberOfCharacters.TabIndex = 5;
             this.txtNumberOfCharacters.Text = "";
+            this.txtNumberOfCharacters.TrailingIcon = null;
             this.txtNumberOfCharacters.UseTallSize = false;
             // 
             // txtBoxTestName
             // 
             this.txtBoxTestName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtBoxTestName.Depth = 0;
-            this.txtBoxTestName.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtBoxTestName.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txtBoxTestName.LeadingIcon = null;
             this.txtBoxTestName.Location = new System.Drawing.Point(206, 41);
             this.txtBoxTestName.MaxLength = 50;
             this.txtBoxTestName.MouseState = MaterialSkin.MouseState.OUT;
@@ -241,6 +405,7 @@ namespace MemoryStepsUI.UI
             this.txtBoxTestName.Size = new System.Drawing.Size(447, 36);
             this.txtBoxTestName.TabIndex = 5;
             this.txtBoxTestName.Text = "";
+            this.txtBoxTestName.TrailingIcon = null;
             this.txtBoxTestName.UseTallSize = false;
             this.txtBoxTestName.TextChanged += new System.EventHandler(this.txtBoxTestName_TextChanged);
             // 
@@ -373,7 +538,7 @@ namespace MemoryStepsUI.UI
             this.matcard_Down.Controls.Add(this.btnLaunchTest);
             this.matcard_Down.Depth = 0;
             this.matcard_Down.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.matcard_Down.Location = new System.Drawing.Point(-45, 540);
+            this.matcard_Down.Location = new System.Drawing.Point(-45, 627);
             this.matcard_Down.Margin = new System.Windows.Forms.Padding(14);
             this.matcard_Down.MouseState = MaterialSkin.MouseState.HOVER;
             this.matcard_Down.Name = "matcard_Down";
@@ -385,8 +550,8 @@ namespace MemoryStepsUI.UI
             // 
             this.btnLaunchTest.AutoSize = false;
             this.btnLaunchTest.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnLaunchTest.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btnLaunchTest.Depth = 0;
-            this.btnLaunchTest.DrawShadows = true;
             this.btnLaunchTest.HighEmphasis = true;
             this.btnLaunchTest.Icon = global::MemoryStepsUI.Properties.Resources.launch_icon;
             this.btnLaunchTest.ImageKey = "(none)";
@@ -401,139 +566,6 @@ namespace MemoryStepsUI.UI
             this.btnLaunchTest.UseAccentColor = false;
             this.btnLaunchTest.UseVisualStyleBackColor = true;
             this.btnLaunchTest.Click += new System.EventHandler(this.btnLaunchTest_Click);
-            // 
-            // tabAutoclicker
-            // 
-            this.tabAutoclicker.Controls.Add(this.materialCard3);
-            this.tabAutoclicker.Controls.Add(this.rtbAutoclickerCurrentConfig);
-            this.tabAutoclicker.Controls.Add(this.materialCard1);
-            this.tabAutoclicker.ImageKey = "settings_icon.png";
-            this.tabAutoclicker.Location = new System.Drawing.Point(4, 39);
-            this.tabAutoclicker.Name = "tabAutoclicker";
-            this.tabAutoclicker.Size = new System.Drawing.Size(888, 616);
-            this.tabAutoclicker.TabIndex = 2;
-            this.tabAutoclicker.Text = "Configuration";
-            this.tabAutoclicker.UseVisualStyleBackColor = true;
-            // 
-            // materialCard3
-            // 
-            this.materialCard3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard3.Controls.Add(this.btnStartManualConfig);
-            this.materialCard3.Controls.Add(this.btnSaveConfig);
-            this.materialCard3.Controls.Add(this.btnLoadConfig);
-            this.materialCard3.Depth = 0;
-            this.materialCard3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard3.Location = new System.Drawing.Point(-45, 540);
-            this.materialCard3.Margin = new System.Windows.Forms.Padding(14);
-            this.materialCard3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard3.Name = "materialCard3";
-            this.materialCard3.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard3.Size = new System.Drawing.Size(1274, 68);
-            this.materialCard3.TabIndex = 6;
-            // 
-            // btnStartManualConfig
-            // 
-            this.btnStartManualConfig.AutoSize = false;
-            this.btnStartManualConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnStartManualConfig.Depth = 0;
-            this.btnStartManualConfig.DrawShadows = true;
-            this.btnStartManualConfig.HighEmphasis = true;
-            this.btnStartManualConfig.Icon = global::MemoryStepsUI.Properties.Resources.start_icon;
-            this.btnStartManualConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStartManualConfig.Location = new System.Drawing.Point(73, 12);
-            this.btnStartManualConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnStartManualConfig.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnStartManualConfig.Name = "btnStartManualConfig";
-            this.btnStartManualConfig.Size = new System.Drawing.Size(280, 36);
-            this.btnStartManualConfig.TabIndex = 0;
-            this.btnStartManualConfig.Text = "Start manual configuration";
-            this.btnStartManualConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btnStartManualConfig.UseAccentColor = false;
-            this.btnStartManualConfig.UseVisualStyleBackColor = true;
-            this.btnStartManualConfig.Click += new System.EventHandler(this.btnStartManualConfig_Click);
-            // 
-            // btnSaveConfig
-            // 
-            this.btnSaveConfig.AutoSize = false;
-            this.btnSaveConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnSaveConfig.Depth = 0;
-            this.btnSaveConfig.DrawShadows = true;
-            this.btnSaveConfig.HighEmphasis = true;
-            this.btnSaveConfig.Icon = global::MemoryStepsUI.Properties.Resources.save_icon;
-            this.btnSaveConfig.Location = new System.Drawing.Point(671, 12);
-            this.btnSaveConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnSaveConfig.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(205, 36);
-            this.btnSaveConfig.TabIndex = 1;
-            this.btnSaveConfig.Text = "Save configuration";
-            this.btnSaveConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btnSaveConfig.UseAccentColor = false;
-            this.btnSaveConfig.UseVisualStyleBackColor = true;
-            this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
-            // 
-            // btnLoadConfig
-            // 
-            this.btnLoadConfig.AutoSize = false;
-            this.btnLoadConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnLoadConfig.Depth = 0;
-            this.btnLoadConfig.DrawShadows = true;
-            this.btnLoadConfig.HighEmphasis = true;
-            this.btnLoadConfig.Icon = global::MemoryStepsUI.Properties.Resources.load_icon;
-            this.btnLoadConfig.Location = new System.Drawing.Point(430, 13);
-            this.btnLoadConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnLoadConfig.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnLoadConfig.Name = "btnLoadConfig";
-            this.btnLoadConfig.Size = new System.Drawing.Size(217, 36);
-            this.btnLoadConfig.TabIndex = 2;
-            this.btnLoadConfig.Text = "Load configuration";
-            this.btnLoadConfig.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btnLoadConfig.UseAccentColor = false;
-            this.btnLoadConfig.UseVisualStyleBackColor = true;
-            this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
-            // 
-            // rtbAutoclickerCurrentConfig
-            // 
-            this.rtbAutoclickerCurrentConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.rtbAutoclickerCurrentConfig.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbAutoclickerCurrentConfig.Depth = 0;
-            this.rtbAutoclickerCurrentConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.rtbAutoclickerCurrentConfig.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.rtbAutoclickerCurrentConfig.Hint = "";
-            this.rtbAutoclickerCurrentConfig.Location = new System.Drawing.Point(44, 134);
-            this.rtbAutoclickerCurrentConfig.MouseState = MaterialSkin.MouseState.HOVER;
-            this.rtbAutoclickerCurrentConfig.Name = "rtbAutoclickerCurrentConfig";
-            this.rtbAutoclickerCurrentConfig.ReadOnly = true;
-            this.rtbAutoclickerCurrentConfig.Size = new System.Drawing.Size(733, 389);
-            this.rtbAutoclickerCurrentConfig.TabIndex = 5;
-            this.rtbAutoclickerCurrentConfig.Text = "";
-            // 
-            // materialCard1
-            // 
-            this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialCard1.Controls.Add(this.lblAutoclickerTitle);
-            this.materialCard1.Depth = 0;
-            this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard1.Location = new System.Drawing.Point(28, 6);
-            this.materialCard1.Margin = new System.Windows.Forms.Padding(14);
-            this.materialCard1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialCard1.Name = "materialCard1";
-            this.materialCard1.Padding = new System.Windows.Forms.Padding(14);
-            this.materialCard1.Size = new System.Drawing.Size(765, 66);
-            this.materialCard1.TabIndex = 3;
-            // 
-            // lblAutoclickerTitle
-            // 
-            this.lblAutoclickerTitle.AutoSize = true;
-            this.lblAutoclickerTitle.Depth = 0;
-            this.lblAutoclickerTitle.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.lblAutoclickerTitle.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
-            this.lblAutoclickerTitle.Location = new System.Drawing.Point(9, 16);
-            this.lblAutoclickerTitle.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblAutoclickerTitle.Name = "lblAutoclickerTitle";
-            this.lblAutoclickerTitle.Size = new System.Drawing.Size(274, 29);
-            this.lblAutoclickerTitle.TabIndex = 0;
-            this.lblAutoclickerTitle.Text = "AutoClicker configuration";
             // 
             // icons_imageList
             // 
@@ -555,7 +587,8 @@ namespace MemoryStepsUI.UI
             // 
             this.materialTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.materialTextBox3.Depth = 0;
-            this.materialTextBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.materialTextBox3.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialTextBox3.LeadingIcon = null;
             this.materialTextBox3.Location = new System.Drawing.Point(206, 167);
             this.materialTextBox3.MaxLength = 50;
             this.materialTextBox3.MouseState = MaterialSkin.MouseState.OUT;
@@ -564,6 +597,7 @@ namespace MemoryStepsUI.UI
             this.materialTextBox3.Size = new System.Drawing.Size(447, 36);
             this.materialTextBox3.TabIndex = 5;
             this.materialTextBox3.Text = "";
+            this.materialTextBox3.TrailingIcon = null;
             this.materialTextBox3.UseTallSize = false;
             // 
             // MainForm
@@ -571,26 +605,26 @@ namespace MemoryStepsUI.UI
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(902, 665);
+            this.ClientSize = new System.Drawing.Size(880, 765);
             this.Controls.Add(this.materialTabControl1);
             this.DrawerShowIconsWhenHidden = true;
             this.DrawerTabControl = this.materialTabControl1;
             this.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.MaximumSize = new System.Drawing.Size(902, 665);
-            this.MinimumSize = new System.Drawing.Size(902, 665);
+            this.MaximumSize = new System.Drawing.Size(880, 765);
+            this.MinimumSize = new System.Drawing.Size(880, 765);
             this.Name = "MainForm";
-            this.Text = "Memory steps 3";
+            this.Text = "Memory steps 4";
             this.materialTabControl1.ResumeLayout(false);
+            this.tabAutoclicker.ResumeLayout(false);
+            this.materialCard3.ResumeLayout(false);
+            this.materialCard1.ResumeLayout(false);
+            this.materialCard1.PerformLayout();
             this.tabHome.ResumeLayout(false);
             this.cardConfig.ResumeLayout(false);
             this.cardConfig.PerformLayout();
             this.matCard_Top.ResumeLayout(false);
             this.matCard_Top.PerformLayout();
             this.matcard_Down.ResumeLayout(false);
-            this.tabAutoclicker.ResumeLayout(false);
-            this.materialCard3.ResumeLayout(false);
-            this.materialCard1.ResumeLayout(false);
-            this.materialCard1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -611,7 +645,6 @@ namespace MemoryStepsUI.UI
         private MaterialButton btnStartManualConfig;
         private MaterialCard materialCard1;
         private MaterialLabel lblAutoclickerTitle;
-        private MaterialMultiLineTextBox rtbAutoclickerCurrentConfig;
         private MaterialCard materialCard3;
 
         #endregion
@@ -629,5 +662,8 @@ namespace MemoryStepsUI.UI
         private MaterialTextBox materialTextBox3;
         private MaterialMultiLineTextBox txtBoxTestDescr;
         private MaterialLabel lblTestDescr;
+        private FlowLayoutPanel pnlCurrentConfig;
+        private Controls.CursorEditorControl cursorEditorControl1;
+        private MaterialButton lblQuickLaunch;
     }
 }

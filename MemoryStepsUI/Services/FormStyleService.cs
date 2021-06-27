@@ -1,11 +1,12 @@
 ﻿using MaterialSkin;
 using MaterialSkin.Controls;
+using MemoryStepsCore.Models;
 
 namespace MemoryStepsUI.Services
 {
     public static class FormStyleService
     {
-        private static readonly ColorScheme ColorScheme = new(Primary.Purple800, Primary.Purple900, Primary.Purple500, Accent.DeepPurple200, TextShade.WHITE);
+        private static readonly ColorScheme ColorScheme = new(Primary.Blue800, Primary.Blue900, Primary.Blue500, Accent.LightBlue200, TextShade.WHITE);
         public static void InitMaterialSkin(MaterialForm form)
         {
             var materialSkinManager = MaterialSkinManager.Instance;

@@ -4,23 +4,43 @@ using MemoryStepsUI.Services;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using MemoryStepsUI.Models;
+using MemoryStepsCore.Models;
+using MemoryStepsCore.Services;
+using MemoryStepsCore.Config;
+using MemoryStepsUI.Controls;
 
 namespace MemoryStepsUI.UI
 {
-    public partial class MainForm : MaterialForm
+    public partial class MainForm : MaterialForm, IMemoryMainForm
     {
         public CursorRegisterService cursorRegister = new();
-        private IKeyboardMouseEvents _globalHook;
-        private CursorLoaderService _cursorLoader = new();
+        private readonly CursorLoaderService _cursorLoader = new();
         private CursorExecutorService _executor;
-        public readonly char CompleteTestKeyBind = '`';
-        private AutoclickerForm autoclickerF;
-
+        private ProcessingForm processingForm;
         public MainForm()
         {
             InitializeComponent();
             FormStyleService.InitMaterialSkin(this);
+            cursorRegister.OnRegisterFinish += OnRegisterComplete;
+        }
+
+        public IMemoryProcessingForm CreateProcessingForm(IMemoryMainForm mainForm, CursorExecutorService cursorExecutor, long totalDuration)
+        {
+            processingForm = new ProcessingForm(this, cursorExecutor, totalDuration)
+            {
+                TopMost = true
+            };
+            return processingForm;
+        }
+
+        public void CloseProcessingForm()
+        {
+            this.Show();
+            if (processingForm == null)
+                return;
+
+            processingForm.Close();
+            processingForm.Dispose();
         }
 
         public void CompleteTest(string timeElapsed)
@@ -30,95 +50,111 @@ namespace MemoryStepsUI.UI
             lblTestComp.Visible = true;
         }
 
-        public void Subscribe()
-        {
-            _globalHook = GlobalHookService.Instance.SubscribeGlobalHook(GlobalHookKeyPress, GlobalHook_MouseClick);
-        }
-
-        public void Unsubscribe()
-        {
-            GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress, GlobalHook_MouseClick);
-
-            cursorRegister.StopLastCursorTimewatch(true);
-            autoclickerF.Hide();
-            autoclickerF.Dispose();
-            this.Show();
-            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
-        }
-
         private void LaunchAutoclicker()
         {
             Application.DoEvents();
-            this.Hide();
+            Hide();
 
             _executor = new CursorExecutorService(cursorRegister);
-            
+
             CompleteTest(_executor.Execute(this).ToString());
         }
 
-        private void ValidateBeforeTestLaunch()
+        public void OnRegisterComplete() 
         {
-            if (string.IsNullOrEmpty(rtbAutoclickerCurrentConfig.Text))
-                throw new ApplicationException("Invalid autoclicker configuration");
-
-            return;
-        }
-
-        private void GlobalHook_MouseClick(object sender, MouseEventArgs e)
-        {
-            cursorRegister.RegisterMouseButtonClick(e.Location, e.Button);
-        }
-
-        private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == CompleteTestKeyBind)
-            {
-                Unsubscribe();
-                e.Handled = true;
-                SetTestFields(true);
-                return;
-            }
-
-            cursorRegister.RegisterKeyPress(e.KeyChar);
-            e.Handled = true;
+            SetTestFields(true);
+            CloseProcessingForm();
+            UpdatePanelConfig();
+            cursorEditorControl1.Visible = false;
         }
 
         private void btnLaunchTest_Click(object sender, EventArgs e)
         {
+            if (!ValidateCursor())
+                return;
+
             try
             {
-                ValidateBeforeTestLaunch();
                 LaunchAutoclicker();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                CloseProcessingForm();
             }
+        }
+
+        private bool ValidateCursor()
+        {
+            if (cursorRegister.TestConfig.CursorList == null || cursorRegister.TestConfig.CursorList.Count == 0)
+                return false;
+
+            return true;
+        }
+
+        private void ShowProcessingForm(IMemoryMainForm mainForm) 
+        {
+            processingForm = new ProcessingForm(this)
+            {
+                TopMost = true
+            };
+            Hide();
+            processingForm.Show();
         }
 
         private void btnStartManualConfig_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            cursorRegister.TestConfig.CursorList = new List<CursorEntity>();
-            autoclickerF = new AutoclickerForm(this)
-            {
-                TopMost = true
-            };
-            autoclickerF.Show();
-         
-            Subscribe();
+            AutomationService.StartTimer();
+            ShowProcessingForm(this);
+            cursorRegister.StartCursorRegister();
         }
 
         private void btnLoadConfig_Click(object sender, EventArgs e)
         {
             cursorRegister.TestConfig = _cursorLoader.LoadConfig();
-            rtbAutoclickerCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
+            if (cursorRegister.TestConfig == null)
+                return;
+
             SetTestFields();
+            UpdatePanelConfig();
         }
 
+        int lastLocation = 0;
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
-            _cursorLoader.SaveConfig(cursorRegister.TestConfig);
+             _cursorLoader.SaveConfig(cursorRegister.TestConfig); 
+        }
+
+        private void UpdatePanelConfig() 
+        {
+            lastLocation = 0;
+
+            foreach (CursorControl ctrl in pnlCurrentConfig.Controls)
+            {
+                ctrl.CardClicked -= CardClicked;
+                ctrl.Dispose();
+            }
+
+            pnlCurrentConfig.Controls.Clear();
+
+            for (int i = 0; i < cursorRegister.TestConfig.CursorList.Count; i++)
+            {
+                CursorControl cc = new CursorControl();
+                cc.Width -= 120;
+                bool isLastElement = i == cursorRegister.TestConfig.CursorList.Count - 1;
+                cc.InitCursorAction(cursorRegister.TestConfig.CursorList[i], isLastElement: isLastElement);
+                cc.Location = new System.Drawing.Point(10, lastLocation + cc.Height);
+                if (isLastElement)
+                    cc.Height -= 80;
+                pnlCurrentConfig.Controls.Add(cc);
+                cc.CardClicked += CardClicked;
+            }
+        }
+
+        private void CardClicked(CursorControl cc)
+        {
+            cursorEditorControl1.Visible = true;
+            cursorEditorControl1.EditCursor(cc);
         }
 
         private void SetTestFields(bool manualConfig = false) 
@@ -136,11 +172,17 @@ namespace MemoryStepsUI.UI
 
         private void txtBoxTestName_TextChanged(object sender, EventArgs e)
         {
+            if (cursorRegister.TestConfig == null)
+                return;
+
             cursorRegister.TestConfig.TestName = txtBoxTestName.Text;
         }
 
         private void txtBoxTestDescr_TextChanged(object sender, EventArgs e)
         {
+            if (cursorRegister.TestConfig == null)
+                return;
+
             cursorRegister.TestConfig.TestDescription = txtBoxTestDescr.Text;
         }
     }

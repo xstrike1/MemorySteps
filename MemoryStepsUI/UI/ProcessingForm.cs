@@ -1,14 +1,17 @@
 ﻿using Gma.System.MouseKeyHook;
 using MaterialSkin.Controls;
+using MemoryStepsCore.Services;
 using MemoryStepsUI.Services;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 using MemoryStepsUI.Properties;
+using MemoryStepsCore.Models;
+using MemoryStepsCore.Config;
 
 namespace MemoryStepsUI.UI
 {
-    public partial class AutoclickerForm : MaterialForm, IFormWithCancelRequest
+    public partial class ProcessingForm : MaterialForm, IMemoryProcessingForm
     {
         public bool CancelHasBeenRequested { get; set; }
         private IKeyboardMouseEvents _globalHook;
@@ -17,7 +20,7 @@ namespace MemoryStepsUI.UI
         private readonly decimal _totalDuration;
         private decimal _elapsedTime;
 
-        public AutoclickerForm()
+        public ProcessingForm()
         {
             InitializeComponent();
 
@@ -27,17 +30,18 @@ namespace MemoryStepsUI.UI
         /// <summary>
         /// Constructor used for manual configuration
         /// </summary>
-        public AutoclickerForm(MainForm parent) 
+        public ProcessingForm(MainForm parent) 
             :this()
         {
             _parent = parent;
-            lblHint.Text = string.Format(Resources.CaptionCancelCurrentExecutionFormat, parent.CompleteTestKeyBind.ToString());
+            lblHint.Text = string.Format(Resources.CaptionCancelCurrentExecutionFormat, AppConfig.Config.KeyBind.ToString());
+            Height = 57;
         }
 
         /// <summary>
         /// Constructor used for execution
         /// </summary>
-        public AutoclickerForm(MainForm parent, CursorExecutorService executor, long totalDuration) 
+        public ProcessingForm(MainForm parent, CursorExecutorService executor, long totalDuration) 
             : this(parent) 
         {
             _executor = executor;
@@ -45,7 +49,10 @@ namespace MemoryStepsUI.UI
             progressBar.Visible = true;
             lblCurrentProgress.Visible = true;
             lblProgressVal.Visible = true;
-         
+            cursorControlCurrent.Visible = true;
+            cursorControlNext.Visible = true;
+            Height = 157;
+
             Subscribe();
         }
 
@@ -65,14 +72,14 @@ namespace MemoryStepsUI.UI
 
         private void Subscribe()
         {
-            _globalHook = GlobalHookService.Instance.SubscribeGlobalHook(GlobalHookKeyPress);
+            _globalHook = GlobalHookService.SubscribeGlobalHook(GlobalHookKeyPress);
             _executor.StepCompleted += _executor_StepCompleted;
            
         }
 
         private void Unsubscribe()
         {
-            GlobalHookService.Instance.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress);
+            GlobalHookService.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress);
 
             if (_executor == null)
                 return;
@@ -82,22 +89,36 @@ namespace MemoryStepsUI.UI
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar != _parent.CompleteTestKeyBind)
+            if (e.KeyChar != AppConfig.Config.KeyBind)
                 return;
 
             Unsubscribe();
             e.Handled = true;
             CancelHasBeenRequested = true;
             lblHint.Text = Resources.CaptionExecutionCanceledByUser;
+            this.Hide();
+            _parent.Show();
         }
 
-        private void _executor_StepCompleted(long currentStepDuration)
+        private void _executor_StepCompleted(long currentDuration, CursorEntity currentCursor, CursorEntity nextCursor)
         {
-            _elapsedTime += currentStepDuration;
+            _elapsedTime += currentDuration;
             progressBar.Value = Convert.ToInt32(_elapsedTime / _totalDuration * 100);
-            lblProgressVal.Text = $"{progressBar.Value.ToString()}%";
+            lblProgressVal.Text = $"{progressBar.Value}%";
+            SetCardsValues(currentCursor, nextCursor);
             Application.DoEvents();
         }
 
+        private void SetCardsValues(CursorEntity currentCursor, CursorEntity nextCursor) 
+        {
+            cursorControlCurrent.InitCursorAction(currentCursor, true, nextCursor == null);
+
+            if (nextCursor == null)
+            {
+                cursorControlNext.Visible = false;
+                return;
+            }
+            cursorControlNext.InitCursorAction(nextCursor, true, true);
+        }
     }
 }
