@@ -73,18 +73,12 @@ namespace MemoryStepsUI.UI
         private void Subscribe()
         {
             _globalHook = GlobalHookService.SubscribeGlobalHook(GlobalHookKeyPress);
-            _executor.StepCompleted += _executor_StepCompleted;
-           
         }
 
         private void Unsubscribe()
         {
             GlobalHookService.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress);
 
-            if (_executor == null)
-                return;
-
-            _executor.StepCompleted -= _executor_StepCompleted;
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
@@ -100,7 +94,7 @@ namespace MemoryStepsUI.UI
             _parent.Show();
         }
 
-        private void _executor_StepCompleted(long currentDuration, CursorEntity currentCursor, CursorEntity nextCursor)
+        public void Executor_StepCompleted(long currentDuration, CursorEntity currentCursor, CursorEntity nextCursor)
         {
             _elapsedTime += currentDuration;
             progressBar.Value = Convert.ToInt32(_elapsedTime / _totalDuration * 100);
@@ -119,6 +113,11 @@ namespace MemoryStepsUI.UI
                 return;
             }
             cursorControlNext.InitCursorAction(nextCursor, true, true);
+        }
+
+        public void SendKey(string value) 
+        {
+            SendKeys.Send(value);
         }
     }
 }

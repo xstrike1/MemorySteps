@@ -8,6 +8,7 @@ using MemoryStepsCore.Models;
 using MemoryStepsCore.Services;
 using MemoryStepsCore.Config;
 using MemoryStepsUI.Controls;
+using System.Threading;
 
 namespace MemoryStepsUI.UI
 {
@@ -30,6 +31,7 @@ namespace MemoryStepsUI.UI
             {
                 TopMost = true
             };
+            processingForm.Show();
             return processingForm;
         }
 
@@ -42,14 +44,12 @@ namespace MemoryStepsUI.UI
             processingForm.Close();
             processingForm.Dispose();
         }
-
-        public void CompleteTest(string timeElapsed)
+        public void CompleteTest(string timeElapsed) //Unused atm
         {
             lblTstCompSec.Visible = true;
             lblTstCompSec.Text = timeElapsed;
             lblTestComp.Visible = true;
         }
-
         private void LaunchAutoclicker()
         {
             Application.DoEvents();
@@ -57,7 +57,7 @@ namespace MemoryStepsUI.UI
 
             _executor = new CursorExecutorService(cursorRegister);
 
-            CompleteTest(_executor.Execute(this).ToString());
+            _executor.Execute(this);
         }
 
         public void OnRegisterComplete() 
@@ -119,11 +119,12 @@ namespace MemoryStepsUI.UI
             UpdatePanelConfig();
         }
 
-        int lastLocation = 0;
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
              _cursorLoader.SaveConfig(cursorRegister.TestConfig); 
         }
+
+        int lastLocation = 0;
 
         private void UpdatePanelConfig() 
         {
