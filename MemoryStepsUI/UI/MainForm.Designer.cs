@@ -46,6 +46,7 @@ namespace MemoryStepsUI.UI
             this.btnSaveConfig = new MaterialSkin.Controls.MaterialButton();
             this.btnLoadConfig = new MaterialSkin.Controls.MaterialButton();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
+            this.lblQuickLaunch = new MaterialSkin.Controls.MaterialButton();
             this.lblAutoclickerTitle = new MaterialSkin.Controls.MaterialLabel();
             this.tabHome = new System.Windows.Forms.TabPage();
             this.cardConfig = new MaterialSkin.Controls.MaterialCard();
@@ -110,7 +111,7 @@ namespace MemoryStepsUI.UI
             this.materialTabControl1.Multiline = true;
             this.materialTabControl1.Name = "materialTabControl1";
             this.materialTabControl1.SelectedIndex = 0;
-            this.materialTabControl1.Size = new System.Drawing.Size(896, 698);
+            this.materialTabControl1.Size = new System.Drawing.Size(874, 698);
             this.materialTabControl1.TabIndex = 5;
             // 
             // tabAutoclicker
@@ -122,7 +123,7 @@ namespace MemoryStepsUI.UI
             this.tabAutoclicker.ImageKey = "settings_icon.png";
             this.tabAutoclicker.Location = new System.Drawing.Point(4, 39);
             this.tabAutoclicker.Name = "tabAutoclicker";
-            this.tabAutoclicker.Size = new System.Drawing.Size(888, 655);
+            this.tabAutoclicker.Size = new System.Drawing.Size(866, 655);
             this.tabAutoclicker.TabIndex = 2;
             this.tabAutoclicker.Text = "Configuration";
             this.tabAutoclicker.UseVisualStyleBackColor = true;
@@ -190,7 +191,7 @@ namespace MemoryStepsUI.UI
             this.btnSaveConfig.Depth = 0;
             this.btnSaveConfig.HighEmphasis = true;
             this.btnSaveConfig.Icon = global::MemoryStepsUI.Properties.Resources.save_icon;
-            this.btnSaveConfig.Location = new System.Drawing.Point(671, 12);
+            this.btnSaveConfig.Location = new System.Drawing.Point(629, 12);
             this.btnSaveConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btnSaveConfig.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnSaveConfig.Name = "btnSaveConfig";
@@ -210,7 +211,7 @@ namespace MemoryStepsUI.UI
             this.btnLoadConfig.Depth = 0;
             this.btnLoadConfig.HighEmphasis = true;
             this.btnLoadConfig.Icon = global::MemoryStepsUI.Properties.Resources.load_icon;
-            this.btnLoadConfig.Location = new System.Drawing.Point(430, 13);
+            this.btnLoadConfig.Location = new System.Drawing.Point(388, 12);
             this.btnLoadConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btnLoadConfig.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnLoadConfig.Name = "btnLoadConfig";
@@ -225,6 +226,7 @@ namespace MemoryStepsUI.UI
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialCard1.Controls.Add(this.lblQuickLaunch);
             this.materialCard1.Controls.Add(this.lblAutoclickerTitle);
             this.materialCard1.Depth = 0;
             this.materialCard1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -236,6 +238,25 @@ namespace MemoryStepsUI.UI
             this.materialCard1.Size = new System.Drawing.Size(765, 66);
             this.materialCard1.TabIndex = 3;
             // 
+            // lblQuickLaunch
+            // 
+            this.lblQuickLaunch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.lblQuickLaunch.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.lblQuickLaunch.Depth = 0;
+            this.lblQuickLaunch.HighEmphasis = true;
+            this.lblQuickLaunch.Icon = null;
+            this.lblQuickLaunch.Location = new System.Drawing.Point(621, 16);
+            this.lblQuickLaunch.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblQuickLaunch.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblQuickLaunch.Name = "lblQuickLaunch";
+            this.lblQuickLaunch.Size = new System.Drawing.Size(126, 36);
+            this.lblQuickLaunch.TabIndex = 1;
+            this.lblQuickLaunch.Text = "Quick launch";
+            this.lblQuickLaunch.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Outlined;
+            this.lblQuickLaunch.UseAccentColor = false;
+            this.lblQuickLaunch.UseVisualStyleBackColor = true;
+            this.lblQuickLaunch.Click += new System.EventHandler(this.btnLaunchTest_Click);
+            // 
             // lblAutoclickerTitle
             // 
             this.lblAutoclickerTitle.AutoSize = true;
@@ -245,9 +266,9 @@ namespace MemoryStepsUI.UI
             this.lblAutoclickerTitle.Location = new System.Drawing.Point(9, 16);
             this.lblAutoclickerTitle.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblAutoclickerTitle.Name = "lblAutoclickerTitle";
-            this.lblAutoclickerTitle.Size = new System.Drawing.Size(274, 29);
+            this.lblAutoclickerTitle.Size = new System.Drawing.Size(220, 29);
             this.lblAutoclickerTitle.TabIndex = 0;
-            this.lblAutoclickerTitle.Text = "AutoClicker configuration";
+            this.lblAutoclickerTitle.Text = "Cursor configuration";
             // 
             // tabHome
             // 
@@ -258,7 +279,7 @@ namespace MemoryStepsUI.UI
             this.tabHome.Location = new System.Drawing.Point(4, 39);
             this.tabHome.Name = "tabHome";
             this.tabHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHome.Size = new System.Drawing.Size(888, 655);
+            this.tabHome.Size = new System.Drawing.Size(866, 655);
             this.tabHome.TabIndex = 0;
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
@@ -284,7 +305,7 @@ namespace MemoryStepsUI.UI
             this.cardConfig.MouseState = MaterialSkin.MouseState.HOVER;
             this.cardConfig.Name = "cardConfig";
             this.cardConfig.Padding = new System.Windows.Forms.Padding(14);
-            this.cardConfig.Size = new System.Drawing.Size(764, 420);
+            this.cardConfig.Size = new System.Drawing.Size(764, 507);
             this.cardConfig.TabIndex = 15;
             // 
             // txtBoxTestDescr
@@ -298,7 +319,7 @@ namespace MemoryStepsUI.UI
             this.txtBoxTestDescr.Location = new System.Drawing.Point(206, 221);
             this.txtBoxTestDescr.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtBoxTestDescr.Name = "txtBoxTestDescr";
-            this.txtBoxTestDescr.Size = new System.Drawing.Size(447, 159);
+            this.txtBoxTestDescr.Size = new System.Drawing.Size(447, 269);
             this.txtBoxTestDescr.TabIndex = 7;
             this.txtBoxTestDescr.Text = "Write a description here";
             this.txtBoxTestDescr.TextChanged += new System.EventHandler(this.txtBoxTestDescr_TextChanged);
@@ -517,7 +538,7 @@ namespace MemoryStepsUI.UI
             this.matcard_Down.Controls.Add(this.btnLaunchTest);
             this.matcard_Down.Depth = 0;
             this.matcard_Down.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.matcard_Down.Location = new System.Drawing.Point(-45, 619);
+            this.matcard_Down.Location = new System.Drawing.Point(-45, 627);
             this.matcard_Down.Margin = new System.Windows.Forms.Padding(14);
             this.matcard_Down.MouseState = MaterialSkin.MouseState.HOVER;
             this.matcard_Down.Name = "matcard_Down";
@@ -584,13 +605,13 @@ namespace MemoryStepsUI.UI
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(902, 765);
+            this.ClientSize = new System.Drawing.Size(880, 765);
             this.Controls.Add(this.materialTabControl1);
             this.DrawerShowIconsWhenHidden = true;
             this.DrawerTabControl = this.materialTabControl1;
             this.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.MaximumSize = new System.Drawing.Size(902, 765);
-            this.MinimumSize = new System.Drawing.Size(902, 765);
+            this.MaximumSize = new System.Drawing.Size(880, 765);
+            this.MinimumSize = new System.Drawing.Size(880, 765);
             this.Name = "MainForm";
             this.Text = "Memory steps 4";
             this.materialTabControl1.ResumeLayout(false);
@@ -643,5 +664,6 @@ namespace MemoryStepsUI.UI
         private MaterialLabel lblTestDescr;
         private FlowLayoutPanel pnlCurrentConfig;
         private Controls.CursorEditorControl cursorEditorControl1;
+        private MaterialButton lblQuickLaunch;
     }
 }

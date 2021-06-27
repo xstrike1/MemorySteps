@@ -70,6 +70,9 @@ namespace MemoryStepsUI.UI
 
         private void btnLaunchTest_Click(object sender, EventArgs e)
         {
+            if (!ValidateCursor())
+                return;
+
             try
             {
                 LaunchAutoclicker();
@@ -79,6 +82,14 @@ namespace MemoryStepsUI.UI
                 MessageBox.Show(ex.Message);
                 CloseProcessingForm();
             }
+        }
+
+        private bool ValidateCursor()
+        {
+            if (cursorRegister.TestConfig.CursorList == null || cursorRegister.TestConfig.CursorList.Count == 0)
+                return false;
+
+            return true;
         }
 
         private void ShowProcessingForm(IMemoryMainForm mainForm) 
