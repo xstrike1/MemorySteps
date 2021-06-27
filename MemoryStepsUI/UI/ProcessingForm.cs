@@ -35,6 +35,7 @@ namespace MemoryStepsUI.UI
         {
             _parent = parent;
             lblHint.Text = string.Format(Resources.CaptionCancelCurrentExecutionFormat, AppConfig.Config.KeyBind.ToString());
+            Height = 57;
         }
 
         /// <summary>
@@ -48,8 +49,9 @@ namespace MemoryStepsUI.UI
             progressBar.Visible = true;
             lblCurrentProgress.Visible = true;
             lblProgressVal.Visible = true;
-            cardCurrent.Visible = true;
-            cardNext.Visible = true;
+            cursorControlCurrent.Visible = true;
+            cursorControlNext.Visible = true;
+            Height = 157;
 
             Subscribe();
         }
@@ -98,33 +100,25 @@ namespace MemoryStepsUI.UI
             _parent.Show();
         }
 
-        private void _executor_StepCompleted(long currentStepDuration, long currentDuration, CursorEntity currentCursor, CursorEntity nextCursor)
+        private void _executor_StepCompleted(long currentDuration, CursorEntity currentCursor, CursorEntity nextCursor)
         {
-            _elapsedTime += currentStepDuration;
+            _elapsedTime += currentDuration;
             progressBar.Value = Convert.ToInt32(_elapsedTime / _totalDuration * 100);
             lblProgressVal.Text = $"{progressBar.Value}%";
-            SetCardsValues(currentDuration, currentCursor, nextCursor);
+            SetCardsValues(currentCursor, nextCursor);
             Application.DoEvents();
         }
 
-        private void SetCardsValues(long currentDuration, CursorEntity currentCursor, CursorEntity nextCursor) 
+        private void SetCardsValues(CursorEntity currentCursor, CursorEntity nextCursor) 
         {
-            lblCurrentType.Text = currentCursor.ControlType;
-            lblCurrentName.Text = currentCursor.ControlName;
-            lblCurrentPos.Text = currentCursor.Position.ToString();
-            lblCurrentDuration.Text = currentDuration.ToString() + " ms";
-            lblCurrentCursorNumber.Text = currentCursor.CursorNumber.ToString();
+            cursorControlCurrent.InitCursorAction(currentCursor, true, nextCursor == null);
 
             if (nextCursor == null)
             {
-                cardNext.Visible = false;
+                cursorControlNext.Visible = false;
                 return;
             }
-
-            lblNextType.Text = nextCursor.ControlType;
-            lblNextName.Text =  nextCursor.ControlName;
-            lblNextPos.Text =  nextCursor.Position.ToString();
-            lblNextDuration.Text =  currentCursor.MilisecondsToNextCursor.ToString() + " ms";
+            cursorControlNext.InitCursorAction(nextCursor, true, true);
         }
     }
 }

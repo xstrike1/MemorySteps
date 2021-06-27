@@ -18,10 +18,7 @@ namespace MemoryStepsUI.Controls
         public CursorControl()
         {
             InitializeComponent();
-            lblRightDuration.Visible = false;
-            pBRightArrow.Visible = false;
-            lblDownDuration.Visible = false;
-            pBDownArrow.Visible = false;
+            HideAllArrows();
 
             pBRightArrow.Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
         }
@@ -32,8 +29,10 @@ namespace MemoryStepsUI.Controls
             RefreshDisplayValues();
 
             if (isLastElement)
+            {
+                HideAllArrows();
                 return;
-
+            }
             if (verticalDisplay)
             {
                 lblRightDuration.Visible = true;
@@ -44,12 +43,12 @@ namespace MemoryStepsUI.Controls
                 lblDownDuration.Visible = true;
                 pBDownArrow.Visible = true;
             }
-
         }
 
         public void RefreshDisplayValues() 
         {
             cardCursor.SetCardColor(CursorEntity);
+            cardCursor.Refresh();
 
             lblCursorActionNumber.Text = "#"+CursorEntity.CursorNumber.ToString();
             lblCursorActionType.Text = CursorEntity.ControlType;
@@ -60,6 +59,14 @@ namespace MemoryStepsUI.Controls
         private void Card_Click(object sender, EventArgs e)
         {
             CardClicked?.Invoke(this);
+        }
+
+        private void HideAllArrows() 
+        {
+            lblRightDuration.Visible = false;
+            pBRightArrow.Visible = false;
+            lblDownDuration.Visible = false;
+            pBDownArrow.Visible = false;
         }
     }
 }

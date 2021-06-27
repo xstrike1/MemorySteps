@@ -13,7 +13,7 @@ namespace MemoryStepsCore.Services
 {
     public class CursorExecutorService
     {
-        public event Action<long, long, CursorEntity, CursorEntity> StepCompleted;
+        public event Action<long, CursorEntity, CursorEntity> StepCompleted;
         private readonly CursorRegisterService _cursorRegister;
 
         public CursorExecutorService(CursorRegisterService cursorRegister) 
@@ -49,17 +49,16 @@ namespace MemoryStepsCore.Services
         private void InternalExecute(IMemoryMainForm parentForm, IMemoryProcessingForm autoclickerForm) 
         {
             ExecuteMouseClick(_cursorRegister.TestConfig.CursorList[0]);
-            long lastCursorTimer = 0;
             for (int i = 1; i < _cursorRegister.TestConfig.CursorList.Count; i++)
             {
                 var previousCursorEntity = _cursorRegister.TestConfig.CursorList[i - 1];
                 var currentCursor = _cursorRegister.TestConfig.CursorList[i];
                 var nextCursor = i < _cursorRegister.TestConfig.CursorList.Count - 1 ? _cursorRegister.TestConfig.CursorList[i + 1] : null;
-                StepCompleted?.Invoke(lastCursorTimer, previousCursorEntity.MilisecondsToNextCursor, currentCursor, nextCursor);
+                StepCompleted?.Invoke(previousCursorEntity.MilisecondsToNextCursor, currentCursor, nextCursor);
 
                 try
                 {
-                    lastCursorTimer = ExecuteCursor(_cursorRegister.TestConfig.CursorList[i], previousCursorEntity, autoclickerForm);
+                   ExecuteCursor(_cursorRegister.TestConfig.CursorList[i], previousCursorEntity, autoclickerForm);
                 }
                 catch 
                 {

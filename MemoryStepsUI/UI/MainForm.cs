@@ -105,6 +105,7 @@ namespace MemoryStepsUI.UI
                 return;
 
             SetTestFields();
+            UpdatePanelConfig();
         }
 
         int lastLocation = 0;

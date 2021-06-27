@@ -11,8 +11,8 @@ namespace MemoryStepsUI.Controls
 {
     public class MemoryMaterialCard : MaterialSkin.Controls.MaterialCard
     {
-        private readonly Color KnownControlColor = Color.FromArgb(77,184,255);
-        private readonly Color UndefinedControlColor = Color.FromArgb(190, 204, 212);
+        private readonly Color KnownControlColor = Color.FromArgb(53,165,240);
+        private readonly Color UndefinedControlColor = Color.FromArgb(77,106,163);
         private bool _hostedControlTypeIsKnown = true;
         public MemoryMaterialCard() 
         {
@@ -25,11 +25,8 @@ namespace MemoryStepsUI.Controls
 
         public void SetCardColor(CursorEntity cursor)
         {
-            if (cursor.ControlType == AppConfig.Config.Undefined)
-            {
-                _hostedControlTypeIsKnown = false;
-                BackColor = UndefinedControlColor;
-            }
+            _hostedControlTypeIsKnown = cursor.ControlType != AppConfig.Config.Undefined;
+            OnBackColorChanged(EventArgs.Empty);
         }
     }
 }

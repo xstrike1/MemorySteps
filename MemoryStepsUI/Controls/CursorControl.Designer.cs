@@ -137,7 +137,7 @@ namespace MemoryStepsUI.Controls
             // pBRightArrow
             // 
             this.pBRightArrow.Image = global::MemoryStepsUI.Properties.Resources.arrow_Next;
-            this.pBRightArrow.Location = new System.Drawing.Point(266, 10);
+            this.pBRightArrow.Location = new System.Drawing.Point(256, 6);
             this.pBRightArrow.Name = "pBRightArrow";
             this.pBRightArrow.Size = new System.Drawing.Size(71, 58);
             this.pBRightArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -149,7 +149,7 @@ namespace MemoryStepsUI.Controls
             this.lblRightDuration.AutoSize = true;
             this.lblRightDuration.Depth = 0;
             this.lblRightDuration.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblRightDuration.Location = new System.Drawing.Point(213, 30);
+            this.lblRightDuration.Location = new System.Drawing.Point(213, 25);
             this.lblRightDuration.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblRightDuration.Name = "lblRightDuration";
             this.lblRightDuration.Size = new System.Drawing.Size(67, 19);
@@ -166,7 +166,7 @@ namespace MemoryStepsUI.Controls
             this.Controls.Add(this.pBDownArrow);
             this.Controls.Add(this.cardCursor);
             this.Name = "CursorControl";
-            this.Size = new System.Drawing.Size(342, 150);
+            this.Size = new System.Drawing.Size(337, 150);
             this.cardCursor.ResumeLayout(false);
             this.cardCursor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBDownArrow)).EndInit();
