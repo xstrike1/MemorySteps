@@ -39,11 +39,12 @@ namespace MemoryStepsUI.UI
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabAutoclicker = new System.Windows.Forms.TabPage();
+            this.cursorEditorControl1 = new MemoryStepsUI.Controls.CursorEditorControl();
+            this.pnlCurrentConfig = new System.Windows.Forms.FlowLayoutPanel();
             this.materialCard3 = new MaterialSkin.Controls.MaterialCard();
             this.btnStartManualConfig = new MaterialSkin.Controls.MaterialButton();
             this.btnSaveConfig = new MaterialSkin.Controls.MaterialButton();
             this.btnLoadConfig = new MaterialSkin.Controls.MaterialButton();
-            this.rtbCurrentConfig = new MaterialSkin.Controls.MaterialMultiLineTextBox();
             this.materialCard1 = new MaterialSkin.Controls.MaterialCard();
             this.lblAutoclickerTitle = new MaterialSkin.Controls.MaterialLabel();
             this.tabHome = new System.Windows.Forms.TabPage();
@@ -109,21 +110,40 @@ namespace MemoryStepsUI.UI
             this.materialTabControl1.Multiline = true;
             this.materialTabControl1.Name = "materialTabControl1";
             this.materialTabControl1.SelectedIndex = 0;
-            this.materialTabControl1.Size = new System.Drawing.Size(896, 598);
+            this.materialTabControl1.Size = new System.Drawing.Size(896, 698);
             this.materialTabControl1.TabIndex = 5;
             // 
             // tabAutoclicker
             // 
+            this.tabAutoclicker.Controls.Add(this.cursorEditorControl1);
+            this.tabAutoclicker.Controls.Add(this.pnlCurrentConfig);
             this.tabAutoclicker.Controls.Add(this.materialCard3);
-            this.tabAutoclicker.Controls.Add(this.rtbCurrentConfig);
             this.tabAutoclicker.Controls.Add(this.materialCard1);
             this.tabAutoclicker.ImageKey = "settings_icon.png";
             this.tabAutoclicker.Location = new System.Drawing.Point(4, 39);
             this.tabAutoclicker.Name = "tabAutoclicker";
-            this.tabAutoclicker.Size = new System.Drawing.Size(888, 555);
+            this.tabAutoclicker.Size = new System.Drawing.Size(888, 655);
             this.tabAutoclicker.TabIndex = 2;
             this.tabAutoclicker.Text = "Configuration";
             this.tabAutoclicker.UseVisualStyleBackColor = true;
+            // 
+            // cursorEditorControl1
+            // 
+            this.cursorEditorControl1.Location = new System.Drawing.Point(333, 83);
+            this.cursorEditorControl1.Name = "cursorEditorControl1";
+            this.cursorEditorControl1.Size = new System.Drawing.Size(473, 527);
+            this.cursorEditorControl1.TabIndex = 8;
+            this.cursorEditorControl1.Visible = false;
+            // 
+            // pnlCurrentConfig
+            // 
+            this.pnlCurrentConfig.AutoScroll = true;
+            this.pnlCurrentConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.pnlCurrentConfig.Location = new System.Drawing.Point(28, 89);
+            this.pnlCurrentConfig.Name = "pnlCurrentConfig";
+            this.pnlCurrentConfig.Size = new System.Drawing.Size(280, 521);
+            this.pnlCurrentConfig.TabIndex = 7;
+            this.pnlCurrentConfig.WrapContents = false;
             // 
             // materialCard3
             // 
@@ -133,7 +153,7 @@ namespace MemoryStepsUI.UI
             this.materialCard3.Controls.Add(this.btnLoadConfig);
             this.materialCard3.Depth = 0;
             this.materialCard3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialCard3.Location = new System.Drawing.Point(-45, 540);
+            this.materialCard3.Location = new System.Drawing.Point(-45, 627);
             this.materialCard3.Margin = new System.Windows.Forms.Padding(14);
             this.materialCard3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialCard3.Name = "materialCard3";
@@ -202,21 +222,6 @@ namespace MemoryStepsUI.UI
             this.btnLoadConfig.UseVisualStyleBackColor = true;
             this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
-            // rtbCurrentConfig
-            // 
-            this.rtbCurrentConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.rtbCurrentConfig.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbCurrentConfig.Depth = 0;
-            this.rtbCurrentConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.rtbCurrentConfig.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.rtbCurrentConfig.Location = new System.Drawing.Point(44, 134);
-            this.rtbCurrentConfig.MouseState = MaterialSkin.MouseState.HOVER;
-            this.rtbCurrentConfig.Name = "rtbCurrentConfig";
-            this.rtbCurrentConfig.ReadOnly = true;
-            this.rtbCurrentConfig.Size = new System.Drawing.Size(733, 389);
-            this.rtbCurrentConfig.TabIndex = 5;
-            this.rtbCurrentConfig.Text = "";
-            // 
             // materialCard1
             // 
             this.materialCard1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -253,7 +258,7 @@ namespace MemoryStepsUI.UI
             this.tabHome.Location = new System.Drawing.Point(4, 39);
             this.tabHome.Name = "tabHome";
             this.tabHome.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHome.Size = new System.Drawing.Size(888, 555);
+            this.tabHome.Size = new System.Drawing.Size(888, 655);
             this.tabHome.TabIndex = 0;
             this.tabHome.Text = "Home";
             this.tabHome.UseVisualStyleBackColor = true;
@@ -512,7 +517,7 @@ namespace MemoryStepsUI.UI
             this.matcard_Down.Controls.Add(this.btnLaunchTest);
             this.matcard_Down.Depth = 0;
             this.matcard_Down.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.matcard_Down.Location = new System.Drawing.Point(-45, 540);
+            this.matcard_Down.Location = new System.Drawing.Point(-45, 619);
             this.matcard_Down.Margin = new System.Windows.Forms.Padding(14);
             this.matcard_Down.MouseState = MaterialSkin.MouseState.HOVER;
             this.matcard_Down.Name = "matcard_Down";
@@ -579,13 +584,13 @@ namespace MemoryStepsUI.UI
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(902, 665);
+            this.ClientSize = new System.Drawing.Size(902, 765);
             this.Controls.Add(this.materialTabControl1);
             this.DrawerShowIconsWhenHidden = true;
             this.DrawerTabControl = this.materialTabControl1;
             this.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.MaximumSize = new System.Drawing.Size(902, 665);
-            this.MinimumSize = new System.Drawing.Size(902, 665);
+            this.MaximumSize = new System.Drawing.Size(902, 765);
+            this.MinimumSize = new System.Drawing.Size(902, 765);
             this.Name = "MainForm";
             this.Text = "Memory steps 4";
             this.materialTabControl1.ResumeLayout(false);
@@ -619,7 +624,6 @@ namespace MemoryStepsUI.UI
         private MaterialButton btnStartManualConfig;
         private MaterialCard materialCard1;
         private MaterialLabel lblAutoclickerTitle;
-        private MaterialMultiLineTextBox rtbCurrentConfig;
         private MaterialCard materialCard3;
 
         #endregion
@@ -637,5 +641,7 @@ namespace MemoryStepsUI.UI
         private MaterialTextBox materialTextBox3;
         private MaterialMultiLineTextBox txtBoxTestDescr;
         private MaterialLabel lblTestDescr;
+        private FlowLayoutPanel pnlCurrentConfig;
+        private Controls.CursorEditorControl cursorEditorControl1;
     }
 }

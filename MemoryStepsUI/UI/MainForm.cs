@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using MemoryStepsCore.Models;
 using MemoryStepsCore.Services;
 using MemoryStepsCore.Config;
+using MemoryStepsUI.Controls;
 
 namespace MemoryStepsUI.UI
 {
@@ -16,7 +17,6 @@ namespace MemoryStepsUI.UI
         private readonly CursorLoaderService _cursorLoader = new();
         private CursorExecutorService _executor;
         private ProcessingForm processingForm;
-
         public MainForm()
         {
             InitializeComponent();
@@ -60,26 +60,18 @@ namespace MemoryStepsUI.UI
             CompleteTest(_executor.Execute(this).ToString());
         }
 
-        private void ValidateBeforeTestLaunch()
-        {
-            if (string.IsNullOrEmpty(rtbCurrentConfig.Text))
-                throw new ApplicationException("Empty autoclicker configuration");
-
-            return;
-        }
-
         public void OnRegisterComplete() 
         {
             SetTestFields(true);
-            rtbCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
             CloseProcessingForm();
+            UpdatePanelConfig();
+            cursorEditorControl1.Visible = false;
         }
 
         private void btnLaunchTest_Click(object sender, EventArgs e)
         {
             try
             {
-                ValidateBeforeTestLaunch();
                 LaunchAutoclicker();
             }
             catch (Exception ex)
@@ -112,13 +104,45 @@ namespace MemoryStepsUI.UI
             if (cursorRegister.TestConfig == null)
                 return;
 
-            rtbCurrentConfig.Text = _cursorLoader.GetCurrentConfig(cursorRegister.TestConfig);
             SetTestFields();
         }
 
+        int lastLocation = 0;
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
-            _cursorLoader.SaveConfig(cursorRegister.TestConfig);
+             _cursorLoader.SaveConfig(cursorRegister.TestConfig); 
+        }
+
+        private void UpdatePanelConfig() 
+        {
+            lastLocation = 0;
+
+            foreach (CursorControl ctrl in pnlCurrentConfig.Controls)
+            {
+                ctrl.CardClicked -= CardClicked;
+                ctrl.Dispose();
+            }
+
+            pnlCurrentConfig.Controls.Clear();
+
+            for (int i = 0; i < cursorRegister.TestConfig.CursorList.Count; i++)
+            {
+                CursorControl cc = new CursorControl();
+                cc.Width -= 120;
+                bool isLastElement = i == cursorRegister.TestConfig.CursorList.Count - 1;
+                cc.InitCursorAction(cursorRegister.TestConfig.CursorList[i], isLastElement: isLastElement);
+                cc.Location = new System.Drawing.Point(10, lastLocation + cc.Height);
+                if (isLastElement)
+                    cc.Height -= 80;
+                pnlCurrentConfig.Controls.Add(cc);
+                cc.CardClicked += CardClicked;
+            }
+        }
+
+        private void CardClicked(CursorControl cc)
+        {
+            cursorEditorControl1.Visible = true;
+            cursorEditorControl1.EditCursor(cc);
         }
 
         private void SetTestFields(bool manualConfig = false) 

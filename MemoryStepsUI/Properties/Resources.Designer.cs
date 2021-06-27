@@ -61,6 +61,16 @@ namespace MemoryStepsUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_Next {
+            get {
+                object obj = ResourceManager.GetObject("arrow_Next", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To cancel current execution press {0}.
         /// </summary>
         internal static string CaptionCancelCurrentExecutionFormat {
