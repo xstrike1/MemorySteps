@@ -25,9 +25,11 @@ namespace MemoryStepsCore.Services
                 MouseClickEventHandler = GlobalHook_MouseClick,
                 MouseDoubleClickEventHandler = GlobalHook_MouseDoubleClick,
                 MouseDragStartedEventHandler = GlobalHook_MouseDragStarted,
-                MouseDragFinishedEventHandler = GlobalHook_MouseDragFinished,
-                MouseWheelEventHandler = GlobalHook_MouseWheel
+                MouseDragFinishedEventHandler = GlobalHook_MouseDragFinished
             };
+
+            if (!AppConfig.Config.DisableMouseScrollCapture)
+                _mouseEventHandlers.MouseWheelEventHandler = GlobalHook_MouseWheel;
         }
 
         public void StartCursorRegister() 

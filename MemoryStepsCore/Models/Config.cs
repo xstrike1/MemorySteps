@@ -26,6 +26,7 @@ namespace MemoryStepsCore.Models
         /// If false, at execution, check only the control type of the hovered control
         /// </summary>
         public bool CheckControlName { get; set; } = true;
+        public bool DisableMouseScrollCapture { get; set; } = true;
         public string Undefined = "UNDEFINED";
         
     }
