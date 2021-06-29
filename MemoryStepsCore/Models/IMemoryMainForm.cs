@@ -8,5 +8,6 @@ namespace MemoryStepsCore.Models
         IMemoryProcessingForm CreateProcessingForm(IMemoryMainForm main, CursorExecutorService cursorExecutor, long totalDuration);
         void CloseProcessingForm();
         void OnRegisterComplete();
+        void DisplayMessage(string message, string caption = "");
     }
 }

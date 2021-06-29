@@ -7,9 +7,7 @@ using MemoryStepsCore.Models;
 using MemoryStepsCore.Config;
 using System.Drawing;
 using System.Timers;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace MemoryStepsCore.Services
 {
@@ -47,56 +45,107 @@ namespace MemoryStepsCore.Services
             var autoclickerForm = parentForm.CreateProcessingForm(parentForm, this, totalDuration);
             Application.DoEvents();
 
-            InternalExecute(parentForm, autoclickerForm);
+            InternalStartExecute(autoclickerForm);
         }
 
-        private void InternalExecute(IMemoryMainForm parentForm, IMemoryProcessingForm autoclickerForm)
+        private void StartTimer(ElapsedEventHandler elapsedEventHandler)
+        {
+            _timer = new();
+            _timer.Interval = _timerInterval;
+            _timer.Elapsed += elapsedEventHandler;
+            _timer.Start();
+        }
+
+        private void StopTimer(ElapsedEventHandler elapsedEventHandler)
+        {
+            _execTimer = 0;
+            if (_timer == null)
+                return;
+
+            _timer.Stop();
+            _timer.Elapsed -= elapsedEventHandler;
+        }
+
+        private void OnTimerTickForActionDelay(object sender, ElapsedEventArgs e)
+        {
+            _execTimer += _timerInterval;
+
+            if (CancelHasBeenRequested(OnTimerTickForActionDelay))
+                return;
+
+            if (_execTimer > _currentlyProcessingCursor.PrevCursor.MilisecondsToNextCursor)
+            {
+                StopTimer(OnTimerTickForActionDelay);
+                ExecuteMouseAction(_currentlyProcessingCursor.CurrentCursor);
+                return;
+            }
+
+            if (_currentlyProcessingCursor.CharactersPressed || _currentlyProcessingCursor.FirstCharTime == 0 ||
+                _execTimer <= _currentlyProcessingCursor.FirstCharTime)
+                return;
+
+            foreach (var value in _currentlyProcessingCursor.PrevCursor.PressedCharacters.Values)
+                _processingForm.Invoke(new Action(() => _processingForm.SendKey(value.ToString())));
+
+            _currentlyProcessingCursor.CharactersPressed = true;
+        }
+
+        private void OnTimerTickForControlChecking(object sender, ElapsedEventArgs e)
+        {
+            _execTimer += _timerInterval;
+            if (CancelHasBeenRequested(OnTimerTickForControlChecking))
+                return;
+
+            if (_execTimer > AppConfig.Config.MaxActionDelay)
+            {
+                StopTimer(OnTimerTickForControlChecking);
+                _parentForm.Invoke(new Action(() => _parentForm.DisplayMessage($"Control for cursor action #{_currentlyProcessingCursor.CurrentCursor.CursorNumber} could not be found", "Error")));
+                _parentForm.Invoke(new Action(() => _parentForm.CloseProcessingForm()));
+            }
+
+            var hoveredElement = AutomationService.GetHoveredElement();
+            try
+            {
+                if (_currentlyProcessingCursor.CurrentCursor.ControlType == "" || hoveredElement == null ||
+                    hoveredElement.ControlType.ToString() != _currentlyProcessingCursor.CurrentCursor.ControlType)
+                    return;
+
+                if (AppConfig.Config.CheckControlName && hoveredElement.Name != _currentlyProcessingCursor.CurrentCursor.ControlName)
+                    return;
+
+                ElementHighlighter.HighlightElement(hoveredElement, Color.BlueViolet);
+                ExecuteMouseClick(_currentlyProcessingCursor.CurrentCursor);
+            }
+            catch (PropertyNotSupportedException)
+            {
+                //hoveredElement is not supported
+            }
+        }
+
+        private void InternalStartExecute(IMemoryProcessingForm autoclickerForm)
         {
             _processingForm = autoclickerForm;
+
+            _currentlyProcessingCursor = new CurrentCursorProcessModel()
+            {
+                CurrentCursor = _cursorRegister.TestConfig.CursorList[0]
+            };
+
+            Mouse.MoveTo(_cursorRegister.TestConfig.CursorList[0].Position);
             ExecuteMouseClick(_cursorRegister.TestConfig.CursorList[0]);
-            GoToNextCursor(_cursorRegister.TestConfig.CursorList[0]);
-        }
-
-        private static void ExecuteMouseClick(CursorEntity cursor)
-        {
-            Mouse.MoveTo(cursor.Position);
-
-            var st = new Stopwatch();
-            st.Start();
-            var controlIsGood = IsMouseOverControl(cursor, st);
-
-            if (!controlIsGood)
-                throw new ApplicationException("Control not found!");
-
-            if (cursor.DragPosition != Point.Empty)
-            {
-                Mouse.DragTo(cursor.ButtonPressed, cursor.DragPosition);
-                return;
-            }
-
-            if (cursor.MouseWheelDelta != 0)
-            {
-                Mouse.Scroll(cursor.MouseWheelDelta / SystemInformation.MouseWheelScrollDelta);
-                return;
-            }
-
-            if (cursor.DoubleClick)
-                Mouse.DoubleClick(cursor.ButtonPressed);
-            else
-                Mouse.Click(cursor.ButtonPressed);
         }
 
         private void GoToNextCursor(CursorEntity cursor)
         {
             var prevCursor = cursor.CursorNumber == 1 ? null : _cursorRegister.TestConfig.CursorList[cursor.CursorNumber - 2];
             var currentCursor = _cursorRegister.TestConfig.CursorList[cursor.CursorNumber - 1];
-            var nextCursor = cursor.CursorNumber < _cursorRegister.TestConfig.CursorList.Count  ? _cursorRegister.TestConfig.CursorList[cursor.CursorNumber] : null;
+            var nextCursor = cursor.CursorNumber < _cursorRegister.TestConfig.CursorList.Count ? _cursorRegister.TestConfig.CursorList[cursor.CursorNumber] : null;
             _processingForm.Invoke(new Action(() => _processingForm.Executor_StepCompleted(prevCursor == null ? 0 : prevCursor.MilisecondsToNextCursor, currentCursor, nextCursor)));
 
             if (nextCursor == null)
             {
-                StopTimer();
-                _parentForm.Invoke(new Action(() =>_parentForm.CloseProcessingForm()));
+                StopTimer(OnTimerTickForActionDelay);
+                _parentForm.Invoke(new Action(() => _parentForm.CloseProcessingForm()));
                 return;
             }
             ExecuteCursor(nextCursor, currentCursor);
@@ -104,7 +153,7 @@ namespace MemoryStepsCore.Services
 
         private void ExecuteCursor(CursorEntity cursor, CursorEntity previousCursor)
         {
-            StartTimer();
+            StartTimer(OnTimerTickForActionDelay);
 
             long firstCharacterMs = 0;
             var charactersPressed = false;
@@ -123,83 +172,52 @@ namespace MemoryStepsCore.Services
             };
         }
 
-        private  void OnTimerTick(object sender, ElapsedEventArgs e)
+        private void ExecuteMouseAction(CursorEntity cursor)
         {
-            _execTimer += _timerInterval;
+            Mouse.MoveTo(cursor.Position);
+            if (cursor.ControlType == AppConfig.Config.Undefined)
+            {
 
+                ExecuteMouseClick(cursor);
+                return;
+            }
+
+            StartTimer(OnTimerTickForControlChecking);
+        }
+
+        private  void ExecuteMouseClick(CursorEntity cursor)
+        {
+            StopTimer(OnTimerTickForControlChecking);
+
+            if (cursor.DragPosition != Point.Empty)
+            {
+                Mouse.DragTo(cursor.ButtonPressed, cursor.DragPosition);
+                return;
+            }
+
+            if (cursor.MouseWheelDelta != 0)
+            {
+                Mouse.Scroll(cursor.MouseWheelDelta / SystemInformation.MouseWheelScrollDelta);
+                return;
+            }
+
+            if (cursor.DoubleClick)
+                Mouse.DoubleClick(cursor.ButtonPressed);
+            else
+                Mouse.Click(cursor.ButtonPressed);
+
+            GoToNextCursor(_currentlyProcessingCursor.CurrentCursor);
+        }
+
+        private bool CancelHasBeenRequested(ElapsedEventHandler elapsedEventHandler)
+        {
             if (_processingForm.CancelHasBeenRequested)
             {
-                StopTimer();
-                _parentForm.CloseProcessingForm();
-                return;
+                StopTimer(elapsedEventHandler);
+                _parentForm.Invoke(new Action(() => _parentForm.CloseProcessingForm()));
+                return true;
             }
-
-            if (_execTimer > _currentlyProcessingCursor.PrevCursor.MilisecondsToNextCursor)
-            {
-                StopTimer();
-                ExecuteMouseClick(_currentlyProcessingCursor.CurrentCursor);
-                GoToNextCursor(_currentlyProcessingCursor.CurrentCursor);
-                return;
-            }
-
-            if (_currentlyProcessingCursor.CharactersPressed || _currentlyProcessingCursor.FirstCharTime == 0 ||
-                _execTimer <= _currentlyProcessingCursor.FirstCharTime)
-                return;
-
-            foreach (var value in _currentlyProcessingCursor.PrevCursor.PressedCharacters.Values)
-                _processingForm.Invoke(new Action(() => _processingForm.SendKey(value.ToString())));
-             
-            _currentlyProcessingCursor.CharactersPressed = true;
-        }
-
-        private void StartTimer()
-        {
-            _timer = new();
-            _timer.Interval = _timerInterval;
-            _timer.Elapsed += OnTimerTick;
-            _timer.Start();
-        }
-
-        private void StopTimer() 
-        {
-            _execTimer = 0;
-            if (_timer == null)
-                return;
-
-            _timer.Stop();
-            _timer.Elapsed -= OnTimerTick;
-        }
-
-        private static bool IsMouseOverControl(CursorEntity cursor, Stopwatch st)
-        {
-            if (cursor.ControlType == AppConfig.Config.Undefined) return true;
-
-            while (true) //TODO change this
-            {
-                var r = AutomationService.GetHoveredElement();
-                if (st.ElapsedMilliseconds > AppConfig.Config.MaxActionDelay) return false;
-                try
-                {
-                    if (cursor.ControlType == "" || r == null ||
-                        r.ControlType.ToString() != cursor.ControlType)
-                        continue;
-
-                    if (AppConfig.Config.CheckControlName && r.Name != cursor.ControlName)
-                        continue;
-
-                    ElementHighlighter.HighlightElement(r, Color.BlueViolet);
-                    return true;
-                }
-                catch (PropertyNotSupportedException)
-                {
-                    Thread.Sleep(50);
-                }
-                finally
-                {
-                    Thread.Sleep(200);
-                }
-            }
+            return false;
         }
     }
-
 }
