@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using MemoryStepsUI.Properties;
 using MemoryStepsCore.Models;
 using MemoryStepsCore.Config;
+using MaterialSkin;
 
 namespace MemoryStepsUI.UI
 {
@@ -16,8 +17,8 @@ namespace MemoryStepsUI.UI
         public bool CancelHasBeenRequested { get; set; }
         private IKeyboardMouseEvents _globalHook;
         private readonly MainForm _parent;
-        private readonly CursorExecutorService _executor;
-        private readonly decimal _totalDuration;
+        private CursorExecutorService _executor;
+        private decimal _totalDuration;
         private decimal _elapsedTime;
 
         public ProcessingForm()
@@ -30,20 +31,16 @@ namespace MemoryStepsUI.UI
         /// <summary>
         /// Constructor used for manual configuration
         /// </summary>
-        public ProcessingForm(MainForm parent) 
-            :this()
+        public ProcessingForm(MainForm parent)
+            : this()
         {
             _parent = parent;
-            lblHint.Text = string.Format(Resources.CaptionCancelCurrentExecutionFormat, AppConfig.Config.KeyBind.ToString());
-            Height = 57;
+            Hide();
         }
 
-        /// <summary>
-        /// Constructor used for execution
-        /// </summary>
-        public ProcessingForm(MainForm parent, CursorExecutorService executor, long totalDuration) 
-            : this(parent) 
+        public void ShowFormOnExecute(CursorExecutorService executor, long totalDuration)
         {
+            lblHint.Text = string.Format(Resources.CaptionCancelCurrentExecutionFormat, AppConfig.Config.KeyBind.ToString());
             _executor = executor;
             _totalDuration = totalDuration;
             progressBar.Visible = true;
@@ -52,24 +49,39 @@ namespace MemoryStepsUI.UI
             cursorControlCurrent.Visible = true;
             cursorControlNext.Visible = true;
             Height = 157;
+            CancelHasBeenRequested = false;
+            _elapsedTime = 0;
 
             Subscribe();
+            Show();
+            SetWindowLocation();
         }
 
-        protected override void OnShown(EventArgs e)
+        public void ShowFormOnRegister() 
         {
-            base.OnShown(e);
+            lblHint.Text = string.Format(Resources.CaptionCancelCurrentExecutionFormat, AppConfig.Config.KeyBind.ToString());
+            Height = 57;
+            CancelHasBeenRequested = false;
+            cursorControlCurrent.Visible = false;
+            cursorControlNext.Visible = false;
+            Show();
+            SetWindowLocation();
+        }
 
+        public void UnsubscribeAndHide() 
+        {
+            Unsubscribe();
+            Hide();
+        }
+
+
+        private void SetWindowLocation() 
+        {
             Rectangle res = Screen.PrimaryScreen.Bounds;
             Location = new Point(res.Width - Size.Width, res.Height - Size.Height);
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            Unsubscribe();
-        }
-
+      
         private void Subscribe()
         {
             _globalHook = GlobalHookService.SubscribeGlobalHook(GlobalHookKeyPress);
@@ -78,7 +90,6 @@ namespace MemoryStepsUI.UI
         private void Unsubscribe()
         {
             GlobalHookService.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress);
-
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)

@@ -13,7 +13,7 @@ namespace MemoryStepsCore.Services
 {
     public class CursorExecutorService
     {
-        private readonly CursorRegisterService _cursorRegister;
+        private CursorRegisterService _cursorRegister;
         private CurrentCursorProcessModel _currentlyProcessingCursor;
         private IMemoryProcessingForm _processingForm;
         private IMemoryMainForm _parentForm;
@@ -21,18 +21,20 @@ namespace MemoryStepsCore.Services
         private readonly long _timerInterval = 100;
         private System.Timers.Timer _timer;
 
-        public CursorExecutorService(CursorRegisterService cursorRegister)
+        public CursorExecutorService()
         {
-            _cursorRegister = cursorRegister;
         }
+
 
         public long GetTotalDuration()
         {
             return _cursorRegister.TestConfig.CursorList.Sum(cursor => cursor.MilisecondsToNextCursor);
         }
 
-        public void Execute(IMemoryMainForm parentForm)
+        public void Execute(CursorRegisterService cursorRegister, IMemoryMainForm parentForm)
         {
+            _cursorRegister = cursorRegister;
+
             if (_cursorRegister == null || _cursorRegister.TestConfig.CursorList.Count == 0)
             {
                 return;
@@ -42,7 +44,7 @@ namespace MemoryStepsCore.Services
             stopWatch.Start();
             _parentForm = parentForm;
             var totalDuration = GetTotalDuration();
-            var autoclickerForm = parentForm.CreateProcessingForm(parentForm, this, totalDuration);
+            var autoclickerForm = parentForm.ShowProcessingFormOnExecute(parentForm, this, totalDuration);
             Application.DoEvents();
 
             InternalStartExecute(autoclickerForm);
@@ -128,7 +130,9 @@ namespace MemoryStepsCore.Services
 
             _currentlyProcessingCursor = new CurrentCursorProcessModel()
             {
-                CurrentCursor = _cursorRegister.TestConfig.CursorList[0]
+                PrevCursor = null,
+                CurrentCursor = _cursorRegister.TestConfig.CursorList[0],
+                FirstCharTime = 0
             };
 
             Mouse.MoveTo(_cursorRegister.TestConfig.CursorList[0].Position);

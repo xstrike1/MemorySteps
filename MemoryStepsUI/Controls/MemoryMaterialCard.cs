@@ -23,9 +23,9 @@ namespace MemoryStepsUI.Controls
             BackColor = _hostedControlTypeIsKnown ? KnownControlColor : UndefinedControlColor;
         }
 
-        public void SetCardColor(CursorEntity cursor)
+        public void SetCardColor(bool hostedControlTypeIsKnown)
         {
-            _hostedControlTypeIsKnown = cursor.ControlType != AppConfig.Config.Undefined;
+            _hostedControlTypeIsKnown = hostedControlTypeIsKnown;
             OnBackColorChanged(EventArgs.Empty);
         }
     }

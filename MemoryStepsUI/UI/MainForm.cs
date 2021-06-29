@@ -23,25 +23,24 @@ namespace MemoryStepsUI.UI
             InitializeComponent();
             FormStyleService.InitMaterialSkin(this);
             cursorRegister.OnRegisterFinish += OnRegisterComplete;
-        }
-
-        public IMemoryProcessingForm CreateProcessingForm(IMemoryMainForm mainForm, CursorExecutorService cursorExecutor, long totalDuration)
-        {
-            processingForm = new ProcessingForm(this, cursorExecutor, totalDuration)
+            processingForm = new ProcessingForm(this)
             {
                 TopMost = true
             };
-            processingForm.Show();
+
+            _executor = new CursorExecutorService();
+        }
+
+        public IMemoryProcessingForm ShowProcessingFormOnExecute(IMemoryMainForm mainForm, CursorExecutorService cursorExecutor, long totalDuration)
+        {
+            processingForm.ShowFormOnExecute(_executor, totalDuration);
             return processingForm;
         }
+
         public void CloseProcessingForm()
         {
+            processingForm.UnsubscribeAndHide();
             this.Show();
-            if (processingForm == null)
-                return;
-
-            processingForm.Close();
-            processingForm.Dispose();
         }
 
         public void CompleteTest(string timeElapsed) //Unused atm
@@ -61,9 +60,7 @@ namespace MemoryStepsUI.UI
             Application.DoEvents();
             Hide();
 
-            _executor = new CursorExecutorService(cursorRegister);
-
-            _executor.Execute(this);
+            _executor.Execute(cursorRegister, this);
         }
 
         public void OnRegisterComplete() 
@@ -100,12 +97,8 @@ namespace MemoryStepsUI.UI
 
         private void ShowProcessingForm(IMemoryMainForm mainForm) 
         {
-            processingForm = new ProcessingForm(this)
-            {
-                TopMost = true
-            };
             Hide();
-            processingForm.Show();
+            processingForm.ShowFormOnRegister();
         }
 
         private void btnStartManualConfig_Click(object sender, EventArgs e)

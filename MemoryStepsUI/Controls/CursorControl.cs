@@ -1,4 +1,5 @@
-﻿using MemoryStepsCore.Models;
+﻿using MemoryStepsCore.Config;
+using MemoryStepsCore.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +48,7 @@ namespace MemoryStepsUI.Controls
 
         public void RefreshDisplayValues() 
         {
-            cardCursor.SetCardColor(CursorEntity);
+            cardCursor.SetCardColor(CursorEntity.ControlType != AppConfig.Config.Undefined);
             cardCursor.Refresh();
 
             lblCursorActionNumber.Text = "#"+CursorEntity.CursorNumber.ToString();
@@ -60,13 +61,18 @@ namespace MemoryStepsUI.Controls
         {
             CardClicked?.Invoke(this);
         }
-
         private void HideAllArrows() 
         {
             lblRightDuration.Visible = false;
             pBRightArrow.Visible = false;
             lblDownDuration.Visible = false;
             pBDownArrow.Visible = false;
+        }
+
+        public void DisposePictureBoxes() 
+        {
+            pBRightArrow.Dispose();
+            pBDownArrow.Dispose(); ;
         }
     }
 }
