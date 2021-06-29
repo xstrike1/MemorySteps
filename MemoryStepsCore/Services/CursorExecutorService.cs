@@ -86,10 +86,11 @@ namespace MemoryStepsCore.Services
                 _execTimer <= _currentlyProcessingCursor.FirstCharTime)
                 return;
 
+            _currentlyProcessingCursor.CharactersPressed = true;
+
             foreach (var value in _currentlyProcessingCursor.PrevCursor.PressedCharacters.Values)
                 _processingForm.Invoke(new Action(() => _processingForm.SendKey(value.ToString())));
 
-            _currentlyProcessingCursor.CharactersPressed = true;
         }
 
         private void OnTimerTickForControlChecking(object sender, ElapsedEventArgs e)
