@@ -7,9 +7,7 @@ using MemoryStepsCore.Models;
 using MemoryStepsCore.Config;
 using System.Drawing;
 using System.Timers;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace MemoryStepsCore.Services
 {
@@ -92,6 +90,38 @@ namespace MemoryStepsCore.Services
             _currentlyProcessingCursor.CharactersPressed = true;
         }
 
+        private void OnTimerTickForControlChecking(object sender, ElapsedEventArgs e)
+        {
+            _execTimer += _timerInterval;
+            if (CancelHasBeenRequested(OnTimerTickForControlChecking))
+                return;
+
+            if (_execTimer > AppConfig.Config.MaxActionDelay)
+            {
+                StopTimer(OnTimerTickForControlChecking);
+                _parentForm.Invoke(new Action(() => _parentForm.DisplayMessage($"Control for cursor action #{_currentlyProcessingCursor.CurrentCursor.CursorNumber} could not be found", "Error")));
+                _parentForm.Invoke(new Action(() => _parentForm.CloseProcessingForm()));
+            }
+
+            var hoveredElement = AutomationService.GetHoveredElement();
+            try
+            {
+                if (_currentlyProcessingCursor.CurrentCursor.ControlType == "" || hoveredElement == null ||
+                    hoveredElement.ControlType.ToString() != _currentlyProcessingCursor.CurrentCursor.ControlType)
+                    return;
+
+                if (AppConfig.Config.CheckControlName && hoveredElement.Name != _currentlyProcessingCursor.CurrentCursor.ControlName)
+                    return;
+
+                ElementHighlighter.HighlightElement(hoveredElement, Color.BlueViolet);
+                ExecuteMouseClick(_currentlyProcessingCursor.CurrentCursor);
+            }
+            catch (PropertyNotSupportedException)
+            {
+                //hoveredElement is not supported
+            }
+        }
+
         private void InternalStartExecute(IMemoryProcessingForm autoclickerForm)
         {
             _processingForm = autoclickerForm;
@@ -155,49 +185,6 @@ namespace MemoryStepsCore.Services
             StartTimer(OnTimerTickForControlChecking);
         }
 
-        private bool CancelHasBeenRequested(ElapsedEventHandler elapsedEventHandler) 
-        {
-            if (_processingForm.CancelHasBeenRequested)
-            {
-                StopTimer(elapsedEventHandler);
-                _parentForm.Invoke(new Action(() => _parentForm.CloseProcessingForm()));
-                return true;
-            }
-            return false;
-        }
-
-        private void OnTimerTickForControlChecking(object sender, ElapsedEventArgs e) 
-        {
-            _execTimer += _timerInterval;
-            if (CancelHasBeenRequested(OnTimerTickForControlChecking))
-                return;
-
-            if (_execTimer > AppConfig.Config.MaxActionDelay)
-            {
-                StopTimer(OnTimerTickForControlChecking);
-                _parentForm.Invoke(new Action(() => _parentForm.DisplayMessage($"Control #{_currentlyProcessingCursor.CurrentCursor.CursorNumber} could not be found", "Error")));
-                _parentForm.Invoke(new Action(() => _parentForm.CloseProcessingForm()));
-            }
-
-            var hoveredElement = AutomationService.GetHoveredElement();
-            try
-            {
-                if (_currentlyProcessingCursor.CurrentCursor.ControlType == "" || hoveredElement == null ||
-                    hoveredElement.ControlType.ToString() != _currentlyProcessingCursor.CurrentCursor.ControlType)
-                    return;
-
-                if (AppConfig.Config.CheckControlName && hoveredElement.Name != _currentlyProcessingCursor.CurrentCursor.ControlName)
-                    return;
-
-                ElementHighlighter.HighlightElement(hoveredElement, Color.BlueViolet);
-                ExecuteMouseClick(_currentlyProcessingCursor.CurrentCursor); 
-            }
-            catch (PropertyNotSupportedException)
-            {
-                //hoveredElement is not supported
-            }
-        }
-
         private  void ExecuteMouseClick(CursorEntity cursor)
         {
             StopTimer(OnTimerTickForControlChecking);
@@ -220,6 +207,17 @@ namespace MemoryStepsCore.Services
                 Mouse.Click(cursor.ButtonPressed);
 
             GoToNextCursor(_currentlyProcessingCursor.CurrentCursor);
+        }
+
+        private bool CancelHasBeenRequested(ElapsedEventHandler elapsedEventHandler)
+        {
+            if (_processingForm.CancelHasBeenRequested)
+            {
+                StopTimer(elapsedEventHandler);
+                _parentForm.Invoke(new Action(() => _parentForm.CloseProcessingForm()));
+                return true;
+            }
+            return false;
         }
     }
 }
