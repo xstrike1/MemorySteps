@@ -34,7 +34,6 @@ namespace MemoryStepsUI.UI
             processingForm.Show();
             return processingForm;
         }
-
         public void CloseProcessingForm()
         {
             this.Show();
@@ -44,12 +43,19 @@ namespace MemoryStepsUI.UI
             processingForm.Close();
             processingForm.Dispose();
         }
+
         public void CompleteTest(string timeElapsed) //Unused atm
         {
             lblTstCompSec.Visible = true;
             lblTstCompSec.Text = timeElapsed;
             lblTestComp.Visible = true;
         }
+
+        public void DisplayMessage(string message, string caption = "") 
+        {
+            MaterialMessageBox.Show(message, caption, false);
+        }
+
         private void LaunchAutoclicker()
         {
             Application.DoEvents();
@@ -79,7 +85,7 @@ namespace MemoryStepsUI.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                DisplayMessage(ex.Message, "Error");
                 CloseProcessingForm();
             }
         }
