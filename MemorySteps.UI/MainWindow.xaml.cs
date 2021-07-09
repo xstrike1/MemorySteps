@@ -180,7 +180,6 @@ namespace MemorySteps.UI
             processingWindow.Show();
             Hide();
             cursorRegister.StartCursorRegister();
-
         }
     }
 }
