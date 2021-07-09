@@ -149,6 +149,7 @@ namespace MemorySteps.UI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
         }
 
         #region IMemoryMainForm
