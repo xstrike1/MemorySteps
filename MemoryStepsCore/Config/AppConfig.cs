@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Text;
-using MemoryStepsCore.Models;
+using MemorySteps.Core.Models;
 using Newtonsoft.Json;
 
-namespace MemoryStepsCore.Config
+namespace MemorySteps.Core.Config
 {
     public class AppConfig
     {

@@ -3,13 +3,13 @@ using System.Diagnostics;
 using System.Linq;
 using FlaUI.Core.Exceptions;
 using Microsoft.Test.Input;
-using MemoryStepsCore.Models;
-using MemoryStepsCore.Config;
+using MemorySteps.Core.Models;
+using MemorySteps.Core.Config;
 using System.Drawing;
 using System.Timers;
 using System.Windows.Forms;
 
-namespace MemoryStepsCore.Services
+namespace MemorySteps.Core.Services
 {
     public class CursorExecutorService
     {

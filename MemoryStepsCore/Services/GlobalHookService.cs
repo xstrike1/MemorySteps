@@ -1,9 +1,9 @@
 ﻿using Gma.System.MouseKeyHook;
-using MemoryStepsCore.Models;
+using MemorySteps.Core.Models;
 using System;
 using System.Windows.Forms;
 
-namespace MemoryStepsCore.Services
+namespace MemorySteps.Core.Services
 {
     public sealed class GlobalHookService
     {

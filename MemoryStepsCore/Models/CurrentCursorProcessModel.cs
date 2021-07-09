@@ -1,6 +1,6 @@
-﻿using MemoryStepsCore.Models;
+﻿using MemorySteps.Core.Models;
 
-namespace MemoryStepsCore.Models
+namespace MemorySteps.Core.Models
 {
     public class CurrentCursorProcessModel
     {

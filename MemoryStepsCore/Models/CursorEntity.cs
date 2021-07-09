@@ -1,11 +1,11 @@
-﻿using MemoryStepsCore.Config;
+﻿using MemorySteps.Core.Config;
 using Microsoft.Test.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace MemoryStepsCore.Models
+namespace MemorySteps.Core.Models
 {
     public class CursorEntity
     {

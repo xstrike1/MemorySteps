@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MemoryStepsCore.Models
+namespace MemorySteps.Core.Models
 {
     public interface IMemoryForm
     {

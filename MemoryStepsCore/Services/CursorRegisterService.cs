@@ -1,15 +1,15 @@
-﻿using MemoryStepsCore.Models;
+﻿using MemorySteps.Core.Models;
 using Microsoft.Test.Input;
 using System.Drawing;
 using System.Windows.Forms;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Exceptions;
-using MemoryStepsCore.Config;
+using MemorySteps.Core.Config;
 using System;
 using Gma.System.MouseKeyHook;
 using System.Collections.Generic;
 
-namespace MemoryStepsCore.Services
+namespace MemorySteps.Core.Services
 {
     public class CursorRegisterService
     {

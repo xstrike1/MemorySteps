@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MemoryStepsCore.Models
+namespace MemorySteps.Core.Models
 {
     public class ConfigModel 
     {

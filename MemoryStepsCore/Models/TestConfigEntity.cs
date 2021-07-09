@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MemoryStepsCore.Models
+namespace MemorySteps.Core.Models
 {
     public class TestConfigEntity
     {

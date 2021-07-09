@@ -1,0 +1,13 @@
+﻿<Window x:Class="MemorySteps.UI.ProcessingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MemorySteps.UI"
+        mc:Ignorable="d"
+        Title="ProcessingWindow" Height="100" Width="600"
+        WindowStyle="None">
+    <Grid>
+        <TextBlock>To be implemented</TextBlock>        
+    </Grid>
+</Window>

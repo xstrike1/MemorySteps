@@ -1,11 +1,11 @@
-﻿using MemoryStepsCore.Models;
+﻿using MemorySteps.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MemoryStepsCore.Services
+namespace MemorySteps.Core.Services
 {
     public class CursorLoaderService
     {

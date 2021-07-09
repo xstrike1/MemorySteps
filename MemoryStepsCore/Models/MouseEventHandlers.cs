@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace MemoryStepsCore.Models
+namespace MemorySteps.Core.Models
 {
     public class MouseEventHandlers
     {

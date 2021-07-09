@@ -5,7 +5,7 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Exceptions;
 
 
-namespace MemoryStepsCore.Services
+namespace MemorySteps.Core.Services
 {
     public static class ElementHighlighter
     {
