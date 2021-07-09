@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MemorySteps.Core\MemorySteps.Core.csproj" />
     <ProjectReference Include="..\MemoryStepsCore\MemorySteps.Core.csproj" />
   </ItemGroup>
 

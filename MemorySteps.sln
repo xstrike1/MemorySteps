@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemorySteps.Core", "MemoryStepsCore\MemorySteps.Core.csproj", "{AD3B9C41-8FB3-444A-9370-2CFF910B9D84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemorySteps.Core", "MemorySteps.Core\MemorySteps.Core.csproj", "{AD3B9C41-8FB3-444A-9370-2CFF910B9D84}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemorySteps.UI", "MemorySteps.UI\MemorySteps.UI.csproj", "{67F6F847-D1BC-4AA3-8430-B02FD1D85E71}"
 EndProject
