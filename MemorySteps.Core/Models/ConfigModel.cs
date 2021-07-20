@@ -2,7 +2,7 @@
 
 namespace MemorySteps.Core.Models
 {
-    public class ConfigModel 
+    public class ConfigModel
     {
         /// <summary>
         /// Keybind to end action register and execution
@@ -27,7 +27,6 @@ namespace MemorySteps.Core.Models
         /// </summary>
         public bool CheckControlName { get; set; } = true;
         public bool DisableMouseScrollCapture { get; set; } = true;
-        public string Undefined = "UNDEFINED";
-        
+        public string Undefined { get; set; } = "UNDEFINED";
     }
 }

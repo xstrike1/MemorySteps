@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace MemorySteps.Core.Models
+namespace MemorySteps.Core.Interfaces
 {
-    public interface IMemoryForm
+    public interface IMemoryWindow
     {
         void Show();
         void Close();

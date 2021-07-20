@@ -11,7 +11,7 @@ namespace MemorySteps.Core.Config
         private static ConfigModel _config;
         public static ConfigModel Config 
         {
-            get 
+            get
             {
                 if (_config == null)
                     InitAppConfig();
@@ -31,11 +31,11 @@ namespace MemorySteps.Core.Config
             }
         }
 
-        private static void CreateConfig() 
+        private static void CreateConfig()
         {
             _config = new ConfigModel();
             string _configString = JsonConvert.SerializeObject(_config, Formatting.Indented);
-            using var fs = File.Create(configLocation);
+            using FileStream fs = File.Create(configLocation);
             byte[] jsonBytes = new UTF8Encoding(true).GetBytes(_configString);
             fs.Write(jsonBytes, 0, jsonBytes.Length);
         }

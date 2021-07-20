@@ -1,4 +1,5 @@
 ﻿using Gma.System.MouseKeyHook;
+using MemorySteps.Core.Interfaces;
 using MemorySteps.Core.Models;
 using System;
 using System.Windows.Forms;
@@ -13,7 +14,7 @@ namespace MemorySteps.Core.Services
 
         private GlobalHookService() {}
 
-        public static IKeyboardMouseEvents SubscribeGlobalHook(KeyPressEventHandler keyPressEventHandler = null, MouseEventHandlers mouseEventHandlers = null)
+        public static IKeyboardMouseEvents SubscribeGlobalHook(KeyPressEventHandler keyPressEventHandler = null, IMouseEventHandlers mouseEventHandlers = null)
         {
             IKeyboardMouseEvents globalHook = Hook.GlobalEvents();
 
@@ -34,7 +35,7 @@ namespace MemorySteps.Core.Services
             return globalHook;
         }
 
-        public static void UnsubscribeGlobalHook(IKeyboardMouseEvents globalHook, KeyPressEventHandler keyPressEventHandler = null, MouseEventHandlers mouseEventHandlers = null)
+        public static void UnsubscribeGlobalHook(IKeyboardMouseEvents globalHook, KeyPressEventHandler keyPressEventHandler = null, IMouseEventHandlers mouseEventHandlers = null)
         {
             if (globalHook == null)
                 return;

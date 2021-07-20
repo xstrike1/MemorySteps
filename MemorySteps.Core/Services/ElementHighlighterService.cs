@@ -7,7 +7,7 @@ using FlaUI.Core.Exceptions;
 
 namespace MemorySteps.Core.Services
 {
-    public static class ElementHighlighter
+    public static class ElementHighlighterService
     {
         public static void HighlightElement(AutomationElement automationElement, Color? highlightColor = null)
         {
@@ -16,10 +16,10 @@ namespace MemorySteps.Core.Services
 
             try
             {
-                Task.Run(() =>
-                {
-                    return automationElement.DrawHighlight(false, highlightColor ?? Color.Blue, TimeSpan.FromMilliseconds(500));
-                });
+                _ = Task.Run(() =>
+                  {
+                      return automationElement.DrawHighlight(false, highlightColor ?? Color.Blue, TimeSpan.FromMilliseconds(500));
+                  });
             }
             catch (PropertyNotSupportedException ex)
             {

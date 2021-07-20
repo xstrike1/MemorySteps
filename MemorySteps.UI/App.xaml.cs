@@ -1,10 +1,6 @@
-﻿using ShowMeTheXAML;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Autofac;
+using MemorySteps.Core.Interfaces;
+using ShowMeTheXAML;
 using System.Windows;
 
 namespace MemorySteps.UI
@@ -16,8 +12,15 @@ namespace MemorySteps.UI
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            XamlDisplay.Init();
-            base.OnStartup(e);
+            IContainer container = ContainerConfig.Configure();
+            using (ILifetimeScope scope = container.BeginLifetimeScope())
+            {
+                IFlowRegisterService flowRegister = scope.Resolve<IFlowRegisterService>();
+                flowRegister.FlowConfig.UserActionList = new System.Collections.Generic.List<Core.Models.UserAction>();
+
+                XamlDisplay.Init();
+                base.OnStartup(e);
+            }
         }
     }
 }

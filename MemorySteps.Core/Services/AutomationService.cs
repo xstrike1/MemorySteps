@@ -7,7 +7,7 @@ using FlaUI.UIA3;
 
 namespace MemorySteps.Core.Services
 {
-    public static  class AutomationService
+    public static class AutomationService
     {
         private static readonly AutomationBase AutBase = new UIA3Automation();
         private static AutomationElement CurrentHoveredElement;
@@ -20,30 +20,30 @@ namespace MemorySteps.Core.Services
                 Interval = 10,
                 Enabled = true
             };
-            Timer.Elapsed += TimerOnTick;
+            Timer.Elapsed += UpdateHoveredElement;
             Timer.Start();
         }
 
         public static void StopTimer()
         {
-            Timer.Elapsed -= TimerOnTick;
+            Timer.Elapsed -= UpdateHoveredElement;
         }
 
         public static AutomationElement HighlightMouseClickedElement()
         {
-            ElementHighlighter.HighlightElement(CurrentHoveredElement);
+            ElementHighlighterService.HighlightElement(CurrentHoveredElement);
             return CurrentHoveredElement;
         }
 
         public static AutomationElement GetHoveredElement()
         {
-            var screenPos = Mouse.Position;
+            System.Drawing.Point screenPos = Mouse.Position;
             return AutBase.FromPoint(screenPos);
         }
 
-        private static void TimerOnTick(object sender, EventArgs e)
+        private static void UpdateHoveredElement(object sender, EventArgs e)
         {
-            var screenPos = Mouse.Position;
+            System.Drawing.Point screenPos = Mouse.Position;
             CurrentHoveredElement = AutBase.FromPoint(screenPos);
         }
     }

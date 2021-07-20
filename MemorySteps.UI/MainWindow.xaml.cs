@@ -1,4 +1,6 @@
-﻿using MemorySteps.Core.Models;
+﻿using Autofac;
+using MemorySteps.Core.Interfaces;
+using MemorySteps.Core.Models;
 using MemorySteps.Core.Services;
 using System;
 using System.Runtime.InteropServices;
@@ -11,7 +13,7 @@ namespace MemorySteps.UI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IMemoryMainForm
+    public partial class MainWindow : Window, IMemoryMainWindow
     {
         #region CopyPasta
         private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -129,9 +131,9 @@ namespace MemorySteps.UI
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
         #endregion
 
-        public CursorRegisterService cursorRegister = new();
-        private readonly CursorLoaderService _cursorLoader = new();
-        private CursorExecutorService _executor;
+        public IFlowRegisterService cursorRegister;
+        private IFlowExecutorService _executor;
+        private readonly FlowLoaderService _cursorLoader = new();
 
         public MainWindow()
         {
@@ -153,7 +155,7 @@ namespace MemorySteps.UI
         }
 
         #region IMemoryMainForm
-        public IMemoryProcessingForm ShowProcessingFormOnExecute(IMemoryMainForm main, CursorExecutorService cursorExecutor, long totalDuration)
+        public IMemoryProcessingWindow ShowProcessingFormOnExecute(IMemoryMainWindow main, FlowExecutorService cursorExecutor, long totalDuration)
         {
             return null;
         }
@@ -174,12 +176,11 @@ namespace MemorySteps.UI
 
         private void StartManualConfig_Click(object sender, RoutedEventArgs e)
         {
-
-            AutomationService.StartTimer();
-            ProcessingWindow processingWindow = new ProcessingWindow();
-            processingWindow.Show();
-            Hide();
-            cursorRegister.StartCursorRegister();
+            //AutomationService.StartTimer();
+            //ProcessingWindow processingWindow = new ProcessingWindow();
+            //processingWindow.Show();
+            //Hide();
+            //cursorRegister.StartFlowRegister();
         }
     }
 }

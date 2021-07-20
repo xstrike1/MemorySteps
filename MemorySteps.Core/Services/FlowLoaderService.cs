@@ -7,14 +7,14 @@ using System.Windows.Forms;
 
 namespace MemorySteps.Core.Services
 {
-    public class CursorLoaderService
+    public class FlowLoaderService
     {
-        public string GetCurrentConfig(TestConfigEntity testConfig) 
+        public static string GetCurrentConfig(Flow testConfig)
         {
-            return  JsonConvert.SerializeObject(testConfig, Formatting.Indented);
+            return JsonConvert.SerializeObject(testConfig, Formatting.Indented);
         }
 
-        public void SaveConfig(TestConfigEntity testConfig)
+        public static void SaveConfig(Flow testConfig)
         {
             string json = GetCurrentConfig(testConfig);
 
@@ -30,21 +30,21 @@ namespace MemorySteps.Core.Services
             if (saveFile.ShowDialog() != DialogResult.OK) 
                 return;
 
-            var fileName = saveFile.FileName;
+            string fileName = saveFile.FileName;
 
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
             }
 
-            using var fs = File.Create(fileName);
+            using FileStream fs = File.Create(fileName);
             byte[] jsonBytes = new UTF8Encoding(true).GetBytes(json);
             fs.Write(jsonBytes, 0, jsonBytes.Length);
         }
 
-        public TestConfigEntity LoadConfig() 
+        public static Flow LoadConfig()
         {
-            var fileContent = string.Empty;
+            string fileContent = string.Empty;
 
             using OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -53,15 +53,15 @@ namespace MemorySteps.Core.Services
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                var filePath = openFileDialog.FileName;
+                string filePath = openFileDialog.FileName;
 
-                var fileStream = openFileDialog.OpenFile();
+                Stream fileStream = openFileDialog.OpenFile();
 
-                using var reader = new StreamReader(fileStream);
+                using StreamReader reader = new StreamReader(fileStream);
                 fileContent = reader.ReadToEnd();
             }
 
-            var testConfig = JsonConvert.DeserializeObject<TestConfigEntity>(fileContent);
+            Flow testConfig = JsonConvert.DeserializeObject<Flow>(fileContent);
 
             return testConfig;
         }

@@ -7,47 +7,48 @@ using System.Drawing;
 
 namespace MemorySteps.Core.Models
 {
-    public class CursorEntity
+    public class UserAction
     {
-        public int CursorNumber { get; set; }
-        public long MilisecondsToNextCursor { get; set; }
+        public int ActionNumber { get; set; }
+        public long MilisecondsToNextAction { get; set; }
         public Point Position { get; set; }
         public Point DragPosition { get; set; }
         [NonSerialized]
-        public Stopwatch Time;
+        private Stopwatch internalStopwatch;
         public Dictionary<long, char> PressedCharacters { get; set; }
         public MouseButton ButtonPressed { get; set; }
         public int MouseWheelDelta { get; set; }
         public bool DoubleClick { get; set; }
         public string ControlType { get; set; } = AppConfig.Config.Undefined;
         public string ControlName { get; set; } = AppConfig.Config.Undefined;
+        public Stopwatch InternalStopwatch { get => internalStopwatch; set => internalStopwatch = value; }
 
-        public CursorEntity() 
+        public UserAction()
         {
-            Time = new Stopwatch();
-            Time.Start();
+            InternalStopwatch = new Stopwatch();
+            InternalStopwatch.Start();
             PressedCharacters = new Dictionary<long, char>();
         }
 
-        public CursorEntity(Point position) 
+        public UserAction(Point position)
             : this()
         {
             Position = position;
         }
 
-        public CursorEntity(Point position, MouseButton buttonPressed)
+        public UserAction(Point position, MouseButton buttonPressed)
            : this(position)
         {
             ButtonPressed = buttonPressed;
         }
 
-        public CursorEntity(Point position, MouseButton buttonPressed, int mouseWheelDelta)
+        public UserAction(Point position, MouseButton buttonPressed, int mouseWheelDelta)
         : this(position, buttonPressed)
         {
             MouseWheelDelta = mouseWheelDelta;
         }
 
-        public CursorEntity(Point position, MouseButton buttonPressed , string controlType, string controlName)
+        public UserAction(Point position, MouseButton buttonPressed , string controlType, string controlName)
             : this(position, buttonPressed)
         {
             ButtonPressed = buttonPressed;

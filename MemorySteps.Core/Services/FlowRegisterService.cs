@@ -8,33 +8,28 @@ using MemorySteps.Core.Config;
 using System;
 using Gma.System.MouseKeyHook;
 using System.Collections.Generic;
+using MemorySteps.Core.Interfaces;
 
 namespace MemorySteps.Core.Services
 {
-    public class CursorRegisterService
+    public class FlowRegisterService : IFlowRegisterService
     {
-        public TestConfigEntity TestConfig;
-        public Action OnRegisterFinish;
+        private Action OnRegisterFinish;
         private IKeyboardMouseEvents _globalHook;
-        private MouseEventHandlers _mouseEventHandlers;
-        public CursorRegisterService() 
-        {
-            TestConfig = new TestConfigEntity();
-            _mouseEventHandlers = new MouseEventHandlers()
-            {
-                MouseClickEventHandler = GlobalHook_MouseClick,
-                MouseDoubleClickEventHandler = GlobalHook_MouseDoubleClick,
-                MouseDragStartedEventHandler = GlobalHook_MouseDragStarted,
-                MouseDragFinishedEventHandler = GlobalHook_MouseDragFinished
-            };
+        private IMouseEventHandlers _mouseEventHandlers;
+        bool mouseDragStarted;
 
-            if (!AppConfig.Config.DisableMouseScrollCapture)
-                _mouseEventHandlers.MouseWheelEventHandler = GlobalHook_MouseWheel;
+        public IFlow FlowConfig { get; set; }
+
+        public FlowRegisterService(IFlow flowConfig, IMouseEventHandlers mouseEventHandlers)
+        {
+            FlowConfig = flowConfig;
+            _mouseEventHandlers = mouseEventHandlers;
         }
 
-        public void StartCursorRegister() 
+        public void StartFlowRegister()
         {
-            TestConfig.CursorList = new List<CursorEntity>();
+            FlowConfig.UserActionList = new List<UserAction>();
             Subscribe();
         }
 
@@ -49,6 +44,7 @@ namespace MemorySteps.Core.Services
 
             StopLastCursorTimer();
         }
+
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == AppConfig.Config.KeyBind)
@@ -76,38 +72,38 @@ namespace MemorySteps.Core.Services
         {
             RegisterMouseDoubleClick();
         }
+
         private void GlobalHook_MouseWheel(object sender, MouseEventArgs e)
         {
             RegisterMouseWheel(e.Location, e.Delta);
         }
 
-        bool mouseDragStarted = false;
-
-        private void GlobalHook_MouseDragStarted(object sender, MouseEventArgs e) 
+        private void GlobalHook_MouseDragStarted(object sender, MouseEventArgs e)
         {
             mouseDragStarted = true;
             RegisterMouseButtonClick(e.Location, e.Button);
         }
-        private void GlobalHook_MouseDragFinished(object sender, MouseEventArgs e) 
+
+        private void GlobalHook_MouseDragFinished(object sender, MouseEventArgs e)
         {
             mouseDragStarted = false;
-            TestConfig.CursorList[^1].DragPosition = e.Location;
+            FlowConfig.UserActionList[^1].DragPosition = e.Location;
         }
 
         private void RegisterKeyPress(char key)
         {
-            if (TestConfig.CursorList.Count < 1)
+            if (FlowConfig.UserActionList.Count < 1)
                 return;
 
-            var currentCursor = TestConfig.CursorList[^1];
-            currentCursor.PressedCharacters.Add(currentCursor.Time.ElapsedMilliseconds, key);
+            var currentCursor = FlowConfig.UserActionList[^1];
+            currentCursor.PressedCharacters.Add(currentCursor.InternalStopwatch.ElapsedMilliseconds, key);
         }
 
         private void RegisterMouseButtonClick(Point position, MouseButtons button)
         {
             StopLastCursorTimer();
 
-            var btn = button switch
+            MouseButton btn = button switch
             {
                 MouseButtons.Right => MouseButton.Right,
                 MouseButtons.Middle => MouseButton.Middle,
@@ -121,41 +117,41 @@ namespace MemorySteps.Core.Services
 
             try
             {
-                if(automationElement != null)
+                if (automationElement != null)
                     controlType = automationElement.ControlType;
             }
             catch (PropertyNotSupportedException) { }
 
             if (controlType == ControlType.Unknown || AppConfig.Config.UndefinedControlTypes.Contains(controlType.ToString()))
-                TestConfig.CursorList.Add(new CursorEntity(position, btn));
+                FlowConfig.UserActionList.Add(new UserAction(position, btn));
             else
-                TestConfig.CursorList.Add(new CursorEntity(position, btn, controlType.ToString(),
+                FlowConfig.UserActionList.Add(new UserAction(position, btn, controlType.ToString(),
                 automationElement?.Name));
 
-            TestConfig.CursorList[^1].CursorNumber = TestConfig.CursorList.Count;
+            FlowConfig.UserActionList[^1].ActionNumber = FlowConfig.UserActionList.Count;
         }
 
-        private void RegisterMouseDoubleClick() 
+        private void RegisterMouseDoubleClick()
         {
-            if (TestConfig.CursorList.Count == 0)
+            if (FlowConfig.UserActionList.Count == 0)
                 return;
 
-            TestConfig.CursorList[^1].DoubleClick = true;
+            FlowConfig.UserActionList[^1].DoubleClick = true;
         }
 
         private void RegisterMouseWheel(Point position, int delta)
         {
-            TestConfig.CursorList.Add(new CursorEntity(position, MouseButton.Middle, delta));
-            TestConfig.CursorList[^1].CursorNumber = TestConfig.CursorList.Count;
+            FlowConfig.UserActionList.Add(new UserAction(position, MouseButton.Middle, delta));
+            FlowConfig.UserActionList[^1].ActionNumber = FlowConfig.UserActionList.Count;
         }
 
         private void StopLastCursorTimer()
         {
-            if (TestConfig.CursorList.Count == 0)
+            if (FlowConfig.UserActionList.Count == 0)
                 return;
 
-            TestConfig.CursorList[^1].Time.Stop();
-            TestConfig.CursorList[^1].MilisecondsToNextCursor = TestConfig.CursorList[^1].Time.ElapsedMilliseconds;
+            FlowConfig.UserActionList[^1].InternalStopwatch.Stop();
+            FlowConfig.UserActionList[^1].MilisecondsToNextAction = FlowConfig.UserActionList[^1].InternalStopwatch.ElapsedMilliseconds;
         }
     }
 }
