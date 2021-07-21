@@ -9,5 +9,4 @@ namespace MemorySteps.Core.Models
         public bool CharactersPressed { get; set; }
         public long FirstCharTime { get; set; }
     }
-
 }

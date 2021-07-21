@@ -43,7 +43,7 @@ namespace MemorySteps.Core.Models
         }
 
         public UserAction(Point position, MouseButton buttonPressed, int mouseWheelDelta)
-        : this(position, buttonPressed)
+            : this(position, buttonPressed)
         {
             MouseWheelDelta = mouseWheelDelta;
         }
