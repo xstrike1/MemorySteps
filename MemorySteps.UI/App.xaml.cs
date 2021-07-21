@@ -13,14 +13,14 @@ namespace MemorySteps.UI
         protected override void OnStartup(StartupEventArgs e)
         {
             IContainer container = ContainerConfig.Configure();
-            using (ILifetimeScope scope = container.BeginLifetimeScope())
-            {
-                IFlowRegisterService flowRegister = scope.Resolve<IFlowRegisterService>();
-                flowRegister.FlowConfig.UserActionList = new System.Collections.Generic.List<Core.Models.UserAction>();
+            IMemoryMainWindow viewModel = container.Resolve<IMemoryMainWindow>();
+            ILifetimeScope scope = container.BeginLifetimeScope();
+            IFlowRegisterService flowRegister = container.Resolve<IFlowRegisterService>();
+            IFlowExecutorService flowExecutor = container.Resolve<IFlowExecutorService>();
 
-                XamlDisplay.Init();
-                base.OnStartup(e);
-            }
+            MainWindow window = new MainWindow(scope, flowRegister, flowExecutor) { DataContext = viewModel };
+            window.Show();
+
         }
     }
 }

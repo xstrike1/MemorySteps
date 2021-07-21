@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using MemorySteps.Core.Interfaces;
-using MemorySteps.Core.Models;
 using MemorySteps.Core.Services;
 using System;
 using System.Runtime.InteropServices;
@@ -130,10 +129,10 @@ namespace MemorySteps.UI
         [DllImport("User32")]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
         #endregion
-
-        public IFlowRegisterService cursorRegister;
-        private IFlowExecutorService _executor;
-        private readonly FlowLoaderService _cursorLoader = new();
+        
+        private ILifetimeScope _scope;
+        private IFlowRegisterService _flowRegisterService;
+        private IFlowExecutorService _flowExecutor;
 
         public MainWindow()
         {
@@ -147,6 +146,14 @@ namespace MemorySteps.UI
             MinimizeButton.Click += (s, e) => WindowState = WindowState.Minimized;
             MaximizeButton.Click += (s, e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized; ;
             CloseButton.Click += (s, e) => Close();
+        }
+
+        public MainWindow(ILifetimeScope scope, IFlowRegisterService flowRegisterService, IFlowExecutorService flowExecutor)
+            : this()
+        {
+            _scope = scope;
+            _flowRegisterService = flowRegisterService;
+            _flowExecutor = flowExecutor;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -176,11 +183,11 @@ namespace MemorySteps.UI
 
         private void StartManualConfig_Click(object sender, RoutedEventArgs e)
         {
-            //AutomationService.StartTimer();
-            //ProcessingWindow processingWindow = new ProcessingWindow();
-            //processingWindow.Show();
-            //Hide();
-            //cursorRegister.StartFlowRegister();
+            AutomationService.StartTimer();
+            ProcessingWindow processingWindow = new ProcessingWindow();
+            processingWindow.Show();
+            Hide();
+            _flowRegisterService.StartFlowRegister();
         }
     }
 }

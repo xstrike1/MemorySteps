@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace MemorySteps.Core.Services
 {
-    public class FlowLoaderService
+    public static class FlowLoaderService
     {
         public static string GetCurrentConfig(Flow testConfig)
         {

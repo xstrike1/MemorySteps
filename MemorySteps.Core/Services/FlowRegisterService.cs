@@ -14,22 +14,31 @@ namespace MemorySteps.Core.Services
 {
     public class FlowRegisterService : IFlowRegisterService
     {
-        private Action OnRegisterFinish;
+        private Action OnRegisterFinish; //idk if it's still needed, maybe not
         private IKeyboardMouseEvents _globalHook;
         private IMouseEventHandlers _mouseEventHandlers;
         bool mouseDragStarted;
+        private IFlow _flowConfig;
 
-        public IFlow FlowConfig { get; set; }
+        public IFlow FlowConfig { get => _flowConfig; set => _flowConfig = value; }
 
         public FlowRegisterService(IFlow flowConfig, IMouseEventHandlers mouseEventHandlers)
         {
-            FlowConfig = flowConfig;
+            _flowConfig = flowConfig;
             _mouseEventHandlers = mouseEventHandlers;
         }
 
         public void StartFlowRegister()
         {
             FlowConfig.UserActionList = new List<UserAction>();
+
+            _mouseEventHandlers.MouseClickEventHandler = GlobalHook_MouseClick;
+            _mouseEventHandlers.MouseDoubleClickEventHandler = GlobalHook_MouseDoubleClick;
+            _mouseEventHandlers.MouseDragStartedEventHandler = GlobalHook_MouseDragStarted;
+            _mouseEventHandlers.MouseDragFinishedEventHandler = GlobalHook_MouseDragFinished;
+            if (!AppConfig.Config.DisableMouseScrollCapture)
+                _mouseEventHandlers.MouseWheelEventHandler = GlobalHook_MouseWheel;
+
             Subscribe();
         }
 
