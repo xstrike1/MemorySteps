@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemorySteps.Core", "MemorySteps.Core\MemorySteps.Core.csproj", "{AD3B9C41-8FB3-444A-9370-2CFF910B9D84}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemorySteps.AspUI", "MemorySteps.AspUI\MemorySteps.AspUI.csproj", "{41BB9589-783B-4A65-9E2D-64BFC94C422B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemorySteps.ElectronUI", "MemorySteps.ElectronUI\MemorySteps.ElectronUI.csproj", "{8F53702E-1767-4E4F-881A-B482700757B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{AD3B9C41-8FB3-444A-9370-2CFF910B9D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD3B9C41-8FB3-444A-9370-2CFF910B9D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD3B9C41-8FB3-444A-9370-2CFF910B9D84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41BB9589-783B-4A65-9E2D-64BFC94C422B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41BB9589-783B-4A65-9E2D-64BFC94C422B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41BB9589-783B-4A65-9E2D-64BFC94C422B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41BB9589-783B-4A65-9E2D-64BFC94C422B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F53702E-1767-4E4F-881A-B482700757B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F53702E-1767-4E4F-881A-B482700757B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F53702E-1767-4E4F-881A-B482700757B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F53702E-1767-4E4F-881A-B482700757B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
