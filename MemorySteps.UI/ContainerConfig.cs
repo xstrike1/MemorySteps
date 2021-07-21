@@ -10,11 +10,11 @@ namespace MemorySteps.UI
         public static IContainer Configure()
         {
             ContainerBuilder builder = new();
-            builder.RegisterType<MainWindow>().As<IMemoryMainWindow>().SingleInstance();
-            builder.RegisterType<FlowRegisterService>().As<IFlowRegisterService>().SingleInstance();
-            builder.RegisterType<MouseEventHandlers>().As<IMouseEventHandlers>().SingleInstance();
-            builder.RegisterType<FlowExecutorService>().As<IFlowExecutorService>().SingleInstance();
-            builder.RegisterType<Flow>().As<IFlow>().SingleInstance();
+            builder.RegisterType<MainWindow>().As<IMemoryMainWindow>();
+            builder.RegisterType<FlowRegisterService>().As<IFlowRegisterService>();
+            builder.RegisterType<MouseEventHandlers>().As<IMouseEventHandlers>();
+            builder.RegisterType<FlowExecutorService>().As<IFlowExecutorService>();
+            builder.RegisterType<Flow>().As<IFlow>();
 
             return builder.Build();
         }

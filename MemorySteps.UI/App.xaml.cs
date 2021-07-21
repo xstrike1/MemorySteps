@@ -18,9 +18,8 @@ namespace MemorySteps.UI
             IFlowRegisterService flowRegister = container.Resolve<IFlowRegisterService>();
             IFlowExecutorService flowExecutor = container.Resolve<IFlowExecutorService>();
 
-            MainWindow window = new MainWindow(scope, flowRegister, flowExecutor) { DataContext = viewModel };
+            MainWindow window = new(scope, flowRegister, flowExecutor) { DataContext = viewModel };
             window.Show();
-
         }
     }
 }

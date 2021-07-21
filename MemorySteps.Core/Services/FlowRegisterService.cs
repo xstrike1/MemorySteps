@@ -129,7 +129,7 @@ namespace MemorySteps.Core.Services
                 if (automationElement != null)
                     controlType = automationElement.ControlType;
             }
-            catch (PropertyNotSupportedException) { }
+            catch (Exception) { }
 
             if (controlType == ControlType.Unknown || AppConfig.Config.UndefinedControlTypes.Contains(controlType.ToString()))
                 FlowConfig.UserActionList.Add(new UserAction(position, btn));
