@@ -1,6 +1,14 @@
-# MemorySteps
-
+# ⚙️ MemorySteps
 Application used to record and execute a series of mouse clicks and key presses.
+
+## Branches
+master -> Electron UI - WIP
+
+WPF -> dead/WIP
+
+WinForms -> Working
+
+## Description
 
 Recording will store for each click:
  - The time in milliseconds until the next click
