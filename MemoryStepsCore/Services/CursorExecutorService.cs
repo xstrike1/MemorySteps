@@ -25,7 +25,6 @@ namespace MemoryStepsCore.Services
         {
         }
 
-
         public long GetTotalDuration()
         {
             return _cursorRegister.TestConfig.CursorList.Sum(cursor => cursor.MilisecondsToNextCursor);
@@ -119,7 +118,7 @@ namespace MemoryStepsCore.Services
                 ElementHighlighter.HighlightElement(hoveredElement, Color.BlueViolet);
                 ExecuteMouseClick(_currentlyProcessingCursor.CurrentCursor);
             }
-            catch (PropertyNotSupportedException)
+            catch (Exception)
             {
                 //hoveredElement is not supported
             }

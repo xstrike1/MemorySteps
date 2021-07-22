@@ -44,7 +44,18 @@ namespace MemoryStepsCore.Services
         private static void TimerOnTick(object sender, EventArgs e)
         {
             var screenPos = Mouse.Position;
-            CurrentHoveredElement = AutBase.FromPoint(screenPos);
+            AutomationElement hoveredElement = null;
+            try
+            {
+                hoveredElement = AutBase.FromPoint(screenPos);
+            }
+            catch (Exception)
+            {
+                //log
+            }
+
+            if(hoveredElement != null)
+                CurrentHoveredElement = hoveredElement;
         }
     }
 }

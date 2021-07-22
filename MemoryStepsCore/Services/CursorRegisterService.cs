@@ -124,7 +124,7 @@ namespace MemoryStepsCore.Services
                 if(automationElement != null)
                     controlType = automationElement.ControlType;
             }
-            catch (PropertyNotSupportedException) { }
+            catch (Exception) { }
 
             if (controlType == ControlType.Unknown || AppConfig.Config.UndefinedControlTypes.Contains(controlType.ToString()))
                 TestConfig.CursorList.Add(new CursorEntity(position, btn));
