@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar'; 
 
+import { MaterialModule } from './material-module';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
@@ -28,13 +29,20 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     FormsModule,
     BrowserAnimationsModule,
     MatToolbarModule,
+    MaterialModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
+  entryComponents: [
+    TitlebarComponent
+  ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent,
+    TitlebarComponent
+  ]
 })
 export class AppModule { }

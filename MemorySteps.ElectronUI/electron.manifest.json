@@ -1,7 +1,7 @@
 {
   "executable": "MemorySteps.ElectronUI",
   "splashscreen": {
-    "imageFile": "wwwroot/img/splash.gif"
+    "imageFile": ""
   },
   "name": "MemorySteps.ElectronUI",
   "author": "",
