@@ -1,3 +1,19 @@
-.example-spacer {
+.spacer {
     flex: 1 1 auto;
   }
+
+.no-space-top{
+  position: absolute;
+  top: 0;
+}
+
+.top-bar {
+  width: 100%;
+  height: 35px;
+}
+  
+.right-children{
+  position:absolute;
+  right:0;
+  top: 0;
+}

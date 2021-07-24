@@ -62,8 +62,8 @@ namespace MemorySteps.ElectronUI
         {
             var windowOptions = new ElectronNET.API.Entities.BrowserWindowOptions 
             {
-                MinWidth = 500,
-                MinHeight = 500,
+                MinWidth = 1400,
+                MinHeight = 1050,
                 Frame = false,
                 AutoHideMenuBar = true
             };
