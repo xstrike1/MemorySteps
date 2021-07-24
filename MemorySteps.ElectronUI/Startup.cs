@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ElectronNET.API;
 
+
 namespace MemorySteps.ElectronUI
 {
     public class Startup
@@ -50,7 +51,8 @@ namespace MemorySteps.ElectronUI
 
                 endpoints.MapFallbackToFile("index.html");
             });
-         if (HybridSupport.IsElectronActive) 
+            
+            if (HybridSupport.IsElectronActive) 
             {
                 CreateWindow();
             }
@@ -58,7 +60,15 @@ namespace MemorySteps.ElectronUI
 
         private async void CreateWindow() 
         {
-            var window = await Electron.WindowManager.CreateWindowAsync();
+            var windowOptions = new ElectronNET.API.Entities.BrowserWindowOptions 
+            {
+                MinWidth = 500,
+                MinHeight = 500,
+                Frame = false,
+                AutoHideMenuBar = true
+            };
+
+            var window = await Electron.WindowManager.CreateWindowAsync(windowOptions);
             window.OnClosed += () => { Electron.App.Quit(); };
         }
     }
