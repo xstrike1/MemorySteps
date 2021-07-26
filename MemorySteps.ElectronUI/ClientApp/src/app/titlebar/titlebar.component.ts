@@ -15,13 +15,12 @@ export class TitlebarComponent {
     }
    
     closeWindow(){
-       // var win = remote.BrowserWindow.getFocusedWindow();
-        //win?.close();
+        this.http.post<any>(this.url + "mainwindow/close","").subscribe();
     }
     maxWindow(){
-        //this.http.get(this.url + "api/mainwindow/close").subscribe;
+        this.http.post<any>(this.url + "mainwindow/max","").subscribe();
     }
     minWindow(){
-       // this.http.post(this.url + "mainwindow","");
+        this.http.post<any>(this.url + "mainwindow/min","").subscribe();
     }
 }

@@ -11,9 +11,7 @@ namespace MemorySteps.ElectronUI
 {
     public class Startup
     {
-        private static BrowserWindow mainWindow;
         public IConfiguration Configuration { get; }
-        public static BrowserWindow MainWindow { get => mainWindow; }
 
         public Startup(IConfiguration configuration)
         {
@@ -42,10 +40,10 @@ namespace MemorySteps.ElectronUI
             else
             {
                 app.UseExceptionHandler("/Error");
-                //app.UseHsts();
+                app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
 
@@ -60,24 +58,8 @@ namespace MemorySteps.ElectronUI
             
             if (HybridSupport.IsElectronActive) 
             {
-                CreateWindow();
+                 MemoryBrowserWindow.CreateWindow();
             }
-        }
-
-        private static async void CreateWindow() 
-        {
-            var windowOptions = new ElectronNET.API.Entities.BrowserWindowOptions 
-            {
-                Width = 1400,
-                Height = 1050,
-                MinWidth = 800,
-                MinHeight = 600,
-                // Frame = false,
-                // AutoHideMenuBar = true
-            };
-
-            mainWindow = await Electron.WindowManager.CreateWindowAsync(windowOptions);
-            mainWindow.OnClosed += () => { Electron.App.Quit(); };
         }
     }
 }

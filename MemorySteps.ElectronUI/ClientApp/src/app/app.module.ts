@@ -26,7 +26,7 @@ import { SharedService } from './shared.service';
     FetchDataComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,//.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,

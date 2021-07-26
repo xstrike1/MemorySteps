@@ -9,50 +9,38 @@ using System.Threading.Tasks;
 namespace MemorySteps.ElectronUI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
-    public class MainWindowController : Controller
+    [Route("[controller]")]
+    public class MainWindowController : ControllerBase
     {
         private readonly ILogger<MainWindowController> _logger;
-
+      
         public MainWindowController(ILogger<MainWindowController> logger)
         {
             _logger = logger;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> MainWindow(long id) 
+        [HttpPost]
+        [Route("close")]
+        [Route("mainwindow/close")]
+        public void Post()
         {
-            await Task.Run( () =>Startup.MainWindow.Close());
-
-            return Ok("");
+           MemoryBrowserWindow.MainWindow.Close();
         }
 
-
-        [HttpGet]
-        [ActionName("close")]
-        public async Task<IActionResult> MainWindow()
+        [HttpPost]
+        [Route("max")]
+        [Route("mainwindow/max")]
+        public void MaximizeWindow()
         {
-            await Task.Run(() => Startup.MainWindow.Maximize());
-
-            return Ok("");
+            MemoryBrowserWindow.MaximizeWindow();
         }
 
-        //[HttpPost]
-        //public void MaximizeMainWindow()
-        //{
-        //    Startup.MainWindow.Maximize();
-        //}
-
-        //[HttpPost]
-        //public void MinimzeMainWindow()
-        //{
-        //    Startup.MainWindow.Minimize();
-        //}
-
-        //[HttpPost]
-        //public void Post()
-        //{
-        //    Startup.MainWindow.Minimize();
-        //}
+        [HttpPost]
+        [Route("min")]
+        [Route("mainwindow/min")]
+        public void MinimizeWindow()
+        {
+            MemoryBrowserWindow.MainWindow.Minimize();
+        }
     }
 }
