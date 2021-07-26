@@ -2,18 +2,23 @@
     flex: 1 1 auto;
   }
 
-.no-space-top{
+.top-text{
   position: absolute;
   top: 0;
+  font-size: 15px;
 }
 
 .top-bar {
   width: 100%;
-  height: 35px;
+  height: 30px;
 }
   
 .right-children{
   position:absolute;
   right:0;
   top: 0;
+}
+
+.mat-icon {
+  font-size: 15px;
 }

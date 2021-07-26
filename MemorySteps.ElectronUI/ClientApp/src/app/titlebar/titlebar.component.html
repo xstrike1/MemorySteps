@@ -1,16 +1,16 @@
-<div class = "top-bar">
+<div class = "top-bar" style="-webkit-app-region: drag">
     <mat-toolbar  color="primary">
-        <span class="no-space-top">Memory steps</span>
+        <span class="top-text">Memory steps</span>
         <span class="spacer"></span>
-        <div class = "right-children">
-            <button mat-flat-button color="primary">
-                phMin
+        <div class = "right-children" style="-webkit-app-region: no-drag">
+            <button mat-flat-button color="primary"  (click)="minWindow()"> 
+                <mat-icon >minimize</mat-icon>
             </button>
-            <button mat-flat-button color="primary">
-                phMax
+            <button mat-flat-button color="primary" (click)="maxWindow()">
+                <mat-icon >crop_square</mat-icon>
             </button>
-            <button mat-flat-button color="priamry">
-                phClose
+            <button mat-flat-button color="primary" (click)="closeWindow()">
+                <mat-icon >close</mat-icon>
             </button>
         </div>
     </mat-toolbar>

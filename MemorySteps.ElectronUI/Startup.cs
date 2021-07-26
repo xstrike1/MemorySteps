@@ -11,21 +11,28 @@ namespace MemorySteps.ElectronUI
 {
     public class Startup
     {
+        private static BrowserWindow mainWindow;
+        public IConfiguration Configuration { get; }
+        public static BrowserWindow MainWindow { get => mainWindow; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -35,11 +42,10 @@ namespace MemorySteps.ElectronUI
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
 
@@ -58,18 +64,20 @@ namespace MemorySteps.ElectronUI
             }
         }
 
-        private async void CreateWindow() 
+        private static async void CreateWindow() 
         {
             var windowOptions = new ElectronNET.API.Entities.BrowserWindowOptions 
             {
-                MinWidth = 1400,
-                MinHeight = 1050,
-                Frame = false,
-                AutoHideMenuBar = true
+                Width = 1400,
+                Height = 1050,
+                MinWidth = 800,
+                MinHeight = 600,
+                // Frame = false,
+                // AutoHideMenuBar = true
             };
 
-            var window = await Electron.WindowManager.CreateWindowAsync(windowOptions);
-            window.OnClosed += () => { Electron.App.Quit(); };
+            mainWindow = await Electron.WindowManager.CreateWindowAsync(windowOptions);
+            mainWindow.OnClosed += () => { Electron.App.Quit(); };
         }
     }
 }
