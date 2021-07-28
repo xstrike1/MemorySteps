@@ -31,6 +31,8 @@ namespace MemorySteps.Core.Services
 
         public static AutomationElement HighlightMouseClickedElement()
         {
+            return null;
+
             ElementHighlighterService.HighlightElement(CurrentHoveredElement);
             return CurrentHoveredElement;
         }

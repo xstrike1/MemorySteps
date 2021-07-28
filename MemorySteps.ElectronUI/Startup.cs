@@ -5,13 +5,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ElectronNET.API;
-
+using Autofac;
 
 namespace MemorySteps.ElectronUI
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public ILifetimeScope LifetimeScope { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
@@ -29,6 +30,13 @@ namespace MemorySteps.ElectronUI
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+            services.AddOptions();
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            
+            builder.RegisterModule(new MemModule());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
