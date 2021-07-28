@@ -15,12 +15,12 @@ export class TitlebarComponent {
     }
    
     closeWindow(){
-        this.http.post<any>(this.url + "mainwindow/close","").subscribe();
+        this.http.get<any>(this.url + "mainwindow/close").subscribe();
     }
     maxWindow(){
-        this.http.post<any>(this.url + "mainwindow/max","").subscribe();
+        this.http.get<any>(this.url + "mainwindow/max").subscribe();
     }
     minWindow(){
-        this.http.post<any>(this.url + "mainwindow/min","").subscribe();
+        this.http.get<any>(this.url + "mainwindow/min").subscribe();
     }
 }

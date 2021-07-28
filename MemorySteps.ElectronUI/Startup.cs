@@ -58,7 +58,7 @@ namespace MemorySteps.ElectronUI
             
             if (HybridSupport.IsElectronActive) 
             {
-                 MemoryBrowserWindow.CreateWindow();
+                 MemoryBrowserWindow.CreateWindow().Wait();
             }
         }
     }

@@ -19,15 +19,15 @@ namespace MemorySteps.ElectronUI.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("close")]
         [Route("mainwindow/close")]
-        public void Post()
+        public void Get()
         {
            MemoryBrowserWindow.MainWindow.Close();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("max")]
         [Route("mainwindow/max")]
         public void MaximizeWindow()
@@ -35,7 +35,7 @@ namespace MemorySteps.ElectronUI.Controllers
             MemoryBrowserWindow.MaximizeWindow();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("min")]
         [Route("mainwindow/min")]
         public void MinimizeWindow()
