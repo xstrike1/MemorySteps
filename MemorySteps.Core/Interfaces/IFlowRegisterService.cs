@@ -5,7 +5,7 @@ namespace MemorySteps.Core.Interfaces
 {
     public interface IFlowRegisterService
     {
-        event Action OnFlowEnd;
+        event Action FlowRegisterEnded;
         IFlow FlowConfig { get; set; }
         void StartFlowRegister();
     }

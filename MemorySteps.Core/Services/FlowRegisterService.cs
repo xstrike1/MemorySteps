@@ -14,13 +14,12 @@ namespace MemorySteps.Core.Services
 {
     public class FlowRegisterService : IFlowRegisterService
     {
-        private Action OnRegisterFinish; //idk if it's still needed, maybe not
         private IKeyboardMouseEvents _globalHook;
         private IMouseEventHandlers _mouseEventHandlers;
         bool mouseDragStarted;
         private IFlow _flowConfig;
 
-        public event Action OnFlowEnd;
+        public event Action FlowRegisterEnded;
 
         public IFlow FlowConfig { get => _flowConfig; set => _flowConfig = value; }
 
@@ -30,7 +29,6 @@ namespace MemorySteps.Core.Services
             _mouseEventHandlers = mouseEventHandlers;
         }
 
-        [STAThread]
         public void StartFlowRegister()
         {
             FlowConfig.UserActionList = new List<UserAction>();
@@ -57,7 +55,8 @@ namespace MemorySteps.Core.Services
 
             StopLastCursorTimer();
 
-            OnFlowEnd?.Invoke();
+            FlowRegisterEnded?.Invoke();
+            Application.ExitThread();
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
@@ -67,7 +66,6 @@ namespace MemorySteps.Core.Services
                 AutomationService.StopTimer();
                 Unsubscribe();
                 e.Handled = true;
-                OnRegisterFinish?.Invoke();
                 return;
             }
 

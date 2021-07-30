@@ -1,14 +1,9 @@
 ﻿using Autofac;
 using MemorySteps.Core.Interfaces;
 using MemorySteps.Core.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MemorySteps.ElectronUI.Controllers
 {
@@ -35,7 +30,7 @@ namespace MemorySteps.ElectronUI.Controllers
         public void StartRegister() 
         {
             MemoryBrowserWindow.MainWindow.Hide();
-            _flowRegisterService.OnFlowEnd += _flowRegisterService_OnFlowEnd;
+            _flowRegisterService.FlowRegisterEnded += OnFlowRegisterEnded;
 
             Thread flowThread = new (StartFlowRegister);
             flowThread.Start();
@@ -57,10 +52,10 @@ namespace MemorySteps.ElectronUI.Controllers
             _flowRegisterService.StartFlowRegister();
         }
 
-        private void _flowRegisterService_OnFlowEnd()
+        private void OnFlowRegisterEnded()
         {
             MemoryBrowserWindow.MainWindow.Show();
-            _flowRegisterService.OnFlowEnd -= _flowRegisterService_OnFlowEnd;
+            _flowRegisterService.FlowRegisterEnded -= OnFlowRegisterEnded;
         }
     }
 }
