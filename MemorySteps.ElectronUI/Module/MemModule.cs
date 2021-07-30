@@ -9,10 +9,11 @@ namespace MemorySteps.ElectronUI
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<FlowRegisterService>().As<IFlowRegisterService>();
-            builder.RegisterType<MouseEventHandlers>().As<IMouseEventHandlers>();
-            builder.RegisterType<FlowExecutorService>().As<IFlowExecutorService>();
-            builder.RegisterType<Flow>().As<IFlow>();
+            //SingleInstance for now
+            builder.RegisterType<FlowRegisterService>().As<IFlowRegisterService>().SingleInstance();
+            builder.RegisterType<MouseEventHandlers>().As<IMouseEventHandlers>().SingleInstance();
+            builder.RegisterType<FlowExecutorService>().As<IFlowExecutorService>().SingleInstance();
+            builder.RegisterType<Flow>().As<IFlow>().SingleInstance();
         }
     }
 }

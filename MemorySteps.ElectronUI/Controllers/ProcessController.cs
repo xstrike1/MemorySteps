@@ -30,9 +30,9 @@ namespace MemorySteps.ElectronUI.Controllers
         }
 
         [HttpGet]
-        [Route("get")]
-        [Route("process/get")]
-        public void Get() 
+        [Route("startregister")]
+        [Route("process/startregister")]
+        public void StartRegister() 
         {
             MemoryBrowserWindow.MainWindow.Hide();
             _flowRegisterService.OnFlowEnd += _flowRegisterService_OnFlowEnd;
@@ -46,8 +46,7 @@ namespace MemorySteps.ElectronUI.Controllers
         [Route("process/stopregister")]
         public void StopRegister()
         {
-           // MemoryBrowserWindow.MainWindow.Hide();
-
+            // MemoryBrowserWindow.MainWindow.Hide(); //will be added later with show
             Thread flowThread = new(_flowExecutor.Execute);
             flowThread.Start();
         }

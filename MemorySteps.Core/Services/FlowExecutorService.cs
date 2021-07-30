@@ -7,20 +7,17 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows.Forms;
 
 namespace MemorySteps.Core.Services
 {
+    //WIP
     public class FlowExecutorService : IFlowExecutorService
     {
-        [DllImport("user32.dll")]
-        static extern bool SetCursorPos(int X, int Y);
-
         private IFlowRegisterService _flowRegister;
-      //  private IMemoryProcessingWindow _processingWindow;
-       // private IMemoryMainWindow _parentWindow;
+        //  private IMemoryProcessingWindow _processingWindow;
+        // private IMemoryMainWindow _parentWindow;
 
         private long _execTimer;
         private readonly long _timerInterval = 100;
@@ -44,10 +41,9 @@ namespace MemorySteps.Core.Services
                 return;
             }
 
-           // _parentWindow = parentForm;
+            // _parentWindow = parentForm;
             //long totalDuration = GetTotalDuration();
             //  IMemoryProcessingWindow autoclickerForm = parentForm.ShowProcessingFormOnExecute(parentForm, this, totalDuration);
-            Application.Run();
             InternalStartExecute(/*autoclickerForm*/);
         }
 
@@ -136,8 +132,7 @@ namespace MemorySteps.Core.Services
                 CurrentAction = _flowRegister.FlowConfig.UserActionList[0],
                 FirstCharTime = 0
             };
-            SetCursorPos(_flowRegister.FlowConfig.UserActionList[0].Position.X, _flowRegister.FlowConfig.UserActionList[0].Position.Y);
-           // Mouse.MoveTo(_flowRegister.FlowConfig.UserActionList[0].Position);
+            Mouse.MoveTo(_flowRegister.FlowConfig.UserActionList[0].Position);
             ExecuteMouseClick(_flowRegister.FlowConfig.UserActionList[0]);
         }
 

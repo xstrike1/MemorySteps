@@ -15,7 +15,7 @@ export class HomeComponent {
         this.url = baseUrl;
     }
     startConfig(){
-      this.http.get<any>(this.url + "process/get").subscribe();
+      this.http.get<any>(this.url + "process/startregister").subscribe();
     }
     stopConfig(){
       this.http.get<any>(this.url + "process/stopregister").subscribe();
