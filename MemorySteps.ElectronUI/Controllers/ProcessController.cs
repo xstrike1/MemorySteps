@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MemorySteps.ElectronUI.Controllers
@@ -28,15 +29,39 @@ namespace MemorySteps.ElectronUI.Controllers
             _flowExecutor = flowExecutor;
         }
 
-
         [HttpGet]
         [Route("get")]
         [Route("process/get")]
         public void Get() 
         {
-            //RIP
-            // AutomationService.StartTimer();
-            //_flowRegisterService.StartFlowRegister();
+            MemoryBrowserWindow.MainWindow.Hide();
+            _flowRegisterService.OnFlowEnd += _flowRegisterService_OnFlowEnd;
+
+            Thread flowThread = new (StartFlowRegister);
+            flowThread.Start();
+        }
+
+        [HttpGet]
+        [Route("stopregister")]
+        [Route("process/stopregister")]
+        public void StopRegister()
+        {
+           // MemoryBrowserWindow.MainWindow.Hide();
+
+            Thread flowThread = new(_flowExecutor.Execute);
+            flowThread.Start();
+        }
+
+        private void StartFlowRegister() 
+        {
+            AutomationService.StartTimer();
+            _flowRegisterService.StartFlowRegister();
+        }
+
+        private void _flowRegisterService_OnFlowEnd()
+        {
+            MemoryBrowserWindow.MainWindow.Show();
+            _flowRegisterService.OnFlowEnd -= _flowRegisterService_OnFlowEnd;
         }
     }
 }

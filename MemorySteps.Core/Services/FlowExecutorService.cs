@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -14,9 +15,12 @@ namespace MemorySteps.Core.Services
 {
     public class FlowExecutorService : IFlowExecutorService
     {
+        [DllImport("user32.dll")]
+        static extern bool SetCursorPos(int X, int Y);
+
         private IFlowRegisterService _flowRegister;
-        private IMemoryProcessingWindow _processingWindow;
-        private IMemoryMainWindow _parentWindow;
+      //  private IMemoryProcessingWindow _processingWindow;
+       // private IMemoryMainWindow _parentWindow;
 
         private long _execTimer;
         private readonly long _timerInterval = 100;
@@ -33,21 +37,18 @@ namespace MemorySteps.Core.Services
             return _flowRegister.FlowConfig.UserActionList.Sum(cursor => cursor.MilisecondsToNextAction);
         }
 
-        public void Execute(IMemoryMainWindow parentForm)
+        public void Execute(/*IMemoryMainWindow parentForm*/)
         {
             if (_flowRegister == null || _flowRegister.FlowConfig.UserActionList.Count == 0)
             {
                 return;
             }
 
-            Stopwatch stopWatch = new();
-            stopWatch.Start();
-            _parentWindow = parentForm;
-            long totalDuration = GetTotalDuration();
-            IMemoryProcessingWindow autoclickerForm = parentForm.ShowProcessingFormOnExecute(parentForm, this, totalDuration);
-            Application.DoEvents();
-
-            InternalStartExecute(autoclickerForm);
+           // _parentWindow = parentForm;
+            //long totalDuration = GetTotalDuration();
+            //  IMemoryProcessingWindow autoclickerForm = parentForm.ShowProcessingFormOnExecute(parentForm, this, totalDuration);
+            Application.Run();
+            InternalStartExecute(/*autoclickerForm*/);
         }
 
         private void StartTimer(ElapsedEventHandler elapsedEventHandler)
@@ -88,8 +89,8 @@ namespace MemorySteps.Core.Services
 
             _currentlyProcessingAction.CharactersPressed = true;
 
-            foreach (char value in _currentlyProcessingAction.PreviousAction.PressedCharacters.Values)
-                _processingWindow.Invoke(new Action(() => _processingWindow.SendKey(value.ToString())));
+            //foreach (char value in _currentlyProcessingAction.PreviousAction.PressedCharacters.Values)
+            //    _processingWindow.Invoke(new Action(() => _processingWindow.SendKey(value.ToString())));
 
         }
 
@@ -102,8 +103,8 @@ namespace MemorySteps.Core.Services
             if (_execTimer > AppConfig.Config.MaxActionDelay)
             {
                 StopTimer(OnTimerTickForControlChecking);
-                _parentWindow.Invoke(new Action(() => _parentWindow.DisplayMessage($"Control for cursor action #{_currentlyProcessingAction.CurrentAction.ActionNumber} could not be found", "Error")));
-                _parentWindow.Invoke(new Action(() => _parentWindow.CloseProcessingForm()));
+                //_parentWindow.Invoke(new Action(() => _parentWindow.DisplayMessage($"Control for cursor action #{_currentlyProcessingAction.CurrentAction.ActionNumber} could not be found", "Error")));
+                //_parentWindow.Invoke(new Action(() => _parentWindow.CloseProcessingForm()));
             }
 
             FlaUI.Core.AutomationElements.AutomationElement hoveredElement = AutomationService.GetHoveredElement();
@@ -125,9 +126,9 @@ namespace MemorySteps.Core.Services
             }
         }
 
-        private void InternalStartExecute(IMemoryProcessingWindow autoclickerForm)
+        private void InternalStartExecute(/*IMemoryProcessingWindow autoclickerForm*/)
         {
-            _processingWindow = autoclickerForm;
+          //  _processingWindow = autoclickerForm;
 
             _currentlyProcessingAction = new CurrentlyProcessingAction()
             {
@@ -135,8 +136,8 @@ namespace MemorySteps.Core.Services
                 CurrentAction = _flowRegister.FlowConfig.UserActionList[0],
                 FirstCharTime = 0
             };
-
-            Mouse.MoveTo(_flowRegister.FlowConfig.UserActionList[0].Position);
+            SetCursorPos(_flowRegister.FlowConfig.UserActionList[0].Position.X, _flowRegister.FlowConfig.UserActionList[0].Position.Y);
+           // Mouse.MoveTo(_flowRegister.FlowConfig.UserActionList[0].Position);
             ExecuteMouseClick(_flowRegister.FlowConfig.UserActionList[0]);
         }
 
@@ -145,12 +146,12 @@ namespace MemorySteps.Core.Services
             UserAction prevCursor = cursor.ActionNumber == 1 ? null : _flowRegister.FlowConfig.UserActionList[cursor.ActionNumber - 2];
             UserAction currentCursor = _flowRegister.FlowConfig.UserActionList[cursor.ActionNumber - 1];
             UserAction nextCursor = cursor.ActionNumber < _flowRegister.FlowConfig.UserActionList.Count ? _flowRegister.FlowConfig.UserActionList[cursor.ActionNumber] : null;
-            _processingWindow.Invoke(new Action(() => _processingWindow.Executor_StepCompleted(prevCursor == null ? 0 : prevCursor.MilisecondsToNextAction, currentCursor, nextCursor)));
+           // _processingWindow.Invoke(new Action(() => _processingWindow.Executor_StepCompleted(prevCursor == null ? 0 : prevCursor.MilisecondsToNextAction, currentCursor, nextCursor)));
 
             if (nextCursor == null)
             {
                 StopTimer(OnTimerTickForActionDelay);
-                _parentWindow.Invoke(new Action(() => _parentWindow.CloseProcessingForm()));
+                //_parentWindow.Invoke(new Action(() => _parentWindow.CloseProcessingForm()));
                 return;
             }
             ExecuteCursor(nextCursor, currentCursor);
@@ -216,12 +217,12 @@ namespace MemorySteps.Core.Services
 
         private bool CancelHasBeenRequested(ElapsedEventHandler elapsedEventHandler)
         {
-            if (_processingWindow.CancelHasBeenRequested)
-            {
-                StopTimer(elapsedEventHandler);
-                _parentWindow.Invoke(new Action(() => _parentWindow.CloseProcessingForm()));
-                return true;
-            }
+            //if (_processingWindow.CancelHasBeenRequested)
+            //{
+            //    StopTimer(elapsedEventHandler);
+            //    //_parentWindow.Invoke(new Action(() => _parentWindow.CloseProcessingForm()));
+            //    return true;
+            //}
             return false;
         }
     }

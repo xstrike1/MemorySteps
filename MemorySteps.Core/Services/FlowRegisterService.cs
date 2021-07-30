@@ -20,6 +20,8 @@ namespace MemorySteps.Core.Services
         bool mouseDragStarted;
         private IFlow _flowConfig;
 
+        public event Action OnFlowEnd;
+
         public IFlow FlowConfig { get => _flowConfig; set => _flowConfig = value; }
 
         public FlowRegisterService(IFlow flowConfig, IMouseEventHandlers mouseEventHandlers)
@@ -28,6 +30,7 @@ namespace MemorySteps.Core.Services
             _mouseEventHandlers = mouseEventHandlers;
         }
 
+        [STAThread]
         public void StartFlowRegister()
         {
             FlowConfig.UserActionList = new List<UserAction>();
@@ -40,6 +43,7 @@ namespace MemorySteps.Core.Services
                 _mouseEventHandlers.MouseWheelEventHandler = GlobalHook_MouseWheel;
 
             Subscribe();
+            Application.Run();
         }
 
         private void Subscribe()
@@ -52,6 +56,8 @@ namespace MemorySteps.Core.Services
             GlobalHookService.UnsubscribeGlobalHook(_globalHook, GlobalHookKeyPress, _mouseEventHandlers);
 
             StopLastCursorTimer();
+
+            OnFlowEnd?.Invoke();
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
