@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GradientService } from '../gradient/gradient.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -7,6 +8,13 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
+  gradient = {}
+
+  constructor(private service: GradientService) {}
+
+  ngOnInit() {
+    this.gradient = this.service.gradients[0]
+  }
 
   collapse() {
     this.isExpanded = false;

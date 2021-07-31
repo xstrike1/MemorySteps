@@ -5,16 +5,18 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar'; 
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { MaterialModule } from './material-module';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { MatIconModule } from '@angular/material/icon';
 import { SharedService } from './shared.service';
+import { GradientDirective } from './gradient/gradient.directive';
+import { GradientService } from './gradient/gradient.service';
 
 @NgModule({
   declarations: [
@@ -22,8 +24,7 @@ import { SharedService } from './shared.service';
     NavMenuComponent,
     TitlebarComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    GradientDirective
   ],
   imports: [
     BrowserModule,//.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -31,19 +32,22 @@ import { SharedService } from './shared.service';
     FormsModule,
     BrowserAnimationsModule,
     MatToolbarModule,
+    MatSidenavModule,
     MaterialModule,
+    MatButtonModule,
     MatIconModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'titlebar', component: TitlebarComponent },
     ])
   ],
   entryComponents: [
     TitlebarComponent
   ],
-  providers: [SharedService],
+  providers: [
+    SharedService,
+    GradientService
+  ],
   bootstrap: [
     AppComponent,
     TitlebarComponent

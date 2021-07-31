@@ -1,18 +1,31 @@
-a.navbar-brand {
-  white-space: normal;
+mat-sidenav {
+  margin: 0px;
+  width: 200px;
+  border-right: none;
+  background: #2c4676;
+  color: white;
+  padding: 16px;
   text-align: center;
-  word-break: break-all;
 }
 
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.content {
+  height: calc(100vh - 98px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2rem;
+  color: lightgray;
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+mat-sidenav-container {
+  height: calc(100vh - 65px);
+}
+.gradient {
+  display: inline-block;
+  color: white;
+  text-shadow: #333 1px 1px 4px;;
+  font-family: sans-serif;
+  margin: 5px;
+  padding: 20px;
 }
