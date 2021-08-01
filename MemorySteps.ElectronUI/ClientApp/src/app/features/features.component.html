@@ -1,8 +1,8 @@
-<mat-toolbar color="primary" [gradient] = gradient.colors class = "fixed-position-top">
+<mat-toolbar color="primary" class = "fixed-position-top">
   <button mat-icon-button (click)="sidenav.toggle()" class="menu-button" fxHide fxShow.lt-md>
     <mat-icon>menu</mat-icon>
   </button>
-  <span class="title-style">Placeholder title</span>
+  <span class="title-style">{{Title}}</span>
 </mat-toolbar>
   <mat-sidenav-container class="fixed-position-left">
     <mat-sidenav #sidenav mode="side" [opened]="opened">

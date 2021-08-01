@@ -11,13 +11,13 @@ import { GradientService } from '../gradient/gradient.service';
   styleUrls: ['./features.component.css']
 })
 export class FeaturesComponent implements OnDestroy {
-  gradient = {}
+    Title: string = 'Placeholder title';
 
-    private opened: boolean = true;
-    private mediaWatcher: Subscription;
-    private menu: NavItem[] = menu;
+    public opened: boolean = true;
+    public mediaWatcher: Subscription;
+    public menu: NavItem[] = menu;
 
-    constructor(private media: MediaObserver, private service: GradientService) {
+    constructor(private media: MediaObserver) {
         this.mediaWatcher = this.media.media$.subscribe((mediaChange: MediaChange) => {
             this.handleMediaChange(mediaChange);
         })
@@ -31,12 +31,15 @@ export class FeaturesComponent implements OnDestroy {
         }
     }
 
+    changeName(newTitle: string):void{
+        this.Title = newTitle;
+    }
+
     ngOnDestroy() {
         this.mediaWatcher.unsubscribe();
     }
 
     ngOnInit() {
-      this.gradient = this.service.gradients[0]
     }
   
 }

@@ -9,12 +9,12 @@ export let menu: NavItem[] = [
   {
     displayName: 'Flows',
     iconName: 'list',
-    route: 'flows',
+    route: 'flow',
     children: [
       {
         displayName: 'PH Flow 1',
         iconName: 'timeline',
-        route: 'flows/getflow/1'
+        route: 'flow/info'
       },
       {
         displayName: 'PH Flow 2',

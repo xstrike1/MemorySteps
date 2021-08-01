@@ -29,7 +29,7 @@ export class MenuListItemComponent implements OnInit {
   constructor(public navService: NavService, public router: Router,
     private dialog: MatDialog) {
         this.depth = 0
-        this.item = {} as NavItem;
+        this.item = {} as NavItem
     }
 
     ngOnInit() {
@@ -45,6 +45,7 @@ export class MenuListItemComponent implements OnInit {
         this.dialog.closeAll();
 
         if (!item.children || !item.children.length) {
+
             if (item.route) {
                 this.router.navigate([item.route]);
             } 
