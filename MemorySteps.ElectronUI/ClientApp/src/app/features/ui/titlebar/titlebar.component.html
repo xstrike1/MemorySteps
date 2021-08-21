@@ -3,13 +3,13 @@
         <span class="top-text">Memory steps</span>
         <span class="spacer"></span>
         <div class = "right-children" style="-webkit-app-region: no-drag">
-            <button mat-flat-button color="primary"  (click)="minWindow()"> 
+            <button mat-flat-button class = "mat-flat-button-custom" color="primary"  (click)="minWindow()"> 
                 <mat-icon >minimize</mat-icon>
             </button>
-            <button mat-flat-button color="primary" (click)="maxWindow()">
+            <button mat-flat-button class = "mat-flat-button-custom" color="primary" (click)="maxWindow()">
                 <mat-icon >crop_square</mat-icon>
             </button>
-            <button mat-flat-button color="primary" (click)="closeWindow()">
+            <button mat-flat-button [color]="colorClose" (click)="closeWindow()" (mouseout)="colorClose = 'primary'" (mouseover)="colorClose = 'warn'"> 
                 <mat-icon >close</mat-icon>
             </button>
         </div>

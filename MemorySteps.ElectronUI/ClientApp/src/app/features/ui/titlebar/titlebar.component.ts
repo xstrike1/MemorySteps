@@ -4,10 +4,11 @@ import { HttpClient } from '@angular/common/http';
 @Component({
     selector: 'app-titlebar',
     templateUrl: './titlebar.component.html',
-    styleUrls: ['./titlebar.component.css']
+    styleUrls: ['./titlebar.component.scss']
 })
 export class TitlebarComponent {
     private url: string = '';
+    colorClose:string = "primary";
 
     constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) 
     {

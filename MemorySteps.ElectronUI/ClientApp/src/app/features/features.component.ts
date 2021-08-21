@@ -3,7 +3,6 @@ import { NavItem } from './ui/model/nav-item';
 import { MediaChange, MediaObserver } from "@angular/flex-layout";
 import { Subscription } from 'rxjs';
 import { menu } from './ui/model/menu';
-import { GradientService } from '../gradient/gradient.service';
 
 @Component({
   selector: 'app-features',

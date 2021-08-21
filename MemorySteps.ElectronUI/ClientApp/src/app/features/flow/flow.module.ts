@@ -21,20 +21,20 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlowInfoComponent } from './flow-info/flow-info.component';
+import { FlowContentComponent } from './flow-content/flow-content.component';
 
 export const routes = [
   {
     path: 'flow/info',
     component: FlowInfoComponent,
-    data: {
-      breadcrumb: 'View Flow info'
-    }
 }
 ];
 
 @NgModule({
   declarations: [
    
+  
+    FlowContentComponent
   ],
   imports: [
     CommonModule,

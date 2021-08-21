@@ -1,17 +1,17 @@
-<app-features></app-features>
-<mat-card class="section-style"  >
-<mat-card-content>
+<mat-card class="section-style">
+<mat-card-header class="flow-header">
     <section>
-        <div class = "button-row">
-            <button mat-raised-button color="accent" (click)="startConfig()"> 
-                <mat-icon >build</mat-icon> Start manual configuration
+        <div>
+            <button  class="button-left" mat-raised-button color="accent" (click)="startConfig()"> 
+                <mat-icon >build</mat-icon> Manual configuration
             </button>
-            <button mat-stroked-button color="accent"  (click)="stopConfig()"> 
+            <button class="button-left" mat-raised-button color="accent"  (click)="stopConfig()"> 
                 <mat-icon >play_arrow</mat-icon> Launch execution
             </button>
+            <button class="button-right" mat-stroked-button color="warn"  (click)="stopConfig()"> 
+                <mat-icon >delete</mat-icon> Delete flow
+            </button>
         </div>
-        <span class="spacer"></span>
     </section>
- </mat-card-content>
+ </mat-card-header>
 </mat-card>
- 

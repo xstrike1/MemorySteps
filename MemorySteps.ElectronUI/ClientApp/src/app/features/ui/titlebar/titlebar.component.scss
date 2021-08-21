@@ -23,3 +23,9 @@
 .mat-icon {
   font-size: 15px;
 }
+
+$hoverColor: #4c6087;
+
+.mat-flat-button-custom:hover {
+  background: $hoverColor;
+}

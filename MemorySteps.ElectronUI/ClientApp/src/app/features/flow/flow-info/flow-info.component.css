@@ -1,15 +1,26 @@
- .button-row .mat-button-base {
-    margin: 8px 8px 8px 0;
-  }
-  
-  .section-style {
-      position: fixed;
-      padding-left: 10%;
-      padding-top: 50px;
-      z-index: 0;
-      width: 100%;
-  }
 
-  .spacer {
-    flex: 1 1 auto;
-  }
+.button-left
+{
+
+  margin-left: 10px;
+}
+
+.section-style {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  float: left;
+  height: 70px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.button-right
+{
+  position:absolute;
+  right: 1%;
+}
+
+ 

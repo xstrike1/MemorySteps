@@ -19,6 +19,7 @@ import { FeaturesComponent } from './features/features.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FlowInfoComponent } from './features/flow/flow-info/flow-info.component';
 import { FlowModule } from './features/flow/flow.module';
+import { DashboardModule } from './features/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { FlowModule } from './features/flow/flow.module';
     FlexLayoutModule,
     MatListModule,
     AppRoutingModule,
-    FlowModule
+    FlowModule,
+    DashboardModule
   ],
   entryComponents: [
     TitlebarComponent
