@@ -2,11 +2,11 @@
 <mat-card-header class="flow-header">
     <section>
         <div>
-            <button  class="button-left" mat-raised-button color="accent" (click)="startConfig()"> 
-                <mat-icon >build</mat-icon> Manual configuration
-            </button>
             <button class="button-left" mat-raised-button color="accent"  (click)="stopConfig()"> 
                 <mat-icon >play_arrow</mat-icon> Launch execution
+            </button>
+            <button  class="button-left" mat-raised-button color="accent" (click)="startConfig()"> 
+                <mat-icon >build</mat-icon> Manual configuration
             </button>
             <button class="button-right" mat-stroked-button color="warn"  (click)="stopConfig()"> 
                 <mat-icon >delete</mat-icon> Delete flow
@@ -15,3 +15,5 @@
     </section>
  </mat-card-header>
 </mat-card>
+<app-flow-content [flowActions]="flowAct"></app-flow-content>
+<app-flow-properties class="properties-style"></app-flow-properties>

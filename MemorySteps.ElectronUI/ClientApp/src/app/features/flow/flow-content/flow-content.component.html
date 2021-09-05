@@ -1,1 +1,5 @@
-<p>flow-content works!</p>
+<div class="div-style">
+<li class="list-style" *ngFor="let action of flowActions">
+<app-flow-element [action]="action"></app-flow-element>
+</li>
+</div>

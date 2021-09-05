@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserAction } from 'src/app/flow.service';
 
 @Component({
   selector: 'app-flow-content',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./flow-content.component.css']
 })
 export class FlowContentComponent implements OnInit {
+  
+  @Input() flowActions: UserAction[] = new Array<UserAction>();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

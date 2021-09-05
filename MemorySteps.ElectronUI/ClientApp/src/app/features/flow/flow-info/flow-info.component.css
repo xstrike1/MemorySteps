@@ -1,7 +1,5 @@
-
 .button-left
 {
-
   margin-left: 10px;
 }
 
@@ -23,4 +21,10 @@
   right: 1%;
 }
 
- 
+.properties-style{
+  position:fixed;
+  right: 1%;
+  top: 15%;
+  z-index: -1;
+  width: 25%;
+}

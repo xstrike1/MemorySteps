@@ -22,19 +22,21 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlowInfoComponent } from './flow-info/flow-info.component';
 import { FlowContentComponent } from './flow-content/flow-content.component';
+import { FlowElementComponent } from './flow-content/flow-element/flow-element.component';
+import { FlowPropertiesComponent } from './flow-content/flow-properties/flow-properties.component';
 
 export const routes = [
   {
     path: 'flow/info',
-    component: FlowInfoComponent,
+    component: FlowInfoComponent
 }
 ];
 
 @NgModule({
   declarations: [
-   
-  
-    FlowContentComponent
+    FlowContentComponent,
+    FlowElementComponent,
+    FlowPropertiesComponent
   ],
   imports: [
     CommonModule,
@@ -58,6 +60,10 @@ export const routes = [
     MatAutocompleteModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes)
+  ],
+  exports: [
+    FlowPropertiesComponent,
+    FlowContentComponent
   ]
 })
 export class FlowModule { }
