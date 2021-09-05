@@ -17,7 +17,7 @@
 
 .button-right
 {
-  position:absolute;
+  position:fixed;
   right: 1%;
 }
 
@@ -27,4 +27,8 @@
   top: 15%;
   z-index: -1;
   width: 25%;
+}
+.flow-header{
+  position: fixed;
+  z-index: 3;
 }

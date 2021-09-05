@@ -9,6 +9,8 @@ import { UserAction } from 'src/app/flow.service';
 export class FlowElementComponent implements OnInit {
 
   @Input() action: UserAction = new UserAction(-1,-1);
+  @Input() lastElement: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {

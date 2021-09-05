@@ -12,7 +12,13 @@ export class FlowInfoComponent  implements OnInit{
   private url: string = '';
   flowAct: UserAction[] = [
     new UserAction(0, 2),
-    new UserAction(1, 3)
+    new UserAction(1, 3),
+    new UserAction(2, 3),
+    new UserAction(3, 3),
+    new UserAction(0, 2),
+    new UserAction(1, 3),
+    new UserAction(2, 3),
+    new UserAction(3, 3)
   ]
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) 

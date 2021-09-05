@@ -1,3 +1,6 @@
 <mat-card class="mat-card-style">
-    <p>{{ action.actionNumber }}</p>
+    <p>Click {{ action.actionNumber }}</p>
+    <p>{{ action.position}}</p>
 </mat-card>
+
+<div [ngClass]="{'vl' : !lastElement}"></div>

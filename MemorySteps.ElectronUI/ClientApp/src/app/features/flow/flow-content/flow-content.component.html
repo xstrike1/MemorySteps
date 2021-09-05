@@ -1,5 +1,5 @@
 <div class="div-style">
-<li class="list-style" *ngFor="let action of flowActions">
-<app-flow-element [action]="action"></app-flow-element>
+<li class="list-style" *ngFor="let action of flowActions; let last = last;">
+<app-flow-element [action]="action" [lastElement]="last"></app-flow-element>
 </li>
 </div>
